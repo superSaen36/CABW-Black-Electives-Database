@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <link href="/static/css/main.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="s010">
+      <div class="inner-form">
+        <div class="advance-search">
+          <span class="desc">SEARCH RESULTS</span>
+          <div class="row">
+            <div class="input-field">
+              <div class="result-count">
+                <span>{{ results|length }}</span> results found
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <table class="results-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>County</th>
+                  <th>City</th>
+                  <th>Office</th>
+                  <th>District</th>
+                  <th>Zip Code</th>
+                  <th>Term Length</th>
+                  <th>Term Expires</th>
+                  <th>Term Limits</th>
+                  <th>Previous Office</th>
+                  <th>CABWC PAC Endorsed</th>
+                  <th>Political Party</th>
+                  <th>Contact</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                <tr onclick="window.location.href='/wiki/{{ row[0] }}'">
+                  <td>{{ row[1] }}</td>
+                  <td>{{ row[2] }}</td>
+                  <td>{{ row[3] }}</td>
+                  <td>{{ row[4] }}</td>
+                  <td>{{ row[5] }}</td>
+                  <td>{{ row[6] }}</td>
+                  <td>{{ row[7] }}</td>
+                  <td>{{ row[8] }}</td>
+                  <td>{{ row[9] }}</td>
+                  <td>{{ row[10] }}</td>
+                  <td>{{ row[11] }}</td>
+                  <td>{{ row[12] }}</td>
+                  <td>{{ row[13] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="row third">
+            <div class="group-btn">
+              <a href="/" class="btn-delete">BACK TO SEARCH</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

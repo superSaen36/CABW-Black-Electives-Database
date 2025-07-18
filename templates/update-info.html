@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Politician Information</title>
+    <link href="{{ url_for('static', filename='css/update-info.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="update-info-bg">
+        <div class="update-info-container">
+            <div class="update-info-header">
+                <h1 class="update-info-title">Update Politician Information</h1>
+                <p class="update-info-subtitle">Edit details for {{ elected_official.Name }}</p>
+            </div>
+
+            <form class="update-info-form" method="POST" action="{{ url_for('update_official', official_id=elected_official.id) }}">
+                <div class="form-section">
+                    <h2 class="section-title">Basic Information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" value="{{ elected_official.Name }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="office">Office</label>
+                            <input type="text" id="office" name="office" value="{{ elected_official.Office }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="district">District</label>
+                            <input type="text" id="district" name="district" value="{{ elected_official.District or '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" name="city" value="{{ elected_official.City }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="county">County</label>
+                            <input type="text" id="county" name="county" value="{{ elected_official.County }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" id="state" name="state" value="{{ elected_official.State or 'CA' }}" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Term Information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="term_length">Term Length</label>
+                            <input type="text" id="term_length" name="term_length" value="{{ elected_official.Term_Length or '' }}" placeholder="e.g., 4 years">
+                        </div>
+                        <div class="form-group">
+                            <label for="term_expires">Term Expires</label>
+                            <input type="date" id="term_expires" name="term_expires" value="{{ elected_official.Term_Expires or '' }}">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="term_limits">Term Limits</label>
+                            <input type="text" id="term_limits" name="term_limits" value="{{ elected_official.Term_Limits or '' }}" placeholder="e.g., 2 terms">
+                        </div>
+                        <div class="form-group">
+                            <label for="party">Political Party</label>
+                            <input type="text" id="party" name="party" value="{{ elected_official.Party or '' }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Contact Information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" value="{{ elected_official.Phone or '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" value="{{ elected_official.Email or '' }}">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="website">Website</label>
+                            <input type="url" id="website" name="website" value="{{ elected_official.Website or '' }}" placeholder="https://example.com">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Additional Information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="previous_office">Previous Elected Office</label>
+                            <textarea id="previous_office" name="previous_office" rows="3" placeholder="List any previous elected positions...">{{ elected_official.Previous_Elected_Office or '' }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="contact">Contact Information</label>
+                            <textarea id="contact" name="contact" rows="3" placeholder="Additional contact details...">{{ elected_official.Contact or '' }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="notes">Notes</label>
+                            <textarea id="notes" name="notes" rows="4" placeholder="Any additional notes or information...">{{ elected_official.Notes or '' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="window.history.back()">Cancel</button>
+                    <button type="submit" class="btn-primary">Update Information</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html> 

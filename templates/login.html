@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login</title>
+    <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="login01-bg">
+      <div class="login01-ellipse">
+        <img src="{{ url_for('static', filename='images/5c4dd96f797641f20736e3e43464573fcccc027d.png') }}" alt="Ellipse" />
+      </div>
+      <div class="login01-logo"></div>
+      <div class="login01-title">LOG IN</div>
+      <form class="login01-form" method="POST" action="{{ url_for('login') }}">
+        <div class="login01-input-group" style="top:580px;">
+          <div class="login01-input-bg">
+            <input type="text" name="username" placeholder="Enter username" required>
+          </div>
+          <span class="login01-input-label username">Username</span>
+        </div>
+        <div class="login01-input-group" style="top:651px;">
+          <div class="login01-input-bg">
+            <input type="password" name="password" placeholder="Enter password" required>
+          </div>
+          <span class="login01-input-label password">Password</span>
+        </div>
+        <div class="login01-forgot">Forgot password?</div>
+        <button type="submit" class="login01-btn-group">
+          <div class="login01-btn-bg"></div>
+          <span class="login01-btn-label">Login</span>
+        </button>
+      </form>
+    </div>
+  </body>
+</html> 

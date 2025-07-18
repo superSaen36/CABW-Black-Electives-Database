@@ -1,0 +1,103 @@
+/* --- Login 01 Figma Design Styles --- */
+.login01-bg {
+  background: #1e1e1e;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 1000px;
+  overflow: hidden;
+}
+.login01-ellipse {
+  position: absolute;
+  left: -5px;
+  top: -202px;
+  width: 451px;
+  height: 586px;
+  z-index: 1;
+}
+.login01-ellipse img {
+  width: 100%;
+  height: 100%;
+}
+.login01-logo {
+  position: absolute;
+  left: 21px;
+  top: 138px;
+  width: 398px;
+  height: 152px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 2;
+}
+.login01-title {
+  position: absolute;
+  left: 50%;
+  top: 440px;
+  width: 365px;
+  height: 84px;
+  color: #9c288c;
+  font-size: 64px;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+.login01-input-group {
+  position: absolute;
+  left: 59px;
+  width: 322px;
+  height: 50px;
+  z-index: 4;
+}
+.login01-input-bg {
+  width: 100%;
+  height: 100%;
+}
+.login01-input-label {
+  position: absolute;
+  left: 41px;
+  top: 15px;
+  color: #fff;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  z-index: 5;
+}
+.login01-input-label.username { left: 41px; top: 15px; }
+.login01-input-label.password { left: 43px; top: 15px; }
+.login01-forgot {
+  position: absolute;
+  left: calc(25% + 107px);
+  top: 725px;
+  color: #9c288c;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  transform: translateX(-50%);
+  z-index: 6;
+}
+.login01-btn-group {
+  position: absolute;
+  left: 59px;
+  top: 835px;
+  width: 322px;
+  height: 50px;
+  z-index: 7;
+  cursor: pointer;
+}
+.login01-btn-bg {
+  width: 100%;
+  height: 100%;
+}
+.login01-btn-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: #fff;
+  font-size: 20px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  transform: translate(-26px, 17px);
+  z-index: 8;
+} 

@@ -1,0 +1,116 @@
+/* main-light.css: Light theme version of main.css */
+
+.location02-bg {
+  background: #f5f5f5;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 1000px;
+  overflow: hidden;
+}
+.location02-main-img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1540px;
+  height: 1805px;
+  transform: translate(-50%, -50%);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;
+  opacity: 0.08;
+}
+.location02-sidebar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 440px;
+  height: 956px;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.08);
+  z-index: 2;
+}
+.location02-title {
+  position: absolute;
+  left: 76px;
+  top: 29px;
+  color: #2d2d2d;
+  font-size: 40px;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  z-index: 3;
+}
+.location02-vector {
+  position: absolute;
+  left: 20px;
+  top: 48px;
+  width: 40px;
+  height: 40px;
+  z-index: 4;
+}
+.location02-search-bar {
+  position: absolute;
+  left: 20px;
+  top: 110px;
+  width: 315px;
+  height: 30px;
+  background: #fff;
+  border-radius: 10px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.location02-search-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 10px;
+}
+.location02-search-text {
+  position: absolute;
+  left: 70px;
+  top: 115px;
+  color: #333;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  z-index: 6;
+}
+.location02-card {
+  position: absolute;
+  left: 20px;
+  width: 400px;
+  height: 94px;
+  background: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  z-index: 7;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border: 1px solid #e0e0e0;
+}
+.location02-card-img {
+  width: 73px;
+  height: 73px;
+  border-radius: 50%;
+  margin-left: 15px;
+  object-fit: cover;
+  border: 2px solid #e0e0e0;
+}
+.location02-card-content {
+  margin-left: 25px;
+  color: #2d2d2d;
+  font-family: Arial, sans-serif;
+}
+.location02-card-content .name {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 2px;
+  color: #2d2d2d;
+}
+.location02-card-content .desc {
+  font-size: 12px;
+  color: #555;
+  font-weight: normal;
+} 

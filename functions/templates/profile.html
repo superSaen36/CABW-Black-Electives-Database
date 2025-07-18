@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profile</title>
+    <!-- <link href="/static/css/profile.css" rel="stylesheet" /> -->
+  </head>
+  <body>
+    <div class="profile01-bg">
+      <div class="profile01-main-img" style="background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fgratisography.com%2Fpage%2F2%2F&psig=AOvVaw0aEb4A2O_CfbRi4_OuoOch&ust=1752803861285000&source=images&cd=vfe&opi=89978449&ved=0CBYQjRxqFwoTCMjt5K3lwo4DFQAAAAAdAAAAABAE');"></div>
+      <div class="profile01-main-img2" style="background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fgratisography.com%2Fpage%2F2%2F&psig=AOvVaw0aEb4A2O_CfbRi4_OuoOch&ust=1752803861285000&source=images&cd=vfe&opi=89978449&ved=0CBYQjRxqFwoTCMjt5K3lwo4DFQAAAAAdAAAAABAE');"></div>
+      <div class="profile01-main-img3" style="background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fgratisography.com%2Fpage%2F2%2F&psig=AOvVaw0aEb4A2O_CfbRi4_OuoOch&ust=1752803861285000&source=images&cd=vfe&opi=89978449&ved=0CBYQjRxqFwoTCMjt5K3lwo4DFQAAAAAdAAAAABAE');"></div>
+      <div class="profile01-title">Profile</div>
+      <div class="profile01-ellipse">
+        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fgratisography.com%2Fpage%2F2%2F&psig=AOvVaw0aEb4A2O_CfbRi4_OuoOch&ust=1752803861285000&source=images&cd=vfe&opi=89978449&ved=0CBYQjRxqFwoTCMjt5K3lwo4DFQAAAAAdAAAAABAE" alt="Ellipse" />
+      </div>
+      <div class="profile01-name">{{ elected_official.Name }}</div>
+      <div class="profile01-title2">{{ elected_official.Office }}{% if elected_official.District %} - District {{ elected_official.District }}{% endif %}</div>
+      <div class="profile01-location">{{ elected_official.City }}, {{ elected_official.County }}</div>
+      <div class="profile01-desc">{{ elected_official.Previous_Elected_Office or '' }}{% if elected_official.Previous_Elected_Office %}<br>{% endif %}{{ elected_official.Contact or '' }}</div>
+      <div class="profile01-stats">
+        <div class="profile01-stat">{{ elected_official.Term_Length or '-' }}</div>
+        <div class="profile01-stat">{{ elected_official.Term_Expires or '-' }}</div>
+        <div class="profile01-stat">{{ elected_official.Term_Limits or '-' }}</div>
+      </div>
+      <div class="profile01-stat-labels">
+        <div class="profile01-stat-label">Term Length</div>
+        <div class="profile01-stat-label">Term Expires</div>
+        <div class="profile01-stat-label">Term Limits</div>
+      </div>
+      <img class="profile01-icon profile01-phone" src="/static/images/phone.svg" alt="Phone" />
+      <img class="profile01-icon profile01-email" src="/static/images/email.svg" alt="Email" />
+      <img class="profile01-icon profile01-chat" src="/static/images/Chat.svg" alt="Chat" />
+    </div>
+  </body>
+</html> 

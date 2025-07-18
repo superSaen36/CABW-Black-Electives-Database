@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <link href="/static/css/main.css" rel="stylesheet" />
+    <title>{{ elected_official.Name }} - Wiki Page</title>
+  </head>
+  <body>
+    <div class="s010">
+      <div class="inner-form">
+        <div class="advance-search">
+          <span class="desc">{{ elected_official.Name }}</span>
+          <div class="row">
+            <div class="input-field">
+              <h2>{{ elected_official.Name }}</h2>
+              <p><strong>County:</strong> {{ elected_official.County }}</p>
+              <p><strong>City:</strong> {{ elected_official.City }}</p>
+              <p><strong>Office:</strong> {{ elected_official.Office }}</p>
+              <p><strong>District:</strong> {{ elected_official.District }}</p>
+              <p><strong>Zip Codes:</strong> {{ elected_official.Zip_Codes }}</p>
+              <p><strong>Term Length:</strong> {{ elected_official.Term_Length }}</p>
+              <p><strong>Term Expires:</strong> {{ elected_official.Term_Expires }}</p>
+              <p><strong>Term Limits:</strong> {{ elected_official.Term_Limits }}</p>
+              <p><strong>Previous Elected Office:</strong> {{ elected_official.Previous_Elected_Office }}</p>
+              <p><strong>CABWC PAC Endorsed:</strong> {{ elected_official.CABWC_PAC_Endorsed }}</p>
+              <p><strong>Political Party:</strong> {{ elected_official.Political_Party }}</p>
+              <p><strong>Contact:</strong> <a href="mailto:{{ elected_official.Contact }}">{{ elected_official.Contact }}</a></p>
+            </div>
+          </div>
+          <div class="row third">
+            <div class="group-btn">
+              <a href="/" class="btn-delete">BACK TO SEARCH</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

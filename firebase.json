@@ -1,0 +1,23 @@
+{
+    "functions": {
+        "source": "functions",
+        "runtime": "python311"
+    },
+    "hosting": {
+        "site": "cabw-black-electives-app",
+        "public": "static",
+        "ignore": [
+            "firebase.json",
+            "firebase-debug.log",
+            "firebase-export-*.json",
+            "firebase-debug.*",
+            "firebase-export-*.json"
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "function": "app_function"
+            }
+        ]
+    }
+}

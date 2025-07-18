@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profile</title>
+    <link href="/static/css/profile.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="profile01-bg">
+      <div class="profile01-title">Profile</div>
+      <div class="profile01-ellipse">
+        <img src="{{ url_for('static', filename='images/headshots/angela_normand.png') }}" alt="Ellipse" />
+      </div>
+      <div class="profile01-name">{{ elected_official.Name }}</div>
+      <div class="profile01-title2">{{ elected_official.Office }}{% if elected_official.District %} - District {{ elected_official.District }}{% endif %}</div>
+      <div class="profile01-location">{{ elected_official.City }}, {{ elected_official.County }}</div>
+      <div class="profile01-desc">Angela Normand’s career in public education was preceded by ten years of service to our nation in the United States Marine Corps. Her experiences in the field, in the classroom, and in leadership have well-prepared her for her new role.
+        Angela earned her Bachelor’s Degree in Liberal Arts and Ethnic Studies from California State University - Hayward in 2005. She then went on to clear her Education Specialist Credential from Brandman University in 2012, while working as a Moderate/Severe Special Day Class Teacher in the Brentwood Union School District. She is currently released from the classroom, while serving as a leader with the California Teachers Association.
+        </div>
+      <!-- <div class="profile01-desc">{{ elected_official.Previous_Elected_Office or '' }}{% if elected_official.Previous_Elected_Office %}<br>{% endif %}{{ elected_official.Contact or '' }}</div> -->
+      <div class="profile01-stats">
+        <div class="profile01-stat">{{ elected_official.Term_Length or '-' }}</div>
+        <div class="profile01-stat">{{ elected_official.Term_Expires or '-' }}</div>
+        <div class="profile01-stat">{{ elected_official.Term_Limits or '-' }}</div>
+      </div>
+      <div class="profile01-stat-labels">
+        <div class="profile01-stat-label">Term Length</div>
+        <div class="profile01-stat-label">Term Expires</div>
+        <div class="profile01-stat-label">Term Limits</div>
+      </div>
+      <div class="profile01-icons-container">
+        <img class="profile01-icon profile01-phone" src="{{ url_for('static', filename='images/Phone.svg') }}" alt="Phone" />
+        <img class="profile01-icon profile01-email" src="{{ url_for('static', filename='images/Email.svg') }}" alt="Email" />
+        <img class="profile01-icon profile01-chat" src="{{ url_for('static', filename='images/Chat.svg') }}" alt="Chat" />
+        <a href="{{ url_for('update_official', official_id=elected_official.id) }}" class="profile01-icon profile01-edit" title="Edit Profile">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </body>
+</html> 

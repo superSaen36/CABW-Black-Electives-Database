@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700" rel="stylesheet" />
+    <link href="/static/css/main.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="location02-bg" style="display: flex; flex-direction: row; gap: 24px;">
+      <div style="flex: 1; min-width: 0; position: relative;">
+        <div class="location02-main-img" style="background-image: url('https://via.placeholder.com/1540x1805');"></div>
+        <div class="location02-sidebar"></div>
+        <div class="location02-title">Location</div>
+        <div class="location02-vector">
+          <img src="static/images/Layer_1.svg" alt="Vector" style="width:100%;height:100%;" />
+        </div>
+        <div class="location02-search-bar">
+          <img class="location02-search-icon" src="static/images/Group_1.svg" alt="Search Icon" />
+          <span class="location02-search-text">Search by city</span>
+        </div>
+        <div class="officials-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-top: 160px; margin-left: 10px; margin-right: 10px; width: calc(100% - 20px); padding: 0 10px;">
+        {% for official in officials %}
+        <div class="location02-card" onclick="window.location.href='/profile/{{ official[0] }}'">
+          <img class="location02-card-img" src="static/images/headshots/Aisha_knowles.png" alt="Profile" />
+          <div class="location02-card-content">
+            <div class="name">{{ official[1] }}</div>
+            <div class="desc">{{ official[4] }} &mdash; {{ official[3] }}, {{ official[2] }}</div>
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+        <div id="map" style="position: absolute; right: 24px; top: 24px; width: 800px; height: 600px; z-index: 10;"></div>
+      </div>
+    </div>
+    <script src="/static/js/extention/choices.js"></script>
+    <!-- <script src="/static/js/main.js"></script> -->
+    <!-- <script>
+      // Google Maps API loader
+      (g => {
+        var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window;
+        b = b[c] || (b[c] = {});
+        var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => {
+          await (a = m.createElement("script"));
+          e.set("libraries", [...r] + "");
+          for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+          e.set("callback", c + ".maps." + q);
+          a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+          d[q] = f;
+          a.onerror = () => h = n(Error(p + " could not load."));
+          a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+          m.head.append(a)
+        }));
+        d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
+      })({
+        key: "AIzaSyCWWbfAe3Ztd5hic7OYSOgdjjnguRkHXKA",
+        v: "weekly"
+      });
+
+      // Use the new importLibrary API to load the maps library and then initialize the map
+      window.initMap = async function () {
+        const { Map } = await google.maps.importLibrary("maps");
+        const map = new Map(document.getElementById('map'), {
+          center: { lat: 36.7783, lng: -119.4179 }, // Center of California
+          zoom: 6
+        });
+      };
+
+      window.addEventListener('load', function () {
+        if (window.google && window.google.maps && window.google.maps.importLibrary) {
+          window.initMap();
+        } else {
+          window.__ib__ = window.initMap;
+        }
+      });
+      const customSelects = document.querySelectorAll("select");
+      const deleteBtn = document.getElementById('delete')
+      const choices = new Choices('select',
+      {
+        searchEnabled: true,
+        itemSelectText: '',
+        removeItemButton: true,
+      });
+      
+      for (let i = 0; i < customSelects.length; i++)
+      {
+        customSelects[i].addEventListener('addItem', function(event)
+        {
+          if (event.detail.value)
+          {
+            let parent = this.parentNode.parentNode
+            parent.classList.add('valid')
+            parent.classList.remove('invalid')
+          }
+          else
+          {
+            let parent = this.parentNode.parentNode
+            parent.classList.add('invalid')
+            parent.classList.remove('valid')
+          }
+        }, false);
+      }
+
+      deleteBtn.addEventListener("click", function(e)
+      {
+        e.preventDefault()
+        const deleteAll = document.querySelectorAll('.choices__button')
+        for (let i = 0; i < deleteAll.length; i++)
+        {
+          deleteAll[i].click();
+        }
+      });
+
+    </script> -->
+  </body>
+</html>

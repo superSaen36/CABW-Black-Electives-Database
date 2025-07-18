@@ -1,0 +1,129 @@
+/* --- Profile 01 Figma Design Styles --- */
+.profile01-bg {
+  background: #fff;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 1000px;
+  overflow: hidden;
+}
+.profile01-main-img,
+.profile01-main-img2,
+.profile01-main-img3 {
+  position: absolute;
+  left: -227px;
+  width: 884px;
+  height: 530px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.profile01-main-img { top: -1px; }
+.profile01-main-img2 { top: 49px; }
+.profile01-main-img3 { top: 50px; }
+.profile01-title {
+  position: absolute;
+  left: 37px;
+  top: 50px;
+  color: #000;
+  font-size: 24px;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: bold;
+  z-index: 2;
+}
+.profile01-ellipse {
+  position: absolute;
+  left: -6px;
+  top: 381px;
+  width: 451px;
+  height: 586px;
+  z-index: 1;
+}
+.profile01-ellipse img {
+  width: 100%;
+  height: 100%;
+  transform: rotate(180deg);
+}
+.profile01-name {
+  position: absolute;
+  left: 20px;
+  top: 478px;
+  color: #fff;
+  font-size: 40px;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: bold;
+  z-index: 3;
+}
+.profile01-title2 {
+  position: absolute;
+  left: 20px;
+  top: 568px;
+  color: #fff;
+  font-size: 20px;
+  font-family: Arial, sans-serif;
+  z-index: 3;
+}
+.profile01-location {
+  position: absolute;
+  left: calc(50% + 10px);
+  top: 576px;
+  color: #fff;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  z-index: 3;
+}
+.profile01-desc {
+  position: absolute;
+  left: 20px;
+  top: 633px;
+  width: 400px;
+  color: #fff;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  z-index: 3;
+}
+.profile01-stats {
+  position: absolute;
+  top: 770px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  z-index: 4;
+}
+.profile01-stat {
+  color: #fff;
+  font-size: 40px;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+.profile01-stat-labels {
+  position: absolute;
+  top: 831px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  z-index: 4;
+}
+.profile01-stat-label {
+  color: #fff;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+.profile01-icon {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  z-index: 5;
+}
+.profile01-phone {
+  left: 20px;
+  top: 893px;
+}
+.profile01-email {
+  left: 32.045%;
+  top: calc(50% + 427.5px);
+  width: 57px;
+  height: 40px;
+} 
