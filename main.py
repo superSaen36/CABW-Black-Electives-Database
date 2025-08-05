@@ -2,7 +2,11 @@ from flask import Flask, render_template, request, jsonify, redirect, session, f
 import logging
 import os
 from functools import wraps
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from fire_store_client import db, get_electeds_data, verify_id_token
+from firebase_functions import https_fn
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -386,6 +390,8 @@ def logout():
     session.pop('user', None)
     return jsonify({"success": True}), 200
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
+# Firebase Functions entry point
+@https_fn.on_request()
+def app_function(req):
+    with app.request_context(req.environ):
+        return app.full_dispatch_request()

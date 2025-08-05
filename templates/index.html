@@ -6,9 +6,76 @@
     <meta name="author" content="colorlib.com">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700" rel="stylesheet" />
     <link href="/static/css/main.css" rel="stylesheet" />
+    <style>
+      /* Custom Map Marker Styles */
+      .custom-marker {
+        position: relative;
+        cursor: pointer;
+        transform-origin: center bottom;
+        transition: all 0.3s ease;
+      }
+      
+      .custom-marker:hover {
+        transform: scale(1.1);
+        z-index: 1000;
+      }
+      
+      .marker-photo-container {
+        position: relative;
+        width: 50px;
+        height: 50px;
+      }
+      
+      .marker-photo {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+        border: 3px solid white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+      }
+      
+      .marker-border {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        border: 3px solid #8E44AD;
+        border-radius: 50%;
+        box-sizing: border-box;
+        pointer-events: none;
+      }
+      
+      .custom-marker:hover .marker-photo {
+        box-shadow: 0 6px 20px rgba(142, 68, 173, 0.4);
+      }
+      
+      /* Info Window Styling */
+      .gm-style-iw-d {
+        overflow: visible !important;
+      }
+      
+      .gm-style-iw {
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+      
+      /* Filter dropdown styles */
+      .filter-dropdown {
+        position: fixed !important;
+        z-index: 999999 !important;
+        background: white !important;
+        border: 1px solid #ddd !important;
+        border-radius: 8px !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+      }
+    </style>
   </head>
   <body>
-    <div class="location02-bg" style="display: flex; flex-direction: row; gap: 24px;">
+    <div class="location02-bg" style="display: flex; flex-direction: row; gap: 50px;">
       <div style="flex: 1; min-width: 0; position: relative;">
         <div class="location02-main-img" style="background-image: url('https://via.placeholder.com/1540x1805');"></div>
         <div class="location02-sidebar"></div>
@@ -17,26 +84,87 @@
           <img src="static/images/Layer_1.svg" alt="Vector" style="width:100%;height:100%;" />
         </div>
         <div class="location02-search-bar">
-          <img class="location02-search-icon" src="static/images/Group_1.svg" alt="Search Icon" />
-          <span class="location02-search-text">Search by city</span>
+          <form id="searchForm" method="GET" action="/" style="display: flex; width: 100%; height: 100%;">
+            <img class="location02-search-icon" src="static/images/Group_1.svg" alt="Search Icon" />
+            <input type="text" name="search" placeholder="Search by city, name, or office..." 
+                   style="flex: 1; border: none; background: transparent; padding: 5px 10px; font-size: 14px; outline: none;"
+                   value="{{ request.args.get('search', '') }}">
+            <button type="submit" style="background: none; border: none; cursor: pointer; padding: 5px 10px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#666">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+              </svg>
+            </button>
+            <div class="filter-container" style="position: relative;">
+              <button type="button" id="filterBtn" style="background: none; border: none; cursor: pointer; padding: 5px 10px; margin-left: 5px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#666">
+                  <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+                </svg>
+              </button>
+              <div id="filterDropdown" class="filter-dropdown" style="display: none; min-width: 250px; max-height: 400px; overflow-y: auto;">
+                <div style="padding: 12px; border-bottom: 1px solid #eee;">
+                  <h4 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #333;">Filter Options</h4>
+                </div>
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Office</label>
+                  <select id="officeFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Offices</option>
+                  </select>
+                </div>
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">County</label>
+                  <select id="countyFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Counties</option>
+                  </select>
+                </div>
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">City</label>
+                  <select id="cityFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Cities</option>
+                  </select>
+                </div>
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Political Party</label>
+                  <select id="partyFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Parties</option>
+                  </select>
+                </div>
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">CABWC PAC Endorsed</label>
+                  <select id="endorsedFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+                <div style="padding: 12px; border-top: 1px solid #eee; text-align: right;">
+                  <button type="button" id="clearFilters" style="background: none; border: 1px solid #ddd; color: #666; padding: 6px 12px; border-radius: 4px; font-size: 12px; margin-right: 8px; cursor: pointer;">Clear All</button>
+                  <button type="button" id="applyFilters" style="background: #8E44AD; border: none; color: white; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">Apply</button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="officials-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-top: 160px; margin-left: 10px; margin-right: 10px; width: calc(100% - 20px); padding: 0 10px;">
+        <div class="officials-grid" style="display: flex; flex-direction: column; gap: 16px; margin-top: 160px; margin-left: 10px; margin-right: 10px; width: calc(100% - 20px); padding: 0 10px; max-width: 400px; height: calc(100vh - 180px); overflow-y: auto;">
         {% for official in officials %}
-        <div class="location02-card" onclick="window.location.href='/profile/{{ official[0] }}'">
-          <img class="location02-card-img" src="static/images/headshots/Aisha_knowles.png" alt="Profile" />
+        <div class="location02-card" onclick="window.location.href='/profile/{{ official.id }}'">
+          {% if official.image and official.image|length > 0 %}
+            <img class="location02-card-img" src="{{ official.image[0] }}" alt="Profile" />
+          {% else %}
+            <img class="location02-card-img" src="static/images/headshots/Aisha_knowles.png" alt="Default Profile" />
+          {% endif %}
           <div class="location02-card-content">
-            <div class="name">{{ official[1] }}</div>
-            <div class="desc">{{ official[4] }} &mdash; {{ official[3] }}, {{ official[2] }}</div>
+            <div class="name">{{ official.Name }}</div>
+            <div class="desc">{{ official.Office }} &mdash; {{ official.City }}, {{ official.County }}</div>
           </div>
         </div>
         {% endfor %}
         </div>
-        <div id="map" style="position: absolute; right: 24px; top: 24px; width: 800px; height: 600px; z-index: 10;"></div>
+        <div id="map" style="position: absolute; left: 750px; top: 0; right: 0; bottom: 0; z-index: 10;"></div>
       </div>
     </div>
     <script src="/static/js/extention/choices.js"></script>
     <!-- <script src="/static/js/main.js"></script> -->
-    <!-- <script>
+    <script>
       // Google Maps API loader
       (g => {
         var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window;
@@ -54,16 +182,79 @@
         }));
         d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
       })({
-        key: "os.getenv('GOOGLE_MAPS_API_KEY')",
+        key: "",
         v: "weekly"
       });
 
       // Use the new importLibrary API to load the maps library and then initialize the map
       window.initMap = async function () {
         const { Map } = await google.maps.importLibrary("maps");
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+        
+        // California bounds
+        const californiaBounds = new google.maps.LatLngBounds(
+          new google.maps.LatLng(32.5121, -124.4820), // Southwest corner
+          new google.maps.LatLng(42.0095, -114.1308)  // Northeast corner
+        );
+        
         const map = new Map(document.getElementById('map'), {
           center: { lat: 36.7783, lng: -119.4179 }, // Center of California
-          zoom: 6
+          zoom: 6,
+          mapId: "DEMO_MAP_ID",
+          restriction: {
+            latLngBounds: californiaBounds,
+            strictBounds: true
+          },
+          minZoom: 5,
+          maxZoom: 15
+        });
+
+        // Officials data with coordinates
+        const mapOfficialsData = {{ officials | tojson }};
+        
+        // Create photo markers for each official
+        mapOfficialsData.forEach(official => {
+          if (official.coordinates) {
+            // Get profile image URL
+            const imageUrl = (official.image && official.image.length > 0) 
+              ? official.image[0] 
+              : '/static/images/headshots/angela_normand.png';
+
+            // Create custom marker element with profile photo
+            const markerContent = document.createElement('div');
+            markerContent.className = 'custom-marker';
+            markerContent.innerHTML = `
+              <div class="marker-photo-container">
+                <img src="${imageUrl}" alt="${official.Name}" class="marker-photo" onerror="this.src='/static/images/headshots/angela_normand.png'">
+                <div class="marker-border"></div>
+              </div>
+            `;
+
+            const marker = new AdvancedMarkerElement({
+              map: map,
+              position: { lat: official.coordinates.lat, lng: official.coordinates.lng },
+              title: `${official.Name} - ${official.Office}`,
+              content: markerContent
+            });
+
+            // Create info window content with profile image
+            const infoWindow = new google.maps.InfoWindow({
+              content: `
+                <div style="max-width: 250px; text-align: center;">
+                  <img src="${imageUrl}" alt="${official.Name}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-bottom: 8px;" onerror="this.src='/static/images/headshots/angela_normand.png'">
+                  <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #8E44AD;">${official.Name}</h3>
+                  <p style="margin: 0 0 4px 0; color: #666; font-size: 14px;">${official.Office}</p>
+                  <p style="margin: 0 0 12px 0; color: #666; font-size: 14px;">${official.City}, ${official.County}</p>
+                  <a href="/profile/${official.id}" style="color: #8E44AD; text-decoration: none; font-weight: 500; padding: 8px 16px; border: 1px solid #8E44AD; border-radius: 20px; display: inline-block; transition: all 0.3s ease;" onmouseover="this.style.background='#8E44AD'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='#8E44AD';">View Profile</a>
+                </div>
+              `
+            });
+
+            // Add click event to marker
+            marker.addListener("click", () => {
+              infoWindow.open(map, marker);
+            });
+          }
         });
       };
 
@@ -112,6 +303,175 @@
         }
       });
 
-    </script> -->
+    </script>
+    
+    <script>
+      // Real-time search functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('input[name="search"]');
+        const officialCards = document.querySelectorAll('.location02-card');
+        const filterBtn = document.getElementById('filterBtn');
+        const filterDropdown = document.getElementById('filterDropdown');
+        const applyFiltersBtn = document.getElementById('applyFilters');
+        const clearFiltersBtn = document.getElementById('clearFilters');
+        
+        // Store all officials data for filtering
+        const filterOfficialsData = {{ officials | tojson }};
+        
+        // Populate filter dropdowns
+        function populateFilterDropdowns() {
+          const offices = [...new Set(filterOfficialsData.map(o => o.Office).filter(Boolean))].sort();
+          const counties = [...new Set(filterOfficialsData.map(o => o.County).filter(Boolean))].sort();
+          const cities = [...new Set(filterOfficialsData.map(o => o.City).filter(Boolean))].sort();
+          const parties = [...new Set(filterOfficialsData.map(o => o.Political_Party).filter(Boolean))].sort();
+          
+          // Populate office filter
+          const officeSelect = document.getElementById('officeFilter');
+          offices.forEach(office => {
+            const option = document.createElement('option');
+            option.value = office;
+            option.textContent = office;
+            officeSelect.appendChild(option);
+          });
+          
+          // Populate county filter
+          const countySelect = document.getElementById('countyFilter');
+          counties.forEach(county => {
+            const option = document.createElement('option');
+            option.value = county;
+            option.textContent = county;
+            countySelect.appendChild(option);
+          });
+          
+          // Populate city filter
+          const citySelect = document.getElementById('cityFilter');
+          cities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
+          });
+          
+          // Populate party filter
+          const partySelect = document.getElementById('partyFilter');
+          parties.forEach(party => {
+            const option = document.createElement('option');
+            option.value = party;
+            option.textContent = party;
+            partySelect.appendChild(option);
+          });
+        }
+        
+        // Toggle filter dropdown
+        filterBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (filterDropdown.style.display === 'none' || filterDropdown.style.display === '') {
+            // Position dropdown relative to button
+            const buttonRect = filterBtn.getBoundingClientRect();
+            filterDropdown.style.top = (buttonRect.bottom + 4) + 'px';
+            filterDropdown.style.left = (buttonRect.right - 250) + 'px'; // 250px is dropdown width
+            filterDropdown.style.display = 'block';
+          } else {
+            filterDropdown.style.display = 'none';
+          }
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!filterDropdown.contains(e.target) && e.target !== filterBtn) {
+            filterDropdown.style.display = 'none';
+          }
+        });
+        
+        // Apply filters
+        function applyFilters() {
+          const officeFilter = document.getElementById('officeFilter').value;
+          const countyFilter = document.getElementById('countyFilter').value;
+          const cityFilter = document.getElementById('cityFilter').value;
+          const partyFilter = document.getElementById('partyFilter').value;
+          const endorsedFilter = document.getElementById('endorsedFilter').value;
+          const searchQuery = searchInput.value.toLowerCase().trim();
+          
+          officialCards.forEach((card, index) => {
+            const official = filterOfficialsData[index];
+            let shouldShow = true;
+            
+            // Apply search filter
+            if (searchQuery) {
+              const name = card.querySelector('.name').textContent.toLowerCase();
+              const desc = card.querySelector('.desc').textContent.toLowerCase();
+              if (!name.includes(searchQuery) && !desc.includes(searchQuery)) {
+                shouldShow = false;
+              }
+            }
+            
+            // Apply office filter
+            if (officeFilter && official.Office !== officeFilter) {
+              shouldShow = false;
+            }
+            
+            // Apply county filter
+            if (countyFilter && official.County !== countyFilter) {
+              shouldShow = false;
+            }
+            
+            // Apply city filter
+            if (cityFilter && official.City !== cityFilter) {
+              shouldShow = false;
+            }
+            
+            // Apply party filter
+            if (partyFilter && official.Political_Party !== partyFilter) {
+              shouldShow = false;
+            }
+            
+            // Apply endorsed filter
+            if (endorsedFilter && official.CABWC_PAC_Endorsed !== endorsedFilter) {
+              shouldShow = false;
+            }
+            
+            card.style.display = shouldShow ? 'flex' : 'none';
+          });
+          
+          filterDropdown.style.display = 'none';
+        }
+        
+        // Clear all filters
+        function clearFilters() {
+          document.getElementById('officeFilter').value = '';
+          document.getElementById('countyFilter').value = '';
+          document.getElementById('cityFilter').value = '';
+          document.getElementById('partyFilter').value = '';
+          document.getElementById('endorsedFilter').value = '';
+          
+          // Show all cards
+          officialCards.forEach(card => {
+            card.style.display = 'flex';
+          });
+          
+          filterDropdown.style.display = 'none';
+        }
+        
+        // Event listeners
+        applyFiltersBtn.addEventListener('click', applyFilters);
+        clearFiltersBtn.addEventListener('click', clearFilters);
+        
+        // Real-time search (modified to work with filters)
+        searchInput.addEventListener('input', function() {
+          applyFilters();
+        });
+        
+        // Handle form submission
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+          const searchQuery = searchInput.value.trim();
+          if (searchQuery === '') {
+            e.preventDefault(); // Prevent form submission if search is empty
+          }
+        });
+        
+        // Initialize filter dropdowns
+        populateFilterDropdowns();
+      });
+    </script>
   </body>
 </html>

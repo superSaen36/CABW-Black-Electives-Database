@@ -1,23 +1,39 @@
 {
-    "functions": {
-        "source": "functions",
-        "runtime": "python311"
-    },
-    "hosting": {
-        "site": "cabw-black-electives-app",
-        "public": "static",
-        "ignore": [
-            "firebase.json",
-            "firebase-debug.log",
-            "firebase-export-*.json",
-            "firebase-debug.*",
-            "firebase-export-*.json"
-        ],
-        "rewrites": [
-            {
-                "source": "**",
-                "function": "app_function"
-            }
+  "firestore": {
+    "database": "electeds-db",
+    "location": "nam5",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": {
+    "source": ".",
+    "runtime": "python311",
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "*.local"
+    ]
+  },
+  "hosting": {
+    "public": "static",
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "app_function"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000"
+          }
         ]
-    }
+      }
+    ]
+  }
 }

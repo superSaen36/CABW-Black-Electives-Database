@@ -1,36 +1,115 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Login</title>
+    <title>Login - CABWC Data App</title>
     <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   </head>
   <body>
-    <div class="login01-bg">
-      <div class="login01-ellipse">
-        <img src="{{ url_for('static', filename='images/5c4dd96f797641f20736e3e43464573fcccc027d.png') }}" alt="Ellipse" />
+    <div class="login-container">
+      <!-- Purple curved header with logo -->
+      <div class="header-section">
+        <div class="logo-container">
+          <img src="{{ url_for('static', filename='static/images/5c4dd96f797641f20736e3e43464573fcccc027d.png') }}" alt="CA Black Women's Collective" class="logo-image">
+        </div>
       </div>
-      <div class="login01-logo"></div>
-      <div class="login01-title">LOG IN</div>
-      <form class="login01-form" method="POST" action="{{ url_for('login') }}">
-        <div class="login01-input-group" style="top:580px;">
-          <div class="login01-input-bg">
-            <input type="text" name="username" placeholder="Enter username" required>
+      
+      <!-- Main content -->
+      <div class="content-section">
+        <h1 class="login-title">LOG IN</h1>
+        
+        <!-- Login form -->
+        <form class="login-form" id="loginForm">
+          <!-- Email input -->
+          <div class="input-group">
+            <input type="email" id="email" placeholder="Username" required>
           </div>
-          <span class="login01-input-label username">Username</span>
-        </div>
-        <div class="login01-input-group" style="top:651px;">
-          <div class="login01-input-bg">
-            <input type="password" name="password" placeholder="Enter password" required>
+          
+          <!-- Password input -->
+          <div class="input-group">
+            <input type="password" id="password" placeholder="Password" required>
           </div>
-          <span class="login01-input-label password">Password</span>
-        </div>
-        <div class="login01-forgot">Forgot password?</div>
-        <button type="submit" class="login01-btn-group">
-          <div class="login01-btn-bg"></div>
-          <span class="login01-btn-label">Login</span>
-        </button>
-      </form>
+          
+          <!-- Forgot password link -->
+          <div class="forgot-password">
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+          
+          <!-- Submit button -->
+          <button type="submit" class="login-button">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDzZEzSJobu6aBMQ0qz4w1rER0u2UAFTaU",
+        authDomain: "cabw-black-electives-app.firebaseapp.com",
+        projectId: "cabw-black-electives-app",
+        storageBucket: "cabw-black-electives-app.firebasestorage.app",
+        messagingSenderId: "668190664761",
+        appId: "1:668190664761:web:4166f6705bc600a35385e8",
+        measurementId: "G-CZXPX33JEX"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Handle login form submission
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+          const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+          const user = userCredential.user;
+          
+          // Get the ID token
+          const idToken = await user.getIdToken();
+          
+          // Send token to backend
+          const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ idToken: idToken })
+          });
+
+          if (response.ok) {
+            window.location.href = '/';
+          } else {
+            alert('Login failed');
+          }
+        } catch (error) {
+          console.error('Login error:', error);
+          
+          // Show more user-friendly error messages
+          let errorMessage = 'Login failed';
+          if (error.code === 'auth/user-not-found') {
+            errorMessage = 'No account found with this email address';
+          } else if (error.code === 'auth/wrong-password') {
+            errorMessage = 'Incorrect password';
+          } else if (error.code === 'auth/invalid-email') {
+            errorMessage = 'Invalid email address';
+          } else if (error.code === 'auth/too-many-requests') {
+            errorMessage = 'Too many failed login attempts. Please try again later';
+          } else if (error.message) {
+            errorMessage = error.message;
+          }
+          
+          alert(errorMessage);
+        }
+      });
+    </script>
   </body>
 </html> 
