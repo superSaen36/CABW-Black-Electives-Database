@@ -39,20 +39,20 @@
               </thead>
               <tbody>
                 {% for row in results %}
-                <tr onclick="window.location.href='/wiki/{{ row[0] }}'">
-                  <td>{{ row[1] }}</td>
-                  <td>{{ row[2] }}</td>
-                  <td>{{ row[3] }}</td>
-                  <td>{{ row[4] }}</td>
-                  <td>{{ row[5] }}</td>
-                  <td>{{ row[6] }}</td>
-                  <td>{{ row[7] }}</td>
-                  <td>{{ row[8] }}</td>
-                  <td>{{ row[9] }}</td>
-                  <td>{{ row[10] }}</td>
-                  <td>{{ row[11] }}</td>
-                  <td>{{ row[12] }}</td>
-                  <td>{{ row[13] }}</td>
+                <tr onclick="window.location.href='/wiki/{{ row.id }}'">
+                  <td>{{ row.Name or '' }}</td>
+                  <td>{{ row.County or '' }}</td>
+                  <td>{{ row.City or '' }}</td>
+                  <td>{{ row.Office or '' }}</td>
+                  <td>{{ row.District or '' }}</td>
+                  <td>{{ row.Zip_Codes or '' }}</td>
+                  <td>{{ row.Term_Length or '' }}</td>
+                  <td>{{ row.Term_Expires or '' }}</td>
+                  <td>{{ row.Term_Limits or '' }}</td>
+                  <td>{{ row.Previous_Elected_Office or '' }}</td>
+                  <td>{{ row.CABWC_PAC_Endorsed or '' }}</td>
+                  <td>{{ row.Political_Party or '' }}</td>
+                  <td>{{ row.Contact or '' }}</td>
                 </tr>
                 {% endfor %}
               </tbody>

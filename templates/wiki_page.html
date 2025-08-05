@@ -27,10 +27,18 @@
               <p><strong>CABWC PAC Endorsed:</strong> {{ elected_official.CABWC_PAC_Endorsed }}</p>
               <p><strong>Political Party:</strong> {{ elected_official.Political_Party }}</p>
               <p><strong>Contact:</strong> <a href="mailto:{{ elected_official.Contact }}">{{ elected_official.Contact }}</a></p>
+              
+              {% if elected_official.bio %}
+              <h3>Biography</h3>
+              {% for paragraph in elected_official.bio %}
+                <p>{{ paragraph }}</p>
+              {% endfor %}
+              {% endif %}
             </div>
           </div>
           <div class="row third">
             <div class="group-btn">
+              <a href="/profile/{{ elected_official.id }}" class="btn-delete">VIEW FULL PROFILE</a>
               <a href="/" class="btn-delete">BACK TO SEARCH</a>
             </div>
           </div>

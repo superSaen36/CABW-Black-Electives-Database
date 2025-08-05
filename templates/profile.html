@@ -1,42 +1,152 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Profile</title>
+    <title>{{ elected_official.Name }} - Profile</title>
     <link href="/static/css/profile.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <div class="profile01-bg">
-      <div class="profile01-title">Profile</div>
-      <div class="profile01-ellipse">
-        <img src="{{ url_for('static', filename='images/headshots/angela_normand.png') }}" alt="Ellipse" />
-      </div>
-      <div class="profile01-name">{{ elected_official.Name }}</div>
-      <div class="profile01-title2">{{ elected_official.Office }}{% if elected_official.District %} - District {{ elected_official.District }}{% endif %}</div>
-      <div class="profile01-location">{{ elected_official.City }}, {{ elected_official.County }}</div>
-      <div class="profile01-desc">Angela Normand’s career in public education was preceded by ten years of service to our nation in the United States Marine Corps. Her experiences in the field, in the classroom, and in leadership have well-prepared her for her new role.
-        Angela earned her Bachelor’s Degree in Liberal Arts and Ethnic Studies from California State University - Hayward in 2005. She then went on to clear her Education Specialist Credential from Brandman University in 2012, while working as a Moderate/Severe Special Day Class Teacher in the Brentwood Union School District. She is currently released from the classroom, while serving as a leader with the California Teachers Association.
-        </div>
-      <!-- <div class="profile01-desc">{{ elected_official.Previous_Elected_Office or '' }}{% if elected_official.Previous_Elected_Office %}<br>{% endif %}{{ elected_official.Contact or '' }}</div> -->
-      <div class="profile01-stats">
-        <div class="profile01-stat">{{ elected_official.Term_Length or '-' }}</div>
-        <div class="profile01-stat">{{ elected_official.Term_Expires or '-' }}</div>
-        <div class="profile01-stat">{{ elected_official.Term_Limits or '-' }}</div>
-      </div>
-      <div class="profile01-stat-labels">
-        <div class="profile01-stat-label">Term Length</div>
-        <div class="profile01-stat-label">Term Expires</div>
-        <div class="profile01-stat-label">Term Limits</div>
-      </div>
-      <div class="profile01-icons-container">
-        <img class="profile01-icon profile01-phone" src="{{ url_for('static', filename='images/Phone.svg') }}" alt="Phone" />
-        <img class="profile01-icon profile01-email" src="{{ url_for('static', filename='images/Email.svg') }}" alt="Email" />
-        <img class="profile01-icon profile01-chat" src="{{ url_for('static', filename='images/Chat.svg') }}" alt="Chat" />
-        <a href="{{ url_for('update_official', official_id=elected_official.id) }}" class="profile01-icon profile01-edit" title="Edit Profile">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+    <div class="profile-container">
+      <!-- Header section with profile image and back button -->
+      <div class="header-section">
+        <button class="back-button" onclick="window.history.back()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"/>
           </svg>
-        </a>
+          Profile
+        </button>
+        
+        <div class="profile-image-container">
+          {% if elected_official.image and elected_official.image|length > 0 %}
+            <img src="{{ elected_official.image[0] }}" alt="{{ elected_official.Name }}" class="profile-image" />
+          {% else %}
+            <img src="{{ url_for('static', filename='images/headshots/angela_normand.png') }}" alt="{{ elected_official.Name }}" class="profile-image" />
+          {% endif %}
+        </div>
+        
+        <!-- Curve indicator -->
+        <div class="curve-indicator">
+          <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
+            <path d="M0 0L12 12L24 0" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Content section -->
+      <div class="content-section">
+        <h1 class="profile-name">{{ elected_official.Name }}</h1>
+        
+        <div class="profile-title">{{ elected_official.Office }}{% if elected_official.District %} - District {{ elected_official.District }}{% endif %}</div>
+        
+        <div class="profile-location">{{ elected_official.City }}, {{ elected_official.County }}{% if elected_official['Zip Codes'] %} {{ elected_official['Zip Codes'] }}{% endif %}</div>
+        
+        <!-- Bio section -->
+        <div class="profile-description">
+          {% if elected_official.bio %}
+            {% for paragraph in elected_official.bio %}
+              {{ paragraph }}<br><br>
+            {% endfor %}
+          {% else %}
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut urna ex. Fusce convallis fringilla neque, sed suscipit lectus bibendum id. Integer tempor, libero nec dignissim maximus, erat ex sodales sem.
+          {% endif %}
+        </div>
+
+        <!-- Additional Information -->
+        <div class="profile-details">
+          {% if elected_official['Polictical Party'] %}
+          <div class="detail-item">
+            <div class="detail-label">Political Party</div>
+            <div class="detail-value">{{ elected_official['Polictical Party'] }}</div>
+          </div>
+          {% endif %}
+          
+          {% if elected_official.Contact %}
+          <div class="detail-item">
+            <div class="detail-label">Contact</div>
+            <div class="detail-value">{{ elected_official.Contact }}</div>
+          </div>
+          {% endif %}
+          
+          {% if elected_official['Term Length'] %}
+          <div class="detail-item">
+            <div class="detail-label">Term Length</div>
+            <div class="detail-value">{{ elected_official['Term Length'] }}</div>
+          </div>
+          {% endif %}
+          
+          {% if elected_official['Term Expires'] %}
+          <div class="detail-item">
+            <div class="detail-label">Term Expires</div>
+            <div class="detail-value">{{ elected_official['Term Expires'] }}</div>
+          </div>
+          {% endif %}
+          
+          {% if elected_official['Term Limits'] %}
+          <div class="detail-item">
+            <div class="detail-label">Term Limits</div>
+            <div class="detail-value">{{ elected_official['Term Limits'] }}</div>
+          </div>
+          {% endif %}
+          
+          {% if elected_official['Previous Elected Office'] %}
+          <div class="detail-item">
+            <div class="detail-label">Previous Office</div>
+            <div class="detail-value">{{ elected_official['Previous Elected Office'] }}</div>
+          </div>
+          {% endif %}
+          
+          {% if elected_official['CABWC PAC Endorsed'] %}
+          <div class="detail-item">
+            <div class="detail-label">CABWC PAC Endorsed</div>
+            <div class="detail-value">{{ elected_official['CABWC PAC Endorsed'] }}</div>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Statistics section -->
+        <div class="stats-section">
+          <div class="stat-item">
+            <div class="stat-number">{% if elected_official['Term Expires'] %}{{ elected_official['Term Expires'] }}{% else %}2024{% endif %}</div>
+            <div class="stat-label">Term Expires</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{% if elected_official.District %}{{ elected_official.District }}{% else %}At-Large{% endif %}</div>
+            <div class="stat-label">District</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{% if elected_official['Term Limits'] and elected_official['Term Limits']|int %}{{ elected_official['Term Limits'] }}{% else %}4{% endif %}</div>
+            <div class="stat-label">Term Limit</div>
+          </div>
+        </div>
+
+        <!-- Contact icons -->
+        <div class="contact-icons">
+          <button class="contact-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+          </button>
+          
+          <button class="contact-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10h5v-2h-5c-4.34 0-8-3.66-8-8s3.66-8 8-8 8 3.66 8 8v1.43c0 .79-.71 1.57-1.5 1.57s-1.5-.78-1.5-1.57V12c0-2.76-2.24-5-5-5s-5 2.24-5 5 2.24 5 5 5c1.38 0 2.64-.56 3.54-1.47.65.89 1.77 1.47 2.96 1.47 1.97 0 3.5-1.53 3.5-3.57V12c0-5.52-4.48-10-10-10zm0 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+            </svg>
+          </button>
+          
+          <button class="contact-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </button>
+          
+          <a href="{{ url_for('update_official', id=elected_official.id) }}" class="contact-icon edit-icon" title="Edit Profile">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   </body>

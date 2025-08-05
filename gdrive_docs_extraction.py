@@ -1,109 +1,162 @@
-import os
-import base64
-import requests
-from google.oauth2 import service_account
+import os.path
+
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+from fire_store_client import add_data, update_data
 
-# CONFIGURATION
-SCOPES = [
-    'https://www.googleapis.com/auth/documents.readonly',
-    'https://www.googleapis.com/auth/drive.readonly'
-]
-SERVICE_ACCOUNT_FILE = 'black-electives-database-f8978e925e6e.json'
-FOLDER_NAME = "Black Elective's Database/Headshots and Bios"
+# If modifying these scopes, delete the file token.json.
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly","https://www.googleapis.com/auth/documents.readonly"]
 
-# Authenticate
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES
-)
-docs_service = build('docs', 'v1', credentials=credentials)
-drive_service = build('drive', 'v3', credentials=credentials)
+# The ID and range of a sample spreadsheet.
+ELECTIVES_SPREADSHEET_ID = "1f1ksfl7Y_OIArljXQ2x6jxS9dJVAhgMuogYr_5DLPY4"
+SAMPLE_RANGE_NAME = "Electeds!A:N"
 
-# FUNCTIONS
+def get_credentials():
+        """
+        Get the data from the electives spreadsheet
+        """
+        creds = None
+        # The file token.json stores the user's access and refresh tokens, and is
+        # created automatically when the authorization flow completes for the first
+        # time.
+        if os.path.exists("token.json"):
+            creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+        # If there are no (valid) credentials available, let the user log in.
+        if not creds or not creds.valid:
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    "credentials.json", SCOPES
+                )
+                creds = flow.run_local_server(port=0)
+            # Save the credentials for the next run
+            with open("token.json", "w") as token:
+                token.write(creds.to_json())
 
-def list_google_docs_in_folder(drive_service, folder_name):
-    # Find folder ID
-    query = (
-        f"name = '{folder_name}' and "
-        "mimeType = 'application/vnd.google-apps.folder' and trashed = false"
-    )
-    response = drive_service.files().list(
-        q=query, spaces='drive', fields='files(id, name)'
-    ).execute()
-    folders = response.get('files', [])
+        return creds
 
-    if not folders:
-        print(f"No folder named '{folder_name}' found.")
-        return []
+def get_document_id(link):
+    """
+    Get the document id from the link
+    """
+    return link.split("/d/")[1].split("/edit")[0]
 
-    folder_id = folders[0]['id']
+def spreadsheet_service(creds):
+        try:
+            service = build("sheets", "v4", credentials=creds)
 
-    # List Google Docs in folder
-    query = (
-        f"'{folder_id}' in parents and "
-        "mimeType = 'application/vnd.google-apps.document' and trashed = false"
-    )
-    docs_response = drive_service.files().list(
-        q=query, spaces='drive', fields='files(id, name)', pageSize=1000
-    ).execute()
+            # Call the Sheets API
+            result = (
+                service.spreadsheets().get(
+                    spreadsheetId=ELECTIVES_SPREADSHEET_ID,
+                    ranges=[SAMPLE_RANGE_NAME],
+                    fields="sheets.data.rowData.values.textFormatRuns,sheets.data.rowData.values.formattedValue"
+                ).execute()
+            )
+            return result
+        except HttpError as err:
+            print(err)
+            return None
+        
+def doc_service(creds, document_id):
+    try:
+        service = build("docs", "v1", credentials=creds)
+        document = service.documents().get(documentId=document_id).execute()
 
-    docs_files = docs_response.get('files', [])
+        print(f"The title of the document is: {document.get('title')}")
+        paragraphs, images = extract_paragraphs_and_images(document)
+        print("Paragraphs:")
+        for p in paragraphs:
+            print(p)
+        print("Images:")
+        for img in images:
+            print(img)
+        return paragraphs, images
+    except HttpError as err:
+        print(err)
+        return None, None
 
-    for doc in docs_files:
-        print(f"Found Document: {doc['name']} (ID: {doc['id']})")
-
-    return [doc['id'] for doc in docs_files]
-
-
-def extract_doc_content(document_id, docs_service):
-    document = docs_service.documents().get(documentId=document_id).execute()
+def extract_paragraphs_and_images(document):
     paragraphs = []
     images = []
 
-    for element in document.get('body', {}).get('content', []):
+    content = document.get('body', {}).get('content', [])
+    inline_objects = document.get('inlineObjects', {})
+    print("content", content)
+    
+    for element in content:
+        # Extract paragraphs
         if 'paragraph' in element:
-            text_run = ''
+            para_text = ''
             for elem in element['paragraph'].get('elements', []):
-                if 'textRun' in elem:
-                    text_run += elem['textRun'].get('content', '')
-            if text_run.strip():
-                paragraphs.append(text_run.strip())
+                text_run = elem.get('textRun')
+                if text_run:
+                    para_text += text_run.get('content', '')
+                
+                # Check for images within paragraph elements
+                if 'inlineObjectElement' in elem:
+                    inline_object_id = elem['inlineObjectElement'].get('inlineObjectId')
+                    if inline_object_id and inline_object_id in inline_objects:
+                        embedded_object = inline_objects[inline_object_id].get('inlineObjectProperties', {}).get('embeddedObject', {})
+                        image_uri = embedded_object.get('imageProperties', {}).get('contentUri')
+                        if image_uri:
+                            images.append(image_uri)
+            
+            if para_text.strip():
+                paragraphs.append(para_text.strip())
 
+        # Extract images at top level (if any)
         if 'inlineObjectElement' in element:
-            inline_object_id = element['inlineObjectElement']['inlineObjectId']
-            inline_object = document['inlineObjects'][inline_object_id]
-            embedded_object = inline_object['inlineObjectProperties']['embeddedObject']
-
-            if 'imageProperties' in embedded_object:
-                content_uri = embedded_object['imageProperties']['contentUri']
-                response = requests.get(content_uri)
-                if response.status_code == 200:
-                    image_data = base64.b64encode(response.content).decode('utf-8')
-                    images.append(image_data)
+            inline_object_id = element['inlineObjectElement'].get('inlineObjectId')
+            if inline_object_id and inline_object_id in inline_objects:
+                embedded_object = inline_objects[inline_object_id].get('inlineObjectProperties', {}).get('embeddedObject', {})
+                image_uri = embedded_object.get('imageProperties', {}).get('contentUri')
+                if image_uri:
+                    images.append(image_uri)
 
     return paragraphs, images
 
+def main():
+    creds = get_credentials()
+    values = spreadsheet_service(creds)
+    if not values:
+        print("No data found.")
+        return
 
-# MAIN EXECUTION
+    row_data = values.get("sheets")[0].get("data")[0].get("rowData")
+    
+    # Get column names from header row
+    header_cells = row_data[0].get("values", [])
+    column_names = [cell.get("formattedValue", "") for cell in header_cells]
+    
+    for row in row_data[1:]:  # skip header
+        cells = row.get("values", [])
+        #print("cells", cells)
+        if cells:
+            # Create dictionary with column names as keys and cell values as values
+            row_dict = {}
+            for i, cell in enumerate(cells):
+                if i < len(column_names):
+                    row_dict[column_names[i]] = cell.get("formattedValue", "")
+            
+            last_cell = cells[-1]
+            print("last_cell", last_cell)
+            link = last_cell.get("formattedValue", None)
+            if link and "http" in link:
+                document_id = get_document_id(link)
+                print("document_id", document_id)
+                paragraphs, images = doc_service(creds, document_id)
+                print("paragraphs", paragraphs)
+                print("images", images)
+                row_dict["bio"] = paragraphs
+                row_dict["image"] = images
+                print("row_dict", row_dict)
+                add_data(row_dict)
 
-# Step 1: List document IDs from folder
-doc_ids = list_google_docs_in_folder(drive_service, FOLDER_NAME)
 
-# Step 2: Process each document
-for doc_id in doc_ids:
-    print(f"\nProcessing Document ID: {doc_id}")
-    paragraphs, images = extract_doc_content(doc_id, docs_service)
-
-    print("\nParagraphs Found:")
-    for para in paragraphs:
-        print(para)
-        print('-' * 50)
-
-    print(f"\nExtracted {len(images)} images.")
-
-    # Optional: Save images as files
-    for idx, img_data in enumerate(images):
-        image_filename = f"{doc_id}_image_{idx+1}.png"
-        with open(image_filename, 'wb') as img_file:
-            img_file.write(base64.b64decode(img_data))
-        print(f"Saved image: {image_filename}")
+if __name__ == "__main__":
+  main()
