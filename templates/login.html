@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZXPX33JEX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-CZXPX33JEX');
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login - CABWC Data App</title>
@@ -36,7 +45,7 @@
           
           <!-- Forgot password link -->
           <div class="forgot-password">
-            <a href="#" class="forgot-link">Forgot password?</a>
+            <a href="#" class="forgot-link" id="forgotPasswordLink">Forgot password?</a>
           </div>
           
           <!-- Submit button -->
@@ -85,10 +94,19 @@
             body: JSON.stringify({ idToken: idToken })
           });
 
+          const result = await response.json();
+
           if (response.ok) {
+            // Show different messages for admin vs regular users
+            if (result.is_admin) {
+              console.log('Admin login successful');
+            } else {
+              console.log('User login successful');
+            }
+            // Redirect to home page
             window.location.href = '/';
           } else {
-            alert('Login failed');
+            alert(result.error || 'Login failed');
           }
         } catch (error) {
           console.error('Login error:', error);
@@ -108,6 +126,43 @@
           }
           
           alert(errorMessage);
+        }
+      });
+
+      // Handle forgot password
+      document.getElementById('forgotPasswordLink').addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+
+        if (!email) {
+          alert('Please enter your email address first');
+          return;
+        }
+
+        if (!confirm(`Send password reset link to ${email}?`)) {
+          return;
+        }
+
+        try {
+          const response = await fetch('/forgot-password', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: email })
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            alert('Password reset link sent! Check your email.');
+          } else {
+            alert(result.error || 'Failed to send password reset email');
+          }
+        } catch (error) {
+          console.error('Forgot password error:', error);
+          alert('Failed to send password reset email. Please try again.');
         }
       });
     </script>

@@ -3,7 +3,8 @@
     "allow": [
       "Bash(cp:*)",
       "Bash(chmod:*)",
-      "Bash(firebase:*)"
+      "Bash(firebase:*)",
+      "Bash(gcloud config get-value:*)"
     ],
     "deny": []
   }

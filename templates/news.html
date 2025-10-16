@@ -1,0 +1,342 @@
+<html>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZXPX33JEX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-CZXPX33JEX');
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <title>California Black Power Book - News</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700" rel="stylesheet" />
+    <link href="/static/css/main.css" rel="stylesheet" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .page-header {
+        text-align: center;
+        color: white;
+        padding: 40px 20px 20px;
+      }
+
+      .page-title {
+        font-size: 48px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .page-subtitle {
+        font-size: 18px;
+        font-weight: 400;
+        margin: 0;
+        opacity: 0.9;
+      }
+
+      .back-button {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 2px solid white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .back-button:hover {
+        background: white;
+        color: #764ba2;
+      }
+
+      .news-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+      }
+
+      .news-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        position: relative;
+      }
+
+      .news-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      }
+
+      .news-card.unapproved {
+        border: 2px solid #ff9800;
+        background: #fff8e1;
+      }
+
+      .news-card.approved {
+        border: 2px solid #4caf50;
+      }
+
+      .approval-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .approval-badge.approved {
+        background: #4caf50;
+        color: white;
+      }
+
+      .approval-badge.pending {
+        background: #ff9800;
+        color: white;
+      }
+
+      .news-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #9c288c;
+        margin: 0 0 12px 0;
+        line-height: 1.4;
+        padding-right: 100px;
+      }
+
+      .news-date {
+        font-size: 14px;
+        color: #888;
+        margin: 0 0 15px 0;
+      }
+
+      .news-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .news-link {
+        display: inline-block;
+        color: #764ba2;
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none;
+        border: 1px solid #764ba2;
+        padding: 8px 16px;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+      }
+
+      .news-link:hover {
+        background: #764ba2;
+        color: white;
+      }
+
+      .admin-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .approve-btn {
+        background: #4caf50;
+        color: white;
+      }
+
+      .approve-btn:hover {
+        background: #45a049;
+      }
+
+      .disapprove-btn {
+        background: #f44336;
+        color: white;
+      }
+
+      .disapprove-btn:hover {
+        background: #da190b;
+      }
+
+      .admin-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .no-news {
+        text-align: center;
+        color: white;
+        font-size: 18px;
+        padding: 60px 20px;
+      }
+
+      .loading {
+        text-align: center;
+        color: white;
+        font-size: 18px;
+        padding: 60px 20px;
+      }
+
+      @media (max-width: 768px) {
+        .page-title {
+          font-size: 32px;
+        }
+
+        .news-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .back-button {
+          padding: 8px 16px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="/" class="back-button">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+      </svg>
+      Back to Home
+    </a>
+
+    <div class="page-header">
+      <h1 class="page-title">California News</h1>
+      <p class="page-subtitle">Latest news and updates from California sources</p>
+    </div>
+
+    <div class="news-container">
+      {% if news_entries and news_entries|length > 0 %}
+        <div class="news-grid">
+          {% for entry in news_entries %}
+            <div class="news-card {% if is_admin %}{% if entry.approved %}approved{% else %}unapproved{% endif %}{% endif %}" data-article-id="{{ entry.id }}">
+              {% if is_admin %}
+                <span class="approval-badge {% if entry.approved %}approved{% else %}pending{% endif %}">
+                  {% if entry.approved %}Approved{% else %}Pending{% endif %}
+                </span>
+              {% endif %}
+
+              <h2 class="news-title">{{ entry.title }}</h2>
+              <p class="news-date">Published: {{ entry.published }}</p>
+
+              <div class="news-actions">
+                <a href="{{ entry.link }}" target="_blank" class="news-link">Read More</a>
+
+                {% if is_admin %}
+                  <button class="admin-btn approve-btn" onclick="approveArticle('{{ entry.id }}')" {% if entry.approved %}disabled{% endif %}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    Approve
+                  </button>
+
+                  <button class="admin-btn disapprove-btn" onclick="disapproveArticle('{{ entry.id }}')" {% if not entry.approved %}disabled{% endif %}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                    Disapprove
+                  </button>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="no-news">
+          <p>No news articles available at this time.</p>
+          <p style="font-size: 14px; margin-top: 10px;">Please check back later for updates.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if is_admin %}
+    <script>
+      function approveArticle(articleId) {
+        if (!confirm('Approve this article?')) return;
+
+        fetch(`/article/approve/${articleId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Article approved successfully!');
+            location.reload();
+          } else {
+            alert('Failed to approve article: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while approving the article');
+        });
+      }
+
+      function disapproveArticle(articleId) {
+        if (!confirm('Disapprove this article?')) return;
+
+        fetch(`/article/disapprove/${articleId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Article disapproved successfully!');
+            location.reload();
+          } else {
+            alert('Failed to disapprove article: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while disapproving the article');
+        });
+      }
+    </script>
+    {% endif %}
+  </body>
+</html>

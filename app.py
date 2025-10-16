@@ -2,7 +2,13 @@ from flask import Flask, render_template, request, jsonify, redirect, session, f
 import logging
 import os
 from functools import wraps
-from fire_store_client import db, get_electeds_data, verify_id_token
+from fire_store_client import (
+    db, get_electeds_data, verify_id_token, is_admin,
+    get_all_articles, get_approved_articles, add_article,
+    approve_article, disapprove_article
+)
+from rss_feed_reader import get_feed_data
+from firebase_auth_client import send_password_reset_email, send_email_login
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -15,6 +21,16 @@ def login_required(f):
     def decorated_function(*args, **kwargs):
         if 'user' not in session:
             return redirect('/login')
+        return f(*args, **kwargs)
+    return decorated_function
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user' not in session:
+            return redirect('/login')
+        if not session['user'].get('is_admin', False):
+            return jsonify({"error": "Admin access required"}), 403
         return f(*args, **kwargs)
     return decorated_function
 
@@ -37,7 +53,6 @@ def get_dropdown_data():
         previous_offices = set()
         cabwc_pac_endorsed = set()
         political_parties = set()
-        contacts = set()
         
         for doc in docs:
             data = doc.to_dict()
@@ -51,38 +66,35 @@ def get_dropdown_data():
                 offices.add(data['Office'])
             if data.get('District'):
                 districts.add(data['District'])
-            if data.get('Zip_Codes'):
-                zip_codes.add(data['Zip_Codes'])
-            if data.get('Term_Length'):
-                term_lengths.add(data['Term_Length'])
-            if data.get('Term_Expires'):
-                term_expires.add(data['Term_Expires'])
-            if data.get('Term_Limits'):
-                term_limits.add(data['Term_Limits'])
+            if data.get('Zip Codes'):
+                zip_codes.add(data['Zip Codes'])
+            if data.get('Term Length'):
+                term_lengths.add(data['Term Length'])
+            if data.get('Term Expires'):
+                term_expires.add(data['Term Expires'])
+            if data.get('Term Limits'):
+                term_limits.add(data['Term Limits'])
             if data.get('Previous_Elected_Office'):
                 previous_offices.add(data['Previous_Elected_Office'])
             if data.get('CABWC_PAC_Endorsed'):
                 cabwc_pac_endorsed.add(data['CABWC_PAC_Endorsed'])
             if data.get('Political_Party'):
                 political_parties.add(data['Political_Party'])
-            if data.get('Contact'):
-                contacts.add(data['Contact'])
         
         # Convert sets to lists for template rendering
         return {
-            "names": list(names),
-            "counties": list(counties),
-            "cities": list(cities),
-            "offices": list(offices),
-            "districts": list(districts),
-            "zip_codes": list(zip_codes),
-            "term_lengths": list(term_lengths),
-            "term_expires": list(term_expires),
-            "term_limits": list(term_limits),
-            "previous_offices": list(previous_offices),
-            "cabwc_pac_endorsed": list(cabwc_pac_endorsed),
-            "political_parties": list(political_parties),
-            "contacts": list(contacts)
+            "names": sorted(list(names)),
+            "counties": sorted(list(counties)),
+            "cities": sorted(list(cities)),
+            "offices": sorted(list(offices)),
+            "districts": sorted(list(districts)),
+            "zip_codes": sorted(list(zip_codes)),
+            "term_lengths": sorted(list(term_lengths)),
+            "term_expires": sorted(list(term_expires)),
+            "term_limits": sorted(list(term_limits)),
+            "previous_offices": sorted(list(previous_offices)),
+            "cabwc_pac_endorsed": sorted(list(cabwc_pac_endorsed)),
+            "political_parties": sorted(list(political_parties))
         }
     except Exception as e:
         logger.error(f"Error getting dropdown data: {e}")
@@ -176,7 +188,13 @@ def search_all_officials(search_query):
                 data.get('Office', ''),
                 data.get('County', ''),
                 data.get('District', ''),
-                data.get('Political_Party', '')
+                data.get('Political_Party', ''),
+                data.get('Zip Codes', ''),
+                data.get('Term Length', ''),
+                data.get('Term Expires', ''),
+                data.get('Term Limits', ''),
+                data.get('Previous Elected Office', ''),
+                data.get('CABWC PAC Endorsed', '')
             ]
             
             # Check if search query matches any field
@@ -192,7 +210,12 @@ def search_all_officials(search_query):
         logger.error(f"Error searching officials: {e}")
         return []
 
-@app.route("/", methods=["POST","GET"])
+@app.route("/")
+def home():
+    """Home page with navigation cards"""
+    return render_template("home.html")
+
+@app.route("/location", methods=["POST","GET"])
 def search():
     """
         search: name, county, city
@@ -206,25 +229,18 @@ def search():
 
     """
     try:
-        if request.method == "POST":
-            data = request.get_json()
-            print(f"data {data}")
-            # query_data = generate_sql_query(data)
-            # logger.info("[+] Query Successful")
-            # return jsonify({"success":query_data}), 200
-        
         if request.method == "GET":
             try:
                 dropdown_data = get_dropdown_data()
                 search_query = request.args.get('search', '').strip().lower()
-                
+
                 if search_query:
                     # Search the entire database
                     officials = search_all_officials(search_query)
                 else:
                     # Show all officials
                     officials = get_all_officials()
-                
+
                 return render_template("index.html", dropdown_data=dropdown_data, officials=officials)
             except Exception as get_error:
                 logger.error(f"Error in GET request: {get_error}")
@@ -237,7 +253,7 @@ def search():
 def results():
     # Get the selected filters from the form
     filters = request.form.to_dict()
-    
+    print(f"filters {filters}")
     try:
         # Build Firestore query based on filters
         query = db.collection("electeds-db")
@@ -320,9 +336,9 @@ def update_official(id):
                 'city': 'City',
                 'county': 'County',
                 'state': 'State',
-                'term_length': 'Term_Length',
-                'term_expires': 'Term_Expires',
-                'term_limits': 'Term_Limits',
+                'term_length': 'Term Length',
+                'term_expires': 'Term Expires',
+                'term_limits': 'Term Limits',
                 'party': 'Political_Party',
                 'phone': 'Phone',
                 'email': 'Email',
@@ -357,26 +373,32 @@ def update_official(id):
 def login():
     if request.method == "GET":
         return render_template("login.html")
-    
+
     if request.method == "POST":
         try:
             data = request.get_json()
             id_token = data.get('idToken')
-            
+
             if not id_token:
                 return jsonify({"error": "No token provided"}), 400
-            
+
             decoded_token = verify_id_token(id_token)
             if decoded_token:
+                user_email = decoded_token.get('email')
+                user_is_admin = is_admin(user_email)
+
                 session['user'] = {
                     'uid': decoded_token['uid'],
-                    'email': decoded_token.get('email'),
-                    'name': decoded_token.get('name')
+                    'email': user_email,
+                    'name': decoded_token.get('name'),
+                    'is_admin': user_is_admin
                 }
-                return jsonify({"success": True}), 200
+
+                logger.info(f"User {user_email} logged in. Admin: {user_is_admin}")
+                return jsonify({"success": True, "is_admin": user_is_admin}), 200
             else:
                 return jsonify({"error": "Invalid token"}), 401
-                
+
         except Exception as e:
             logger.error(f"Login error: {e}")
             return jsonify({"error": "Login failed"}), 500
@@ -386,6 +408,137 @@ def logout():
     session.pop('user', None)
     return jsonify({"success": True}), 200
 
+@app.route("/forgot-password", methods=["POST"])
+def forgot_password():
+    """Send password reset email"""
+    try:
+        data = request.get_json()
+        email = data.get('email')
+
+        if not email:
+            return jsonify({"error": "Email is required"}), 400
+
+        link = send_password_reset_email(email)
+        if link:
+            logger.info(f"Password reset email sent to {email}")
+            return jsonify({
+                "success": True,
+                "message": "Password reset link sent to your email"
+            }), 200
+        else:
+            return jsonify({"error": "Failed to send password reset email"}), 500
+
+    except Exception as e:
+        logger.error(f"Forgot password error: {e}")
+        return jsonify({"error": "Failed to process request"}), 500
+
+@app.route("/request-login-link", methods=["POST"])
+def request_login_link():
+    """Send passwordless login link"""
+    try:
+        data = request.get_json()
+        email = data.get('email')
+
+        if not email:
+            return jsonify({"error": "Email is required"}), 400
+
+        link = send_email_login(email)
+        if link:
+            logger.info(f"Login link sent to {email}")
+            return jsonify({
+                "success": True,
+                "message": "Sign-in link sent to your email"
+            }), 200
+        else:
+            return jsonify({"error": "Failed to send login link"}), 500
+
+    except Exception as e:
+        logger.error(f"Request login link error: {e}")
+        return jsonify({"error": "Failed to process request"}), 500
+
+def sync_rss_to_articles():
+    """Sync RSS feed data to articles collection"""
+    try:
+        # Get RSS feed data
+        rss_entries = get_feed_data()
+
+        # Get existing articles to avoid duplicates
+        existing_articles = get_all_articles()
+        existing_links = {article['link'] for article in existing_articles}
+
+        # Add new articles
+        new_count = 0
+        for entry in rss_entries:
+            if entry['link'] not in existing_links:
+                add_article(
+                    title=entry['title'],
+                    link=entry['link'],
+                    published=entry['published'],
+                    source=entry.get('source', 'RSS Feed'),
+                    approved=False  # New articles need admin approval
+                )
+                new_count += 1
+
+        logger.info(f"Synced {new_count} new articles from RSS feeds")
+        return new_count
+    except Exception as e:
+        logger.error(f"Error syncing RSS feeds: {e}")
+        return 0
+
+@app.route("/news")
+def news():
+    """News page displaying articles - admins see all, users see approved only"""
+    try:
+        # Sync RSS feeds to articles collection
+        sync_rss_to_articles()
+
+        # Check if user is admin
+        user_is_admin = False
+        if 'user' in session:
+            user_is_admin = session['user'].get('is_admin', False)
+
+        # Get articles based on admin status
+        if user_is_admin:
+            news_entries = get_all_articles()
+            logger.info(f"Admin view: Retrieved {len(news_entries)} total articles")
+        else:
+            news_entries = get_approved_articles()
+            logger.info(f"Public view: Retrieved {len(news_entries)} approved articles")
+
+        return render_template("news.html", news_entries=news_entries, is_admin=user_is_admin)
+    except Exception as e:
+        logger.error(f"Error fetching news: {e}")
+        return render_template("news.html", news_entries=[], is_admin=False)
+
+@app.route("/article/approve/<article_id>", methods=["POST"])
+@admin_required
+def approve_article_route(article_id):
+    """Approve an article (admin only)"""
+    try:
+        success = approve_article(article_id)
+        if success:
+            logger.info(f"Article {article_id} approved by {session['user']['email']}")
+            return jsonify({"success": True, "message": "Article approved"}), 200
+        else:
+            return jsonify({"success": False, "message": "Failed to approve article"}), 500
+    except Exception as e:
+        logger.error(f"Error approving article: {e}")
+        return jsonify({"success": False, "message": str(e)}), 500
+
+@app.route("/article/disapprove/<article_id>", methods=["POST"])
+@admin_required
+def disapprove_article_route(article_id):
+    """Disapprove an article (admin only)"""
+    try:
+        success = disapprove_article(article_id)
+        if success:
+            logger.info(f"Article {article_id} disapproved by {session['user']['email']}")
+            return jsonify({"success": True, "message": "Article disapproved"}), 200
+        else:
+            return jsonify({"success": False, "message": "Failed to disapprove article"}), 500
+    except Exception as e:
+        logger.error(f"Error disapproving article: {e}")
+        return jsonify({"success": False, "message": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)

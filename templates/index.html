@@ -1,5 +1,14 @@
 <html>
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZXPX33JEX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-CZXPX33JEX');
+    </script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -84,9 +93,9 @@
           <img src="static/images/Layer_1.svg" alt="Vector" style="width:100%;height:100%;" />
         </div>
         <div class="location02-search-bar">
-          <form id="searchForm" method="GET" action="/" style="display: flex; width: 100%; height: 100%;">
+          <form id="searchForm" method="GET" action="/location" style="display: flex; width: 100%; height: 100%;">
             <img class="location02-search-icon" src="static/images/Group_1.svg" alt="Search Icon" />
-            <input type="text" name="search" placeholder="Search by city, name, or office..." 
+            <input type="text" name="search" placeholder="Search by name, county, city, office, district, zip codes, term length, term expires, term limits, previous office, CABWC PAC endorsed, or political party..." 
                    style="flex: 1; border: none; background: transparent; padding: 5px 10px; font-size: 14px; outline: none;"
                    value="{{ request.args.get('search', '') }}">
             <button type="submit" style="background: none; border: none; cursor: pointer; padding: 5px 10px;">
@@ -100,34 +109,92 @@
                   <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
                 </svg>
               </button>
-              <div id="filterDropdown" class="filter-dropdown" style="display: none; min-width: 250px; max-height: 400px; overflow-y: auto;">
+              <div id="filterDropdown" class="filter-dropdown" style="display: none; min-width: 300px; max-height: 600px; overflow-y: auto;">
                 <div style="padding: 12px; border-bottom: 1px solid #eee;">
                   <h4 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #333;">Filter Options</h4>
                 </div>
+                
+                <!-- Name Filter -->
                 <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Office</label>
-                  <select id="officeFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Offices</option>
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Name</label>
+                  <select id="nameFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Names</option>
                   </select>
                 </div>
+                
+                <!-- County Filter -->
                 <div class="filter-section" style="padding: 8px 12px;">
                   <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">County</label>
                   <select id="countyFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
                     <option value="">All Counties</option>
                   </select>
                 </div>
+                
+                <!-- City Filter -->
                 <div class="filter-section" style="padding: 8px 12px;">
                   <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">City</label>
                   <select id="cityFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
                     <option value="">All Cities</option>
                   </select>
                 </div>
+                
+                <!-- Office Filter -->
                 <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Political Party</label>
-                  <select id="partyFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Parties</option>
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Office</label>
+                  <select id="officeFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Offices</option>
                   </select>
                 </div>
+                
+                <!-- District Filter -->
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">District</label>
+                  <select id="districtFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Districts</option>
+                  </select>
+                </div>
+                
+                <!-- Zip Codes Filter -->
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Zip Codes</label>
+                  <select id="zipCodesFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Zip Codes</option>
+                  </select>
+                </div>
+                
+                <!-- Term Length Filter -->
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Term Length</label>
+                  <select id="termLengthFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Term Lengths</option>
+                  </select>
+                </div>
+                
+                <!-- Term Expires Filter -->
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Term Expires</label>
+                  <select id="termExpiresFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Term Expirations</option>
+                  </select>
+                </div>
+                
+                <!-- Term Limits Filter -->
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Term Limits</label>
+                  <select id="termLimitsFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Term Limits</option>
+                  </select>
+                </div>
+                
+                <!-- Previous Elected Office Filter -->
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Previous Elected Office</label>
+                  <select id="previousOfficeFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Previous Offices</option>
+                  </select>
+                </div>
+                
+                <!-- CABWC PAC Endorsed Filter -->
                 <div class="filter-section" style="padding: 8px 12px;">
                   <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">CABWC PAC Endorsed</label>
                   <select id="endorsedFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
@@ -136,6 +203,17 @@
                     <option value="No">No</option>
                   </select>
                 </div>
+                
+                <!-- Political Party Filter -->
+                <div class="filter-section" style="padding: 8px 12px;">
+                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Political Party</label>
+                  <select id="partyFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                    <option value="">All Parties</option>
+                  </select>
+                </div>
+                
+
+                
                 <div style="padding: 12px; border-top: 1px solid #eee; text-align: right;">
                   <button type="button" id="clearFilters" style="background: none; border: 1px solid #ddd; color: #666; padding: 6px 12px; border-radius: 4px; font-size: 12px; margin-right: 8px; cursor: pointer;">Clear All</button>
                   <button type="button" id="applyFilters" style="background: #8E44AD; border: none; color: white; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">Apply</button>
@@ -162,7 +240,7 @@
         <div id="map" style="position: absolute; left: 750px; top: 0; right: 0; bottom: 0; z-index: 10;"></div>
       </div>
     </div>
-    <script src="/static/js/extention/choices.js"></script>
+    <!-- <script src="/static/js/extention/choices.js"></script> -->
     <!-- <script src="/static/js/main.js"></script> -->
     <script>
       // Google Maps API loader
@@ -182,9 +260,14 @@
         }));
         d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
       })({
-        key: "",
+        key: "AIzaSyCWWbfAe3Ztd5hic7OYSOgdjjnguRkHXKA",
         v: "weekly"
       });
+
+      // Global variables for map and markers
+      let globalMap = null;
+      let globalMarkers = [];
+      let globalInfoWindows = [];
 
       // Use the new importLibrary API to load the maps library and then initialize the map
       window.initMap = async function () {
@@ -197,7 +280,7 @@
           new google.maps.LatLng(42.0095, -114.1308)  // Northeast corner
         );
         
-        const map = new Map(document.getElementById('map'), {
+        globalMap = new Map(document.getElementById('map'), {
           center: { lat: 36.7783, lng: -119.4179 }, // Center of California
           zoom: 6,
           mapId: "DEMO_MAP_ID",
@@ -209,11 +292,22 @@
           maxZoom: 15
         });
 
-        // Officials data with coordinates
+        // Initial officials data with coordinates
         const mapOfficialsData = {{ officials | tojson }};
         
+        // Create initial markers
+        createMapMarkers(mapOfficialsData);
+      };
+
+      // Function to create map markers
+      function createMapMarkers(officialsData) {
+        // Clear existing markers
+        globalMarkers.forEach(marker => marker.map = null);
+        globalMarkers = [];
+        globalInfoWindows = [];
+
         // Create photo markers for each official
-        mapOfficialsData.forEach(official => {
+        officialsData.forEach(official => {
           if (official.coordinates) {
             // Get profile image URL
             const imageUrl = (official.image && official.image.length > 0) 
@@ -230,8 +324,8 @@
               </div>
             `;
 
-            const marker = new AdvancedMarkerElement({
-              map: map,
+            const marker = new google.maps.marker.AdvancedMarkerElement({
+              map: globalMap,
               position: { lat: official.coordinates.lat, lng: official.coordinates.lng },
               title: `${official.Name} - ${official.Office}`,
               content: markerContent
@@ -252,11 +346,15 @@
 
             // Add click event to marker
             marker.addListener("click", () => {
-              infoWindow.open(map, marker);
+              infoWindow.open(globalMap, marker);
             });
+
+            // Store marker and info window
+            globalMarkers.push(marker);
+            globalInfoWindows.push(infoWindow);
           }
         });
-      };
+      }
 
       window.addEventListener('load', function () {
         if (window.google && window.google.maps && window.google.maps.importLibrary) {
@@ -320,10 +418,26 @@
         
         // Populate filter dropdowns
         function populateFilterDropdowns() {
+          const names = [...new Set(filterOfficialsData.map(o => o.Name).filter(Boolean))].sort();
           const offices = [...new Set(filterOfficialsData.map(o => o.Office).filter(Boolean))].sort();
           const counties = [...new Set(filterOfficialsData.map(o => o.County).filter(Boolean))].sort();
           const cities = [...new Set(filterOfficialsData.map(o => o.City).filter(Boolean))].sort();
+          const districts = [...new Set(filterOfficialsData.map(o => o.District).filter(Boolean))].sort();
+          const zipCodes = [...new Set(filterOfficialsData.map(o => o.Zip_Codes).filter(Boolean))].sort();
+          const termLengths = [...new Set(filterOfficialsData.map(o => o.Term_Length).filter(Boolean))].sort();
+          const termExpires = [...new Set(filterOfficialsData.map(o => o.Term_Expires).filter(Boolean))].sort();
+          const termLimits = [...new Set(filterOfficialsData.map(o => o.Term_Limits).filter(Boolean))].sort();
+          const previousOffices = [...new Set(filterOfficialsData.map(o => o.Previous_Elected_Office).filter(Boolean))].sort();
           const parties = [...new Set(filterOfficialsData.map(o => o.Political_Party).filter(Boolean))].sort();
+          
+          // Populate name filter
+          const nameSelect = document.getElementById('nameFilter');
+          names.forEach(name => {
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = name;
+            nameSelect.appendChild(option);
+          });
           
           // Populate office filter
           const officeSelect = document.getElementById('officeFilter');
@@ -352,6 +466,60 @@
             citySelect.appendChild(option);
           });
           
+          // Populate district filter
+          const districtSelect = document.getElementById('districtFilter');
+          districts.forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            districtSelect.appendChild(option);
+          });
+          
+          // Populate zip codes filter
+          const zipCodesSelect = document.getElementById('zipCodesFilter');
+          zipCodes.forEach(zipCode => {
+            const option = document.createElement('option');
+            option.value = zipCode;
+            option.textContent = zipCode;
+            zipCodesSelect.appendChild(option);
+          });
+          
+          // Populate term length filter
+          const termLengthSelect = document.getElementById('termLengthFilter');
+          termLengths.forEach(termLength => {
+            const option = document.createElement('option');
+            option.value = termLength;
+            option.textContent = termLength;
+            termLengthSelect.appendChild(option);
+          });
+          
+          // Populate term expires filter
+          const termExpiresSelect = document.getElementById('termExpiresFilter');
+          termExpires.forEach(termExpire => {
+            const option = document.createElement('option');
+            option.value = termExpire;
+            option.textContent = termExpire;
+            termExpiresSelect.appendChild(option);
+          });
+          
+          // Populate term limits filter
+          const termLimitsSelect = document.getElementById('termLimitsFilter');
+          termLimits.forEach(termLimit => {
+            const option = document.createElement('option');
+            option.value = termLimit;
+            option.textContent = termLimit;
+            termLimitsSelect.appendChild(option);
+          });
+          
+          // Populate previous office filter
+          const previousOfficeSelect = document.getElementById('previousOfficeFilter');
+          previousOffices.forEach(previousOffice => {
+            const option = document.createElement('option');
+            option.value = previousOffice;
+            option.textContent = previousOffice;
+            previousOfficeSelect.appendChild(option);
+          });
+          
           // Populate party filter
           const partySelect = document.getElementById('partyFilter');
           parties.forEach(party => {
@@ -363,18 +531,18 @@
         }
         
         // Toggle filter dropdown
-        filterBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          if (filterDropdown.style.display === 'none' || filterDropdown.style.display === '') {
-            // Position dropdown relative to button
-            const buttonRect = filterBtn.getBoundingClientRect();
-            filterDropdown.style.top = (buttonRect.bottom + 4) + 'px';
-            filterDropdown.style.left = (buttonRect.right - 250) + 'px'; // 250px is dropdown width
-            filterDropdown.style.display = 'block';
-          } else {
-            filterDropdown.style.display = 'none';
-          }
-        });
+                    filterBtn.addEventListener('click', function(e) {
+              e.stopPropagation();
+              if (filterDropdown.style.display === 'none' || filterDropdown.style.display === '') {
+                // Position dropdown relative to button
+                const buttonRect = filterBtn.getBoundingClientRect();
+                filterDropdown.style.top = (buttonRect.bottom + 4) + 'px';
+                filterDropdown.style.left = (buttonRect.right - 300) + 'px'; // 300px is dropdown width
+                filterDropdown.style.display = 'block';
+              } else {
+                filterDropdown.style.display = 'none';
+              }
+            });
         
         // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
@@ -385,12 +553,23 @@
         
         // Apply filters
         function applyFilters() {
+          const nameFilter = document.getElementById('nameFilter').value;
           const officeFilter = document.getElementById('officeFilter').value;
           const countyFilter = document.getElementById('countyFilter').value;
           const cityFilter = document.getElementById('cityFilter').value;
+          const districtFilter = document.getElementById('districtFilter').value;
+          const zipCodesFilter = document.getElementById('zipCodesFilter').value;
+          const termLengthFilter = document.getElementById('termLengthFilter').value;
+          const termExpiresFilter = document.getElementById('termExpiresFilter').value;
+          const termLimitsFilter = document.getElementById('termLimitsFilter').value;
+          const previousOfficeFilter = document.getElementById('previousOfficeFilter').value;
           const partyFilter = document.getElementById('partyFilter').value;
           const endorsedFilter = document.getElementById('endorsedFilter').value;
+
           const searchQuery = searchInput.value.toLowerCase().trim();
+          
+          // Array to store filtered officials for map update
+          const filteredOfficials = [];
           
           officialCards.forEach((card, index) => {
             const official = filterOfficialsData[index];
@@ -403,6 +582,11 @@
               if (!name.includes(searchQuery) && !desc.includes(searchQuery)) {
                 shouldShow = false;
               }
+            }
+            
+            // Apply name filter
+            if (nameFilter && official.Name !== nameFilter) {
+              shouldShow = false;
             }
             
             // Apply office filter
@@ -420,6 +604,36 @@
               shouldShow = false;
             }
             
+            // Apply district filter
+            if (districtFilter && official.District !== districtFilter) {
+              shouldShow = false;
+            }
+            
+            // Apply zip codes filter
+            if (zipCodesFilter && official.Zip_Codes !== zipCodesFilter) {
+              shouldShow = false;
+            }
+            
+            // Apply term length filter
+            if (termLengthFilter && official.Term_Length !== termLengthFilter) {
+              shouldShow = false;
+            }
+            
+            // Apply term expires filter
+            if (termExpiresFilter && official.Term_Expires !== termExpiresFilter) {
+              shouldShow = false;
+            }
+            
+            // Apply term limits filter
+            if (termLimitsFilter && official.Term_Limits !== termLimitsFilter) {
+              shouldShow = false;
+            }
+            
+            // Apply previous office filter
+            if (previousOfficeFilter && official.Previous_Elected_Office !== previousOfficeFilter) {
+              shouldShow = false;
+            }
+            
             // Apply party filter
             if (partyFilter && official.Political_Party !== partyFilter) {
               shouldShow = false;
@@ -431,23 +645,46 @@
             }
             
             card.style.display = shouldShow ? 'flex' : 'none';
+            
+            // Add to filtered officials array if should show
+            if (shouldShow) {
+              filteredOfficials.push(official);
+            }
           });
+          
+          // Update map with filtered officials
+          if (globalMap && typeof createMapMarkers === 'function') {
+            createMapMarkers(filteredOfficials);
+          }
           
           filterDropdown.style.display = 'none';
         }
         
         // Clear all filters
         function clearFilters() {
+          document.getElementById('nameFilter').value = '';
           document.getElementById('officeFilter').value = '';
           document.getElementById('countyFilter').value = '';
           document.getElementById('cityFilter').value = '';
+          document.getElementById('districtFilter').value = '';
+          document.getElementById('zipCodesFilter').value = '';
+          document.getElementById('termLengthFilter').value = '';
+          document.getElementById('termExpiresFilter').value = '';
+          document.getElementById('termLimitsFilter').value = '';
+          document.getElementById('previousOfficeFilter').value = '';
           document.getElementById('partyFilter').value = '';
           document.getElementById('endorsedFilter').value = '';
+
           
           // Show all cards
           officialCards.forEach(card => {
             card.style.display = 'flex';
           });
+          
+          // Reset map to show all officials
+          if (globalMap && typeof createMapMarkers === 'function') {
+            createMapMarkers(filterOfficialsData);
+          }
           
           filterDropdown.style.display = 'none';
         }
