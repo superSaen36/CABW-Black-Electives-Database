@@ -54,3 +54,6 @@ node_modules/
 # elected_officials.db
 
 black-electives-database-f8978e925e6e.json
+
+token.json
+firebase_service_account_key.json
