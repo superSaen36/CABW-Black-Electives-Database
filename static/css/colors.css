@@ -1,0 +1,26 @@
+/* Color Palette Variables */
+:root {
+  /* Primary Colors */
+  --primary-main: #D82C74;        /* Fuchsia Fusion */
+  --primary-light: #ff5c9f;
+  --primary-dark: #a52158;
+
+  /* Secondary Colors */
+  --secondary-main: #9333EA;      /* Purple */
+  --secondary-light: #a855f7;
+  --secondary-dark: #7e22ce;
+
+  /* Background Colors */
+  --background-default: #FFFFFF;  /* White */
+  --background-paper: #FDFDF4;    /* Tint */
+
+  /* Text Colors */
+  --text-primary: #000000;        /* Black */
+  --text-secondary: #6D0F69;      /* Plum Paradise */
+
+  /* Additional Utility Colors */
+  --text-muted: #666666;
+  --border-color: #e0e0e0;
+  --shadow-light: rgba(0, 0, 0, 0.08);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+}

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZXPX33JEX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-CZXPX33JEX');
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <title>California Black Power Book - News</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet" />
+    <link href="/static/css/colors.css" rel="stylesheet" />
+    <link href="/static/css/typography.css" rel="stylesheet" />
+    <link href="/static/css/main.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --banner-height: 48px;
+        --banner-height-v2: 40px;
+        --full-height-with-banner: calc(100dvh - var(--banner-height));
+        font-synthesis: none;
+        --100dvw: 100dvw;
+        --100dvh: 100dvh;
+        /* Updated Font Stack - DM Sans First */
+        --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        /* Brand Colors - Fuchsia Fusion & Mango Magic */
+        --color-primary: #D82C74;
+        --color-secondary: #9333EA;
+        --color-text-primary: #000000;
+        --color-text-secondary: #6D0F69;
+        /* Updated purple colors to match brand */
+        --color-purple-50: #f3e8ff;
+        --color-purple-100: #e9d5ff;
+        --color-purple-300: #c084fc;
+        --color-purple-600: #D82C74;
+        --color-purple-700: #a52158;
+        --blur-md: 12px;
+        --tw-backdrop-blur: blur(var(--blur-md));
+        -webkit-text-size-adjust: 100%;
+        tab-size: 4;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: white;
+      }
+
+      .approval-badge {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        z-index: 10;
+      }
+
+      .approval-badge.approved {
+        background: #4caf50;
+        color: white;
+      }
+
+      .approval-badge.pending {
+        background: #ff9800;
+        color: white;
+      }
+
+      .news-card.unapproved {
+        border: 2px solid #ff9800 !important;
+      }
+
+      .news-card.approved {
+        border: 2px solid #4caf50 !important;
+      }
+
+      .admin-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .approve-btn {
+        background: #4caf50;
+        color: white;
+      }
+
+      .approve-btn:hover {
+        background: #45a049;
+      }
+
+      .disapprove-btn {
+        background: #f44336;
+        color: white;
+      }
+
+      .disapprove-btn:hover {
+        background: #da190b;
+      }
+
+      .admin-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .source-badge {
+        background: #D82C74;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 12px;
+      }
+
+      .source-badge:hover {
+        background: #a52158;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-lg">
+            <a href="/">
+              <img src="/static/images/Outlook-vfhjsg1i.png" alt="CABWC Logo" class="h-12" />
+            </a>
+            <span style="font-size: 18px; font-weight: 600; color: #9333ea;">California Black Power Book</span>
+          </div>
+          <nav class="flex items-center gap-8">
+            <a href="/location" class="text-gray-700 hover:text-gray-900 transition-colors">Black Power List</a>
+            <a href="/news" class="text-gray-900 font-medium">News Center</a>
+            <a href="/login" class="text-gray-700 hover:text-gray-900 transition-colors">Sign-in</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-4" style="background: linear-gradient(to right, #f3e8ff, #fce7f3);">
+      <div class="container mx-auto">
+        <div class="max-w-3xl">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">CA Black News Center</h1>
+          <p class="text-gray-600 text-lg mb-8">Aggregated news from trusted media sources covering Black elected officials across California. Stay informed about their work, initiatives, and impact on communities.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Story Section -->
+    <section class="py-16 px-4 bg-white">
+      <div class="container mx-auto">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-2">Featured Story</h2>
+          <p class="text-gray-600">Today's spotlight on California Black political leadership</p>
+        </div>
+
+        {% if featured_article %}
+          {% set featured = featured_article %}
+          <article class="group cursor-pointer">
+            <div class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl transition-all" style="transition: all 0.3s ease;" onmouseover="this.style.borderColor='#D82C74'; this.style.boxShadow='0 20px 25px -5px rgba(216, 44, 116, 0.2), 0 10px 10px -5px rgba(216, 44, 116, 0.1)';" onmouseout="this.style.borderColor='#e5e7eb'; this.style.boxShadow='';">
+              <div class="grid md:grid-cols-2 gap-0">
+                <!-- Featured Image -->
+                <div class="aspect-[16/10] md:aspect-auto overflow-hidden relative" style="background: linear-gradient(135deg, #f3e8ff, #fce7f3, #e9d5ff);">
+                  {% if featured.image_url %}
+                    <img src="{{ featured.image_url }}" alt="{{ featured.title }}" class="w-full h-full object-cover" onerror="this.style.display='none';">
+                  {% endif %}
+                  <div class="w-full h-full flex items-center justify-center {% if featured.image_url %}absolute inset-0 opacity-0{% endif %}" id="featured-placeholder">
+                    <svg class="w-24 h-24" style="color: #D82C74; opacity: 0.6;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                    </svg>
+                  </div>
+                </div>
+                <script>
+                  // Show placeholder if image fails to load
+                  document.addEventListener('DOMContentLoaded', function() {
+                    var img = document.querySelector('.aspect-\\[16\\/10\\] img');
+                    if (img) {
+                      img.addEventListener('error', function() {
+                        document.getElementById('featured-placeholder').classList.remove('opacity-0');
+                      });
+                    }
+                  });
+                </script>
+
+                <!-- Featured Content -->
+                <div class="p-8 md:p-10 flex flex-col justify-between">
+                  <div>
+                    <span class="source-badge mb-4">Featured</span>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-4 transition-colors" style="color: #000000;" onmouseover="this.style.color='#D82C74';" onmouseout="this.style.color='#000000';">{{ featured.title }}</h3>
+                    <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                      <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <span>{{ featured.published }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <a href="{{ featured.link }}" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border-2 rounded-lg transition-all text-base font-semibold" style="border-color: #9333ea; color: #9333ea;" onmouseover="this.style.background='#7e22ce'; this.style.color='white'; this.style.borderColor='#7e22ce';" onmouseout="this.style.background=''; this.style.color='#9333ea'; this.style.borderColor='#9333ea';">
+                      Read Full Story
+                      <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        {% else %}
+          <div class="text-center py-16">
+            <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+            </svg>
+            <p class="text-gray-600 text-lg">No featured story available at this time.</p>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Recent News Section -->
+    <section class="py-16 px-4 bg-gray-50 flex-1">
+      <div class="container mx-auto">
+        <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h2 class="text-3xl font-bold mb-2">Recent Stories</h2>
+            <p class="text-gray-600">Latest articles from various California news sources</p>
+          </div>
+
+          <!-- Politician Filter -->
+          <div class="flex items-center gap-3">
+            <label for="politicianFilter" class="text-sm font-medium text-gray-700">Filter by Politician:</label>
+            <select id="politicianFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent bg-white text-sm" style="--tw-ring-color: #D82C74;">
+              <option value="">All Politicians</option>
+              {% for name in politician_names %}
+                <option value="{{ name }}">{{ name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        {% if news_entries and news_entries|length > 0 %}
+          <div class="grid md:grid-cols-2 gap-8">
+            {% for entry in news_entries %}
+              <article class="group cursor-pointer news-card {% if is_admin %}{% if entry.approved %}approved{% else %}unapproved{% endif %}{% endif %}" data-article-id="{{ entry.id }}">
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all relative h-full flex flex-col" style="transition: all 0.3s ease;" onmouseover="this.style.borderColor='#D82C74'; this.style.boxShadow='0 10px 15px -3px rgba(216, 44, 116, 0.2), 0 4px 6px -2px rgba(216, 44, 116, 0.1)';" onmouseout="this.style.borderColor='#e5e7eb'; this.style.boxShadow='';">
+                  {% if is_admin %}
+                    <span class="approval-badge {% if entry.approved %}approved{% else %}pending{% endif %}">
+                      {% if entry.approved %}Approved{% else %}Pending{% endif %}
+                    </span>
+                  {% endif %}
+
+                  <!-- Article Image -->
+                  <div class="aspect-video overflow-hidden relative" style="background: linear-gradient(to bottom right, #f3e8ff, #e9d5ff);">
+                    {% if entry.image_url %}
+                      <img src="{{ entry.image_url }}" alt="{{ entry.title }}" class="w-full h-full object-cover" onerror="this.style.display='none';">
+                    {% endif %}
+                    <div class="w-full h-full flex items-center justify-center {% if entry.image_url %}absolute inset-0{% endif %}">
+                      <svg class="w-16 h-16" style="color: #D82C74; opacity: 0.5;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="p-6 flex-1 flex flex-col">
+                    <span class="source-badge">California News</span>
+                    <h3 class="text-xl font-semibold mb-3 transition-colors line-clamp-3" style="color: #000000;" onmouseover="this.style.color='#D82C74';" onmouseout="this.style.color='#000000';">{{ entry.title }}</h3>
+
+                    <div class="mt-auto">
+                      <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                        <div class="flex items-center gap-2">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                          </svg>
+                          <span>{{ entry.published }}</span>
+                        </div>
+                      </div>
+
+                      <div class="flex flex-wrap gap-2">
+                        <a href="{{ entry.link }}" target="_blank" class="inline-flex items-center justify-center px-4 py-2 border rounded-md transition-colors text-sm font-medium" style="border-color: #9333ea; color: #9333ea;" onmouseover="this.style.background='#7e22ce'; this.style.color='white'; this.style.borderColor='#7e22ce';" onmouseout="this.style.background=''; this.style.color='#9333ea'; this.style.borderColor='#9333ea';">
+                          Read More
+                        </a>
+
+                        {% if is_admin %}
+                          <button class="admin-btn approve-btn" onclick="approveArticle('{{ entry.id }}')" {% if entry.approved %}disabled{% endif %}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            Approve
+                          </button>
+
+                          <button class="admin-btn disapprove-btn" onclick="disapproveArticle('{{ entry.id }}')" {% if not entry.approved %}disabled{% endif %}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                            Disapprove
+                          </button>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-center py-16">
+            <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+            </svg>
+            <p class="text-gray-600 text-lg">No news articles available at this time.</p>
+            <p class="text-gray-500 text-sm mt-2">Please check back later for updates.</p>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 border-t border-border" style="background: linear-gradient(to right, #f3e8ff, #fce7f3);">
+      <div class="container mx-auto">
+        <div class="flex flex-col gap-8">
+          <div class="text-center">
+            <nav class="flex flex-wrap justify-center items-center gap-2 text-sm">
+              <a href="/location" class="text-muted-foreground hover:text-foreground transition-colors">Directory</a>
+              <span class="text-muted-foreground">•</span>
+              <a href="/news" class="text-muted-foreground hover:text-foreground transition-colors">News</a>
+              <span class="text-muted-foreground">•</span>
+              <a href="#contact" class="text-muted-foreground hover:text-foreground transition-colors">Contact</a>
+              {% if is_admin %}
+              <span class="text-muted-foreground">•</span>
+              <a href="/admin/approvals" class="font-medium transition-colors" style="color: #D82C74;" onmouseover="this.style.color='#a52158';" onmouseout="this.style.color='#D82C74';">Admin</a>
+              {% endif %}
+            </nav>
+          </div>
+          <div class="flex justify-center gap-3">
+            <a href="https://www.instagram.com/cablackwomenscollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="Instagram">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/company/cablackwomenscollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="LinkedIn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin w-4 h-4" aria-hidden="true">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect width="4" height="12" x="2" y="9"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/CABlackWomensCollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="Facebook">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+              </svg>
+            </a>
+            <a href="https://x.com/CABWCollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="X (Twitter)">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+          </div>
+          <div class="text-center">
+            <p class="text-sm text-muted-foreground">Have updates or events to share? Email us at <a href="mailto:admin@cablackwomenscollective.org" class="transition-colors" style="color: #9333ea;" onmouseover="this.style.color='#7e22ce'" onmouseout="this.style.color='#9333ea'">admin@cablackwomenscollective.org</a></p>
+          </div>
+          <div class="pt-4 border-t border-border">
+            <p class="text-center text-sm text-muted-foreground">A nonpartisan resource powered by California Black Women's Collective Empowerment Institute</p>
+          </div>
+          <div class="pt-4 border-t border-border">
+            <p class="text-center text-xs text-muted-foreground">
+              © 2025 <a href="#" class="hover:text-foreground transition-colors">Terms of Use</a> | <a href="#" class="hover:text-foreground transition-colors">Privacy Policy</a>
+            </p>
+            <p class="text-center text-xs text-muted-foreground mt-2">
+              CA Black Women's Collective Empowerment Institute is a 501(c)(3) organization (EIN 88-2046704).
+            </p>
+            <p class="text-center text-xs text-muted-foreground">
+              Contributions to the California Black Women's Collective Empowerment Institute are tax-deductible to the fullest extent of the law.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    {% if is_admin %}
+    <script>
+      function approveArticle(articleId) {
+        if (!confirm('Approve this article?')) return;
+
+        fetch(`/article/approve/${articleId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Article approved successfully!');
+            location.reload();
+          } else {
+            alert('Failed to approve article: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while approving the article');
+        });
+      }
+
+      function disapproveArticle(articleId) {
+        if (!confirm('Disapprove this article?')) return;
+
+        fetch(`/article/disapprove/${articleId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Article disapproved successfully!');
+            location.reload();
+          } else {
+            alert('Failed to disapprove article: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while disapproving the article');
+        });
+      }
+    </script>
+    {% endif %}
+
+    <!-- Politician Filter Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const filterSelect = document.getElementById('politicianFilter');
+        const newsCards = document.querySelectorAll('.news-card');
+
+        if (filterSelect) {
+          filterSelect.addEventListener('change', function() {
+            const selectedPolitician = this.value.toLowerCase();
+            let visibleCount = 0;
+
+            newsCards.forEach(card => {
+              const titleElement = card.querySelector('h3');
+              if (titleElement) {
+                const title = titleElement.textContent.toLowerCase();
+
+                // Show all if no filter selected, otherwise filter by politician name
+                if (!selectedPolitician || title.includes(selectedPolitician)) {
+                  card.style.display = '';
+                  visibleCount++;
+                } else {
+                  card.style.display = 'none';
+                }
+              }
+            });
+
+            // Show message if no articles match
+            const newsGrid = document.querySelector('.grid.md\\:grid-cols-2');
+            let noResultsMsg = document.getElementById('noResultsMessage');
+
+            if (visibleCount === 0) {
+              if (!noResultsMsg) {
+                noResultsMsg = document.createElement('div');
+                noResultsMsg.id = 'noResultsMessage';
+                noResultsMsg.className = 'col-span-full text-center py-16';
+                noResultsMsg.innerHTML = `
+                  <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                  </svg>
+                  <p class="text-gray-600 text-lg">No articles found for <strong>${filterSelect.options[filterSelect.selectedIndex].text}</strong></p>
+                  <p class="text-gray-500 text-sm mt-2">Try selecting a different politician or view all articles.</p>
+                `;
+                newsGrid.appendChild(noResultsMsg);
+              }
+            } else if (noResultsMsg) {
+              noResultsMsg.remove();
+            }
+          });
+        }
+      });
+    </script>
+    </div>
+  </body>
+</html>

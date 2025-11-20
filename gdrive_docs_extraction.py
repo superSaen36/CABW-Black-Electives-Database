@@ -128,11 +128,16 @@ def main():
         return
 
     row_data = values.get("sheets")[0].get("data")[0].get("rowData")
-    
+
     # Get column names from header row
     header_cells = row_data[0].get("values", [])
     column_names = [cell.get("formattedValue", "") for cell in header_cells]
-    
+
+    print("=" * 80)
+    print("Column names:", column_names)
+    print("Number of columns:", len(column_names))
+    print("=" * 80)
+
     for row in row_data[1:]:  # skip header
         cells = row.get("values", [])
         #print("cells", cells)
@@ -140,9 +145,9 @@ def main():
             # Create dictionary with column names as keys and cell values as values
             row_dict = {}
             for i, cell in enumerate(cells):
-                if i < len(column_names):
+                if i < len(column_names) and column_names[i]:  # Only use non-empty column names
                     row_dict[column_names[i]] = cell.get("formattedValue", "")
-            
+
             last_cell = cells[-1]
             print("last_cell", last_cell)
             link = last_cell.get("formattedValue", None)
@@ -155,7 +160,11 @@ def main():
                 row_dict["bio"] = paragraphs
                 row_dict["image"] = images
                 print("row_dict", row_dict)
-                add_data(row_dict)
+
+                # Filter out empty keys before adding to Firestore
+                clean_row_dict = {k: v for k, v in row_dict.items() if k and k.strip()}
+                print("clean_row_dict", clean_row_dict)
+                add_data(clean_row_dict)
 
 
 if __name__ == "__main__":
