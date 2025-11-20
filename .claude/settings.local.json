@@ -4,7 +4,11 @@
       "Bash(cp:*)",
       "Bash(chmod:*)",
       "Bash(firebase:*)",
-      "Bash(gcloud config get-value:*)"
+      "Bash(gcloud config get-value:*)",
+      "Bash(cat:*)",
+      "Bash(gcloud logging read:*)",
+      "Bash(find:*)",
+      "Bash(python:*)"
     ],
     "deny": []
   }

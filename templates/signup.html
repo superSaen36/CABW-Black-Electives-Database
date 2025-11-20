@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZXPX33JEX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-CZXPX33JEX');
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign Up - California Black Power Book</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet" />
+    <link href="/static/css/colors.css" rel="stylesheet" />
+    <link href="/static/css/typography.css" rel="stylesheet" />
+    <link href="/static/css/signup.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <style>
+      :root {
+        --banner-height: 48px;
+        --banner-height-v2: 40px;
+        --full-height-with-banner: calc(100dvh - var(--banner-height));
+        font-synthesis: none;
+        --100dvw: 100dvw;
+        --100dvh: 100dvh;
+        /* Updated Font Stack - DM Sans First */
+        --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        /* Brand Colors - Fuchsia Fusion & Mango Magic */
+        --color-primary: #D82C74;
+        --color-secondary: #9333EA;
+        --color-text-primary: #000000;
+        --color-text-secondary: #6D0F69;
+        /* Updated purple colors to match brand */
+        --color-purple-50: #f3e8ff;
+        --color-purple-100: #e9d5ff;
+        --color-purple-300: #c084fc;
+        --color-purple-600: #D82C74;
+        --color-purple-700: #a52158;
+        --blur-md: 12px;
+        --tw-backdrop-blur: blur(var(--blur-md));
+        -webkit-text-size-adjust: 100%;
+        tab-size: 4;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: white;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-lg">
+            <a href="/">
+              <img src="/static/images/Outlook-vfhjsg1i.png" alt="CABWC Logo" class="h-12" />
+            </a>
+            <span style="font-size: 18px; font-weight: 600; color: #9333ea;">California Black Power Book</span>
+          </div>
+          <nav class="flex items-center gap-8">
+            <a href="/location" class="text-gray-700 hover:text-gray-900 transition-colors">Black Power List</a>
+            <a href="/news" class="text-gray-700 hover:text-gray-900 transition-colors">News Center</a>
+            <a href="/login" class="text-gray-700 hover:text-gray-900 transition-colors">Sign-in</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex items-center justify-center px-4 pt-32 pb-16 relative" style="background-image: url('https://images.unsplash.com/photo-1601055653813-fc11a993b8bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzYW4lMjBmcmFuY2lzY28lMjBjaXR5JTIwaGFsbHxlbnwxfHx8fDE3NjEwMzk1MzR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-900/60 via-purple-900/60 to-black/70"></div>
+
+      <!-- Content (above overlay) -->
+      <div class="container mx-auto max-w-6xl relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <!-- Left Side - Text -->
+          <div class="text-center md:text-left">
+            <h2 class="text-5xl md:text-6xl font-bold text-white leading-tight" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+              Join the<br>
+              California<br>
+              Black Power Book
+            </h2>
+            <p class="text-xl text-white mt-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
+              Stay informed about Black elected officials and community leaders across California.
+            </p>
+          </div>
+
+          <!-- Right Side - Sign Up Card -->
+          <div class="w-full">
+            <!-- Sign Up Card -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+              <!-- Header Section -->
+              <div class="text-center py-8 px-8" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+                <h1 class="text-3xl font-bold text-white mb-2">Please fill out the following information.</h1>
+              </div>
+
+              <!-- Form Section -->
+              <div class="p-8 md:p-10">
+                <form id="signupForm" class="space-y-5">
+                  <!-- Email Input -->
+                  <div>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Your email*"
+                      required
+                      class="w-full px-6 py-4 bg-white border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:border-transparent transition-all text-gray-700 placeholder-gray-400"
+                      style="--tw-ring-color: #9333ea;"
+                    >
+                  </div>
+
+                  <!-- City Input -->
+                  <div>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      placeholder="City"
+                      class="w-full px-6 py-4 bg-white border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:border-transparent transition-all text-gray-700 placeholder-gray-400"
+                      style="--tw-ring-color: #9333ea;"
+                    >
+                  </div>
+
+                  <!-- County Input -->
+                  <div>
+                    <input
+                      type="text"
+                      id="county"
+                      name="county"
+                      placeholder="County"
+                      class="w-full px-6 py-4 bg-white border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:border-transparent transition-all text-gray-700 placeholder-gray-400"
+                      style="--tw-ring-color: #9333ea;"
+                    >
+                  </div>
+
+                  <!-- Zip Code Input -->
+                  <div>
+                    <input
+                      type="text"
+                      id="zipCode"
+                      name="zipCode"
+                      placeholder="Zip Code"
+                      maxlength="5"
+                      pattern="[0-9]{5}"
+                      class="w-full px-6 py-4 bg-white border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:border-transparent transition-all text-gray-700 placeholder-gray-400"
+                      style="--tw-ring-color: #9333ea;"
+                    >
+                  </div>
+
+                  <!-- First Name and Last Name Row -->
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        placeholder="First name"
+                        class="w-full px-6 py-4 bg-white border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:border-transparent transition-all text-gray-700 placeholder-gray-400"
+                        style="--tw-ring-color: #9333ea;"
+                      >
+                    </div>
+                    <div>
+                      <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Last name"
+                        class="w-full px-6 py-4 bg-white border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:border-transparent transition-all text-gray-700 placeholder-gray-400"
+                        style="--tw-ring-color: #9333ea;"
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Privacy Policy Notice -->
+                  <p class="text-center text-sm text-gray-600 pt-2">
+                    By clicking Submit, you confirm that you agree to the Privacy Policy.
+                  </p>
+
+                  <!-- Submit Button -->
+                  <button
+                    type="submit"
+                    class="w-full text-white py-4 rounded-full font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 text-lg"
+                    style="background-color: #5B9DED; --tw-ring-color: #5B9DED;"
+                    onmouseover="this.style.backgroundColor='#4a8cd9';"
+                    onmouseout="this.style.backgroundColor='#5B9DED';"
+                  >
+                    Submit
+                  </button>
+
+                  <p class="text-center text-sm text-gray-600 pt-2">
+                    Already have an account? <a href="/login" class="font-semibold" style="color: #9333ea;">Sign in</a>
+                  </p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 border-t border-border" style="background: linear-gradient(to right, #eff6ff, #faf5ff, #fdf2f8);">
+      <div class="container mx-auto">
+        <div class="flex flex-col gap-8">
+          <div class="text-center">
+            <nav class="flex flex-wrap justify-center items-center gap-2 text-sm">
+              <a href="/location" class="text-muted-foreground hover:text-foreground transition-colors">Directory</a>
+              <span class="text-muted-foreground">•</span>
+              <a href="/news" class="text-muted-foreground hover:text-foreground transition-colors">News</a>
+              <span class="text-muted-foreground">•</span>
+              <a href="#contact" class="text-muted-foreground hover:text-foreground transition-colors">Contact</a>
+            </nav>
+          </div>
+          <div class="flex justify-center gap-3">
+            <a href="https://www.instagram.com/cablackwomenscollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="Instagram">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/company/cablackwomenscollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="LinkedIn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin w-4 h-4" aria-hidden="true">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect width="4" height="12" x="2" y="9"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/CABlackWomensCollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="Facebook">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+              </svg>
+            </a>
+            <a href="https://x.com/CABWCollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="X (Twitter)">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+          </div>
+          <div class="text-center">
+            <p class="text-sm text-muted-foreground">Have updates or events to share? Email us at <a href="mailto:admin@cablackwomenscollective.org" class="transition-colors" style="color: #9333ea;" onmouseover="this.style.color='#7e22ce'" onmouseout="this.style.color='#9333ea'">admin@cablackwomenscollective.org</a></p>
+          </div>
+          <div class="pt-4 border-t border-border">
+            <p class="text-center text-sm text-muted-foreground">A nonpartisan resource powered by California Black Women's Collective Empowerment Institute</p>
+          </div>
+          <div class="pt-4 border-t border-border">
+            <p class="text-center text-xs text-muted-foreground">
+              © 2025 <a href="#" class="hover:text-foreground transition-colors">Terms of Use</a> | <a href="#" class="hover:text-foreground transition-colors">Privacy Policy</a>
+            </p>
+            <p class="text-center text-xs text-muted-foreground mt-2">
+              CA Black Women's Collective Empowerment Institute is a 501(c)(3) organization (EIN 88-2046704).
+            </p>
+            <p class="text-center text-xs text-muted-foreground">
+              Contributions to the California Black Women's Collective Empowerment Institute are tax-deductible to the fullest extent of the law.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDzZEzSJobu6aBMQ0qz4w1rER0u2UAFTaU",
+        authDomain: "cabw-black-electives-app.firebaseapp.com",
+        projectId: "cabw-black-electives-app",
+        storageBucket: "cabw-black-electives-app.firebasestorage.app",
+        messagingSenderId: "668190664761",
+        appId: "1:668190664761:web:4166f6705bc600a35385e8",
+        measurementId: "G-CZXPX33JEX"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Handle sign up form submission
+      document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const city = document.getElementById('city').value;
+        const county = document.getElementById('county').value;
+        const zipCode = document.getElementById('zipCode').value;
+
+        try {
+          // Send signup data to backend
+          const response = await fetch('/signup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: email,
+              firstName: firstName,
+              lastName: lastName,
+              city: city,
+              county: county,
+              zipCode: zipCode
+            })
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            alert('Thank you for signing up! Please check your email for a verification link.');
+            // Redirect to home or login page
+            window.location.href = '/';
+          } else {
+            alert(result.error || 'Sign up failed. Please try again.');
+          }
+        } catch (error) {
+          console.error('Sign up error:', error);
+          alert('An error occurred during sign up. Please try again.');
+        }
+      });
+    </script>
+  </body>
+</html>

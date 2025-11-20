@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZXPX33JEX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-CZXPX33JEX');
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <title>California Black Power Book - Admin Approvals</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet" />
+    <link href="/static/css/colors.css" rel="stylesheet" />
+    <link href="/static/css/typography.css" rel="stylesheet" />
+    <link href="/static/css/main.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --banner-height: 48px;
+        --banner-height-v2: 40px;
+        --full-height-with-banner: calc(100dvh - var(--banner-height));
+        font-synthesis: none;
+        --100dvw: 100dvw;
+        --100dvh: 100dvh;
+        /* Updated Font Stack - DM Sans First */
+        --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        /* Brand Colors - Fuchsia Fusion & Mango Magic */
+        --color-primary: #D82C74;
+        --color-secondary: #FF7425;
+        --color-text-primary: #000000;
+        --color-text-secondary: #6D0F69;
+        /* Updated purple colors to match brand */
+        --color-purple-50: #f3e8ff;
+        --color-purple-100: #e9d5ff;
+        --color-purple-300: #c084fc;
+        --color-purple-600: #D82C74;
+        --color-purple-700: #a52158;
+        --blur-md: 12px;
+        --tw-backdrop-blur: blur(var(--blur-md));
+        -webkit-text-size-adjust: 100%;
+        tab-size: 4;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: white;
+      }
+
+      .approval-badge {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        z-index: 10;
+      }
+
+      .approval-badge.approved {
+        background: #4caf50;
+        color: white;
+      }
+
+      .approval-badge.pending {
+        background: #ff9800;
+        color: white;
+      }
+
+      .update-card.pending {
+        border: 2px solid #ff9800 !important;
+      }
+
+      .update-card.approved {
+        border: 2px solid #4caf50 !important;
+      }
+
+      .admin-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .approve-btn {
+        background: #4caf50;
+        color: white;
+      }
+
+      .approve-btn:hover {
+        background: #45a049;
+      }
+
+      .disapprove-btn {
+        background: #f44336;
+        color: white;
+      }
+
+      .disapprove-btn:hover {
+        background: #da190b;
+      }
+
+      .admin-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .change-item {
+        background: #f5f5f5;
+        border-radius: 6px;
+        padding: 10px;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .change-field {
+        font-weight: 600;
+        color: #D82C74;
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .change-value {
+        color: #333;
+        word-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-lg">
+            <a href="/">
+              <img src="/static/images/Outlook-vfhjsg1i.png" alt="CABWC Logo" class="h-12" />
+            </a>
+          </div>
+          <nav class="flex items-center gap-8">
+            <a href="/location" class="text-gray-700 hover:text-gray-900 transition-colors">Black Power List</a>
+            <a href="/news" class="text-gray-700 hover:text-gray-900 transition-colors">News</a>
+            <a href="/admin/approvals" class="font-semibold px-3 py-1 rounded-md" style="background: linear-gradient(to right, #eff6ff, #faf5ff, #fdf2f8);">Admin Approvals</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-8 px-4" style="background: linear-gradient(to right, #f3e8ff, #fce7f3);">
+      <div class="container mx-auto">
+        <div class="mb-8">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">Admin Approvals</h1>
+          <p class="text-gray-600 text-lg">Review and approve news articles and politician information updates.</p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="flex gap-2 mb-8 border-b border-gray-200">
+          <button onclick="showTab('articles')" id="articlesTab" class="tab-button px-6 py-3 font-semibold transition-all border-b-2 border-transparent hover:text-purple-600">
+            News Articles
+            <span class="ml-2 px-2 py-1 text-xs rounded-full bg-gray-200">{{ articles|length if articles else 0 }}</span>
+          </button>
+          <button onclick="showTab('updates')" id="updatesTab" class="tab-button px-6 py-3 font-semibold transition-all border-b-2 border-transparent hover:text-purple-600">
+            Politician Updates
+            <span class="ml-2 px-2 py-1 text-xs rounded-full bg-gray-200">{{ pending_updates|length if pending_updates else 0 }}</span>
+          </button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div id="articlesStats" class="stats-section grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div class="bg-white rounded-xl p-6 shadow-sm">
+            <div class="text-3xl font-bold text-gray-900 mb-1">{{ articles|length if articles else 0 }}</div>
+            <div class="text-sm text-gray-600">Total Articles</div>
+          </div>
+          <div class="bg-white rounded-xl p-6 shadow-sm">
+            <div class="text-3xl font-bold text-yellow-600 mb-1">{{ articles|selectattr('approved', 'equalto', false)|list|length if articles else 0 }}</div>
+            <div class="text-sm text-gray-600">Pending Review</div>
+          </div>
+          <div class="bg-white rounded-xl p-6 shadow-sm">
+            <div class="text-3xl font-bold text-green-600 mb-1">{{ articles|selectattr('approved', 'equalto', true)|list|length if articles else 0 }}</div>
+            <div class="text-sm text-gray-600">Approved</div>
+          </div>
+          <div class="bg-white rounded-xl p-6 shadow-sm">
+            <div class="text-3xl font-bold text-gray-400 mb-1">{{ articles|length if articles else 0 }}</div>
+            <div class="text-sm text-gray-600">Total</div>
+          </div>
+        </div>
+
+        <div id="updatesStats" class="stats-section hidden grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div class="bg-white rounded-xl p-6 shadow-sm">
+            <div class="text-3xl font-bold text-gray-900 mb-1">{{ pending_updates|length if pending_updates else 0 }}</div>
+            <div class="text-sm text-gray-600">Total Updates</div>
+          </div>
+          <div class="bg-white rounded-xl p-6 shadow-sm">
+            <div class="text-3xl font-bold text-yellow-600 mb-1">{{ pending_updates|selectattr('approved', 'equalto', false)|list|length if pending_updates else 0 }}</div>
+            <div class="text-sm text-gray-600">Pending Review</div>
+          </div>
+          <div class="bg-white rounded-xl p-6 shadow-sm">
+            <div class="text-3xl font-bold text-green-600 mb-1">{{ pending_updates|selectattr('approved', 'equalto', true)|list|length if pending_updates else 0 }}</div>
+            <div class="text-sm text-gray-600">Approved</div>
+          </div>
+          <div class="bg-white rounded-xl p-6 shadow-sm">
+            <div class="text-3xl font-bold text-gray-400 mb-1">{{ pending_updates|length if pending_updates else 0 }}</div>
+            <div class="text-sm text-gray-600">Total</div>
+          </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="flex flex-col md:flex-row gap-4">
+          <div class="flex-1">
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              <input type="text" id="searchArticles" placeholder="Search articles..." class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white">
+            </div>
+          </div>
+          <select id="filterOfficial" class="px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white">
+            <option value="">All Officials</option>
+            {% for update in pending_updates %}
+              <option value="{{ update.official_name }}">{{ update.official_name }}</option>
+            {% endfor %}
+          </select>
+          <select id="filterStatus" class="px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Sections -->
+    <section class="py-8 px-4 bg-white flex-1">
+      <div class="container mx-auto">
+
+        <!-- News Articles Tab Content -->
+        <div id="articlesContent" class="tab-content">
+        {% if articles and articles|length > 0 %}
+          <div class="space-y-4">
+            {% for article in articles %}
+              <article class="update-card {% if article.approved %}approved{% else %}pending{% endif %}" data-article-id="{{ article.id }}" data-status="{% if article.approved %}approved{% else %}pending{% endif %}">
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-all flex flex-col md:flex-row p-4 gap-4" style="transition: all 0.3s ease;" onmouseover="this.style.borderColor='#D82C74'; this.style.boxShadow='0 4px 12px rgba(216, 44, 116, 0.15)';" onmouseout="this.style.borderColor='#e5e7eb'; this.style.boxShadow='';">
+
+                  <!-- Article Thumbnail -->
+                  <div class="flex-shrink-0">
+                    <div class="w-full md:w-32 h-32 bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg flex items-center justify-center">
+                      <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <!-- Article Content -->
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-start justify-between gap-4 mb-2">
+                      <div class="flex-1">
+                        <h3 class="text-lg font-bold mb-1 line-clamp-2" style="color: #D82C74;">{{ article.title }}</h3>
+                        <p class="text-sm text-gray-600">{{ article.source }} • {{ article.published }}</p>
+                      </div>
+                      <span class="flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold {% if article.approved %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                        {% if article.approved %}Approved{% else %}Pending{% endif %}
+                      </span>
+                    </div>
+
+                    <!-- Article Link -->
+                    <div class="text-sm text-gray-500 mb-3">
+                      <a href="{{ article.link }}" target="_blank" class="hover:text-purple-600 underline">{{ article.link|truncate(80) }}</a>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex flex-wrap gap-2 mt-4">
+                      <a href="{{ article.link }}" target="_blank" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium border rounded-lg transition-colors" style="border-color: #9333ea; color: #9333ea;" onmouseover="this.style.background='#7e22ce'; this.style.color='white'; this.style.borderColor='#7e22ce';" onmouseout="this.style.background=''; this.style.color='#9333ea'; this.style.borderColor='#9333ea';">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                        View Article
+                      </a>
+
+                      {% if not article.approved %}
+                        <button class="admin-btn approve-btn" onclick="approveArticle('{{ article.id }}')">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                          </svg>
+                          Approve
+                        </button>
+                      {% else %}
+                        <button class="admin-btn disapprove-btn" onclick="disapproveArticle('{{ article.id }}')">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                          </svg>
+                          Unapprove
+                        </button>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-center py-16">
+            <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+            </svg>
+            <p class="text-gray-600 text-lg">No articles found.</p>
+          </div>
+        {% endif %}
+        </div>
+
+        <!-- Politician Updates Tab Content -->
+        <div id="updatesContent" class="tab-content hidden">
+        {% if pending_updates and pending_updates|length > 0 %}
+          <div class="space-y-4">
+            {% for update in pending_updates %}
+              <article class="update-card {% if update.approved %}approved{% else %}pending{% endif %}" data-update-id="{{ update.id }}">
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-all flex flex-col md:flex-row p-4 gap-4" style="transition: all 0.3s ease;" onmouseover="this.style.borderColor='#D82C74'; this.style.boxShadow='0 4px 12px rgba(216, 44, 116, 0.15)';" onmouseout="this.style.borderColor='#e5e7eb'; this.style.boxShadow='';">
+
+                  <!-- Article Image/Thumbnail -->
+                  <div class="flex-shrink-0">
+                    <div class="w-full md:w-32 h-32 bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg flex items-center justify-center">
+                      <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <!-- Article Content -->
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-start justify-between gap-4 mb-2">
+                      <div class="flex-1">
+                        <h3 class="text-lg font-bold mb-1" style="color: #D82C74;">{{ update.official_name }}</h3>
+                        <div class="text-sm text-gray-600 space-y-1">
+                          {% for field, value in update.update_data.items() %}
+                            {% if loop.index <= 2 %}
+                              <div class="line-clamp-2">{{ value }}</div>
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                      </div>
+                      <span class="flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold {% if update.approved %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                        {% if update.approved %}Approved{% else %}Pending{% endif %}
+                      </span>
+                    </div>
+
+                    <!-- Meta Information Row -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-sm text-gray-600 mt-3 pt-3 border-t border-gray-100">
+                      <div>
+                        <span class="font-semibold text-gray-700">Official:</span> {{ update.official_name }}
+                      </div>
+                      <div>
+                        <span class="font-semibold text-gray-700">Submitted by:</span> {{ update.submitted_by }}
+                      </div>
+                      <div>
+                        <span class="font-semibold text-gray-700">Email:</span> {{ update.submitted_by_email }}
+                      </div>
+                      <div>
+                        <span class="font-semibold text-gray-700">Date:</span> {{ update.created_at.strftime('%b %d') if update.created_at else 'N/A' }}
+                      </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex flex-wrap gap-2 mt-4">
+                      <a href="/profile/{{ update.official_id }}" target="_blank" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium border rounded-lg transition-colors" style="border-color: #9333ea; color: #9333ea;" onmouseover="this.style.background='#7e22ce'; this.style.color='white'; this.style.borderColor='#7e22ce';" onmouseout="this.style.background=''; this.style.color='#9333ea'; this.style.borderColor='#9333ea';">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                        View Details
+                      </a>
+
+                      {% if not update.approved %}
+                        <button class="admin-btn approve-btn" onclick="approvePendingUpdate('{{ update.id }}')">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                          </svg>
+                          Approve
+                        </button>
+
+                        <button class="admin-btn disapprove-btn" onclick="disapprovePendingUpdate('{{ update.id }}')">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                          </svg>
+                          Reject
+                        </button>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-center py-16">
+            <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <p class="text-gray-600 text-lg">No pending updates at this time.</p>
+            <p class="text-gray-500 text-sm mt-2">All updates have been reviewed.</p>
+          </div>
+        {% endif %}
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 border-t border-border" style="background: linear-gradient(to right, #eff6ff, #faf5ff, #fdf2f8);">
+      <div class="container mx-auto">
+        <div class="flex flex-col gap-8">
+          <div class="text-center">
+            <nav class="flex flex-wrap justify-center items-center gap-2 text-sm">
+              <a href="/location" class="text-muted-foreground hover:text-foreground transition-colors">Directory</a>
+              <span class="text-muted-foreground">•</span>
+              <a href="/news" class="text-muted-foreground hover:text-foreground transition-colors">News</a>
+              <span class="text-muted-foreground">•</span>
+              <a href="#contact" class="text-muted-foreground hover:text-foreground transition-colors">Contact</a>
+              {% if is_admin %}
+              <span class="text-muted-foreground">•</span>
+              <a href="/admin/approvals" class="font-medium transition-colors px-3 py-1 rounded-md" style="background: linear-gradient(to right, #eff6ff, #faf5ff, #fdf2f8);" onmouseover="this.style.background='linear-gradient(to right, #dbeafe, #f3e8ff, #fce7f3)';" onmouseout="this.style.background='linear-gradient(to right, #eff6ff, #faf5ff, #fdf2f8)';">Admin</a>
+              {% endif %}
+            </nav>
+          </div>
+          <div class="flex justify-center gap-3">
+            <a href="#" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="Instagram">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+              </svg>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="LinkedIn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin w-4 h-4" aria-hidden="true">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect width="4" height="12" x="2" y="9"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="Facebook">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+              </svg>
+            </a>
+          </div>
+          <div class="text-center">
+            <p class="text-sm text-muted-foreground">Have updates or events to share? Email us at <a href="mailto:admin@cablackwomenscollective.org" class="transition-colors" style="color: #9333ea;" onmouseover="this.style.color='#7e22ce'" onmouseout="this.style.color='#9333ea'">admin@cablackwomenscollective.org</a></p>
+          </div>
+          <div class="pt-4 border-t border-border">
+            <p class="text-center text-sm text-muted-foreground">A nonpartisan resource powered by California Black Women's Collective Empowerment Institute</p>
+          </div>
+          <div class="pt-4 border-t border-border">
+            <p class="text-center text-xs text-muted-foreground">
+              © 2025 <a href="#" class="hover:text-foreground transition-colors">Terms of Use</a> | <a href="#" class="hover:text-foreground transition-colors">Privacy Policy</a>
+            </p>
+            <p class="text-center text-xs text-muted-foreground mt-2">
+              CA Black Women's Collective Empowerment Institute is a 501(c)(3) organization (EIN 88-2046704).
+            </p>
+            <p class="text-center text-xs text-muted-foreground">
+              Contributions to the California Black Women's Collective Empowerment Institute are tax-deductible to the fullest extent of the law.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Tab Switching
+      function showTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll('.tab-content').forEach(tab => {
+          tab.classList.add('hidden');
+        });
+        document.querySelectorAll('.stats-section').forEach(stats => {
+          stats.classList.add('hidden');
+        });
+        document.querySelectorAll('.tab-button').forEach(btn => {
+          btn.classList.remove('border-purple-600', 'text-purple-600');
+          btn.style.borderColor = 'transparent';
+        });
+
+        // Show selected tab
+        if (tabName === 'articles') {
+          document.getElementById('articlesContent').classList.remove('hidden');
+          document.getElementById('articlesStats').classList.remove('hidden');
+          const btn = document.getElementById('articlesTab');
+          btn.classList.add('border-purple-600', 'text-purple-600');
+          btn.style.borderColor = '#9333ea';
+        } else if (tabName === 'updates') {
+          document.getElementById('updatesContent').classList.remove('hidden');
+          document.getElementById('updatesStats').classList.remove('hidden');
+          const btn = document.getElementById('updatesTab');
+          btn.classList.add('border-purple-600', 'text-purple-600');
+          btn.style.borderColor = '#9333ea';
+        }
+      }
+
+      // Initialize with articles tab active
+      document.addEventListener('DOMContentLoaded', function() {
+        showTab('articles');
+      });
+
+      // Article approval functions
+      function approveArticle(articleId) {
+        if (!confirm('Approve this article? It will appear on the public news page.')) return;
+
+        fetch(`/article/approve/${articleId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Article approved successfully!');
+            location.reload();
+          } else {
+            alert('Failed to approve article: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while approving the article');
+        });
+      }
+
+      function disapproveArticle(articleId) {
+        if (!confirm('Unapprove this article? It will be removed from the public news page.')) return;
+
+        fetch(`/article/disapprove/${articleId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Article unapproved successfully!');
+            location.reload();
+          } else {
+            alert('Failed to unapprove article: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while unapproving the article');
+        });
+      }
+
+      // Politician update approval functions
+      function approvePendingUpdate(updateId) {
+        if (!confirm('Approve this update? The politician\'s information will be updated in the database.')) return;
+
+        fetch(`/pending_update/approve/${updateId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Update approved successfully! The politician\'s information has been updated.');
+            location.reload();
+          } else {
+            alert('Failed to approve update: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while approving the update');
+        });
+      }
+
+      function disapprovePendingUpdate(updateId) {
+        if (!confirm('Disapprove this update? The changes will be rejected and deleted.')) return;
+
+        fetch(`/pending_update/disapprove/${updateId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Update disapproved successfully!');
+            location.reload();
+          } else {
+            alert('Failed to disapprove update: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while disapproving the update');
+        });
+      }
+
+      // Search and Filter Functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchArticles');
+        const filterOfficial = document.getElementById('filterOfficial');
+        const filterStatus = document.getElementById('filterStatus');
+        const articles = document.querySelectorAll('.update-card');
+
+        function filterArticles() {
+          const searchTerm = searchInput.value.toLowerCase();
+          const selectedOfficial = filterOfficial.value.toLowerCase();
+          const selectedStatus = filterStatus.value.toLowerCase();
+
+          articles.forEach(article => {
+            const articleText = article.textContent.toLowerCase();
+            const articleStatus = article.classList.contains('approved') ? 'approved' : 'pending';
+
+            const matchesSearch = !searchTerm || articleText.includes(searchTerm);
+            const matchesOfficial = !selectedOfficial || articleText.includes(selectedOfficial);
+            const matchesStatus = !selectedStatus || articleStatus === selectedStatus;
+
+            if (matchesSearch && matchesOfficial && matchesStatus) {
+              article.style.display = '';
+            } else {
+              article.style.display = 'none';
+            }
+          });
+        }
+
+        if (searchInput) searchInput.addEventListener('input', filterArticles);
+        if (filterOfficial) filterOfficial.addEventListener('change', filterArticles);
+        if (filterStatus) filterStatus.addEventListener('change', filterArticles);
+      });
+    </script>
+    </div>
+  </body>
+</html>

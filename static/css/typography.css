@@ -1,0 +1,62 @@
+/* Typography - DM Sans Font Family */
+/* Import DM Sans from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+/* Base Typography Settings */
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400; /* DM Sans Regular */
+}
+
+/* Paragraph Styles - DM Sans Regular */
+p {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+}
+
+/* Headline Styles */
+h1 {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700; /* DM Sans Bold */
+}
+
+h2 {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600; /* DM Sans SemiBold */
+}
+
+h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500; /* DM Sans Medium */
+}
+
+h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 900; /* DM Sans Black */
+}
+
+/* Additional text elements */
+.text-regular {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+}
+
+.text-medium {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+}
+
+.text-semibold {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+}
+
+.text-bold {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+}
+
+.text-black {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 900;
+}

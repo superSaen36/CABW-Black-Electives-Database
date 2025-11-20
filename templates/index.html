@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <!-- Google tag (gtag.js) -->
@@ -13,9 +14,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="author" content="colorlib.com">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet" />
+    <link href="/static/css/colors.css" rel="stylesheet" />
+    <link href="/static/css/typography.css" rel="stylesheet" />
     <link href="/static/css/main.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+      :root {
+        --banner-height: 48px;
+        --banner-height-v2: 40px;
+        --full-height-with-banner: calc(100dvh - var(--banner-height));
+        font-synthesis: none;
+        --100dvw: 100dvw;
+        --100dvh: 100dvh;
+        /* Updated Font Stack - DM Sans First */
+        --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        /* Brand Colors - Fuchsia Fusion & Mango Magic */
+        --color-primary: #D82C74;
+        --color-secondary: #9333EA;
+        --color-text-primary: #000000;
+        --color-text-secondary: #6D0F69;
+        /* Updated purple colors to match brand */
+        --color-purple-50: #f3e8ff;
+        --color-purple-100: #e9d5ff;
+        --color-purple-300: #c084fc;
+        --color-purple-600: #9333EA;
+        --color-purple-700: #7e22ce;
+        --blur-md: 12px;
+        --tw-backdrop-blur: blur(var(--blur-md));
+        -webkit-text-size-adjust: 100%;
+        tab-size: 4;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: white;
+      }
+
+      .official-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 16px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .official-card:hover {
+        border-color: #9333ea;
+        box-shadow: 0 4px 12px rgba(147, 51, 234, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .official-card-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e5e7eb;
+        transition: border-color 0.3s ease;
+      }
+
+      .official-card:hover .official-card-img {
+        border-color: #9333ea;
+      }
+
+      .official-card-content {
+        flex: 1;
+      }
+
+      .official-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #9333ea;
+        margin-bottom: 4px;
+      }
+
+      .official-desc {
+        font-size: 14px;
+        color: #7e22ce;
+      }
+
       /* Custom Map Marker Styles */
       .custom-marker {
         position: relative;
@@ -23,18 +109,18 @@
         transform-origin: center bottom;
         transition: all 0.3s ease;
       }
-      
+
       .custom-marker:hover {
         transform: scale(1.1);
         z-index: 1000;
       }
-      
+
       .marker-photo-container {
         position: relative;
         width: 50px;
         height: 50px;
       }
-      
+
       .marker-photo {
         width: 50px;
         height: 50px;
@@ -45,67 +131,90 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         transition: all 0.3s ease;
       }
-      
+
       .marker-border {
         position: absolute;
         top: 0;
         left: 0;
         width: 50px;
         height: 50px;
-        border: 3px solid #8E44AD;
+        border: 3px solid #9333ea;
         border-radius: 50%;
         box-sizing: border-box;
         pointer-events: none;
       }
-      
+
       .custom-marker:hover .marker-photo {
-        box-shadow: 0 6px 20px rgba(142, 68, 173, 0.4);
+        box-shadow: 0 6px 20px rgba(147, 51, 234, 0.4);
       }
-      
+
       /* Info Window Styling */
       .gm-style-iw-d {
         overflow: visible !important;
       }
-      
+
       .gm-style-iw {
         border-radius: 12px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
       }
-      
+
       /* Filter dropdown styles */
       .filter-dropdown {
         position: fixed !important;
         z-index: 999999 !important;
         background: white !important;
-        border: 1px solid #ddd !important;
-        border-radius: 8px !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+        border: 1px solid #e5e7eb !important;
+        border-radius: 12px !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
       }
     </style>
   </head>
-  <body>
-    <div class="location02-bg" style="display: flex; flex-direction: row; gap: 50px;">
-      <div style="flex: 1; min-width: 0; position: relative;">
-        <div class="location02-main-img" style="background-image: url('https://via.placeholder.com/1540x1805');"></div>
-        <div class="location02-sidebar"></div>
-        <div class="location02-title">Location</div>
-        <div class="location02-vector">
-          <img src="static/images/Layer_1.svg" alt="Vector" style="width:100%;height:100%;" />
+  <body class="min-h-screen">
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-lg">
+            <a href="/">
+              <img src="/static/images/Outlook-vfhjsg1i.png" alt="CABWC Logo" class="h-12" />
+            </a>
+            <span style="font-size: 18px; font-weight: 600; color: #9333ea;">California Black Power Book</span>
+          </div>
+          <nav class="flex items-center gap-8">
+            <a href="/location" class="font-semibold" style="color: #9333ea;">Black Power List</a>
+            <a href="/news" class="text-gray-700 hover:text-gray-900 transition-colors">News Center</a>
+            <a href="/login" class="text-gray-700 hover:text-gray-900 transition-colors">Sign-in</a>
+          </nav>
         </div>
-        <div class="location02-search-bar">
-          <form id="searchForm" method="GET" action="/location" style="display: flex; width: 100%; height: 100%;">
-            <img class="location02-search-icon" src="static/images/Group_1.svg" alt="Search Icon" />
-            <input type="text" name="search" placeholder="Search by name, county, city, office, district, zip codes, term length, term expires, term limits, previous office, CABWC PAC endorsed, or political party..." 
-                   style="flex: 1; border: none; background: transparent; padding: 5px 10px; font-size: 14px; outline: none;"
+      </div>
+    </header>
+
+    <!-- Hero Section with Search -->
+    <section class="pt-32 pb-8 px-4" style="background: linear-gradient(to right, #f3e8ff, #fce7f3);">
+      <div class="container mx-auto">
+        <div class="max-w-3xl mb-6">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Elected Officials Database</h1>
+          <p class="text-gray-600 text-lg mb-8">Search and explore California's Black elected officials by location, office, district, and more.</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="max-w-4xl">
+          <form id="searchForm" method="GET" action="/location" class="bg-white rounded-xl shadow-lg p-2 flex items-center gap-2">
+            <svg class="w-5 h-5 text-gray-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input type="text" name="search" placeholder="Search by name, county, city, office, district, zip codes..."
+                   class="flex-1 border-none bg-transparent px-2 py-3 text-sm outline-none"
                    value="{{ request.args.get('search', '') }}">
-            <button type="submit" style="background: none; border: none; cursor: pointer; padding: 5px 10px;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="#666">
-                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-              </svg>
+            <button type="submit" class="text-white px-6 py-3 rounded-lg transition-colors font-medium text-sm"
+                    style="background-color: #9333ea;"
+                    onmouseover="this.style.backgroundColor='#7e22ce'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(147, 51, 234, 0.3)';"
+                    onmouseout="this.style.backgroundColor='#9333ea'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+              Search
             </button>
-            <div class="filter-container" style="position: relative;">
-              <button type="button" id="filterBtn" style="background: none; border: none; cursor: pointer; padding: 5px 10px; margin-left: 5px;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="#666">
+            <div class="filter-container relative">
+              <button type="button" id="filterBtn" class="p-3 hover:bg-gray-100 rounded-lg transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#6b7280">
                   <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
                 </svg>
               </button>
@@ -216,30 +325,47 @@
                 
                 <div style="padding: 12px; border-top: 1px solid #eee; text-align: right;">
                   <button type="button" id="clearFilters" style="background: none; border: 1px solid #ddd; color: #666; padding: 6px 12px; border-radius: 4px; font-size: 12px; margin-right: 8px; cursor: pointer;">Clear All</button>
-                  <button type="button" id="applyFilters" style="background: #8E44AD; border: none; color: white; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">Apply</button>
+                  <button type="button" id="applyFilters" style="background: #9333ea; border: none; color: white; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;" onmouseover="this.style.background='#7e22ce'" onmouseout="this.style.background='#9333ea'">Apply</button>
                 </div>
               </div>
             </div>
           </form>
         </div>
-        <div class="officials-grid" style="display: flex; flex-direction: column; gap: 16px; margin-top: 160px; margin-left: 10px; margin-right: 10px; width: calc(100% - 20px); padding: 0 10px; max-width: 400px; height: calc(100vh - 180px); overflow-y: auto;">
-        {% for official in officials %}
-        <div class="location02-card" onclick="window.location.href='/profile/{{ official.id }}'">
-          {% if official.image and official.image|length > 0 %}
-            <img class="location02-card-img" src="{{ official.image[0] }}" alt="Profile" />
-          {% else %}
-            <img class="location02-card-img" src="static/images/headshots/Aisha_knowles.png" alt="Default Profile" />
-          {% endif %}
-          <div class="location02-card-content">
-            <div class="name">{{ official.Name }}</div>
-            <div class="desc">{{ official.Office }} &mdash; {{ official.City }}, {{ official.County }}</div>
+      </div>
+    </section>
+
+    <!-- Main Content: Officials List + Map -->
+    <section class="py-0 px-0 bg-white">
+      <div class="flex h-[calc(100vh-320px)]">
+        <!-- Officials Sidebar -->
+        <div class="w-full md:w-96 lg:w-1/3 max-w-md overflow-y-auto p-4 border-r border-gray-200 bg-gray-50">
+          <div class="mb-4">
+            <h2 class="text-xl font-bold text-gray-900">Officials</h2>
+            <p class="text-sm text-gray-600">{{ officials|length }} results</p>
+          </div>
+          <div class="space-y-3">
+            {% for official in officials %}
+            <div class="official-card location02-card" onclick="window.location.href='/profile/{{ official.id }}'">
+              {% if official.image and official.image|length > 0 %}
+                <img class="official-card-img" src="{{ official.image[0] }}" alt="Profile" />
+              {% else %}
+                <img class="official-card-img" src="static/images/headshots/Aisha_knowles.png" alt="Default Profile" />
+              {% endif %}
+              <div class="official-card-content">
+                <div class="official-name name">{{ official.Name }}</div>
+                <div class="official-desc desc">{{ official.Office }} — {{ official.City }}, {{ official.County }}</div>
+              </div>
+            </div>
+            {% endfor %}
           </div>
         </div>
-        {% endfor %}
+
+        <!-- Map -->
+        <div class="flex-1 relative">
+          <div id="map" class="w-full h-full"></div>
         </div>
-        <div id="map" style="position: absolute; left: 750px; top: 0; right: 0; bottom: 0; z-index: 10;"></div>
       </div>
-    </div>
+    </section>
     <!-- <script src="/static/js/extention/choices.js"></script> -->
     <!-- <script src="/static/js/main.js"></script> -->
     <script>
@@ -260,7 +386,7 @@
         }));
         d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
       })({
-        key: "AIzaSyCWWbfAe3Ztd5hic7OYSOgdjjnguRkHXKA",
+        key: "",
         v: "weekly"
       });
 
@@ -336,10 +462,10 @@
               content: `
                 <div style="max-width: 250px; text-align: center;">
                   <img src="${imageUrl}" alt="${official.Name}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-bottom: 8px;" onerror="this.src='/static/images/headshots/angela_normand.png'">
-                  <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #8E44AD;">${official.Name}</h3>
+                  <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #9333ea;">${official.Name}</h3>
                   <p style="margin: 0 0 4px 0; color: #666; font-size: 14px;">${official.Office}</p>
                   <p style="margin: 0 0 12px 0; color: #666; font-size: 14px;">${official.City}, ${official.County}</p>
-                  <a href="/profile/${official.id}" style="color: #8E44AD; text-decoration: none; font-weight: 500; padding: 8px 16px; border: 1px solid #8E44AD; border-radius: 20px; display: inline-block; transition: all 0.3s ease;" onmouseover="this.style.background='#8E44AD'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='#8E44AD';">View Profile</a>
+                  <a href="/profile/${official.id}" style="color: #9333ea; text-decoration: none; font-weight: 500; padding: 8px 16px; border: 1px solid #9333ea; border-radius: 20px; display: inline-block; transition: all 0.3s ease;" onmouseover="this.style.background='#7e22ce'; this.style.color='white'; this.style.borderColor='#7e22ce';" onmouseout="this.style.background='transparent'; this.style.color='#9333ea'; this.style.borderColor='#9333ea';">View Profile</a>
                 </div>
               `
             });
@@ -710,5 +836,67 @@
         populateFilterDropdowns();
       });
     </script>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 border-t border-border" style="background: linear-gradient(to right, #f3e8ff, #fce7f3);">
+      <div class="container mx-auto">
+        <div class="flex flex-col gap-8">
+          <div class="text-center">
+            <nav class="flex flex-wrap justify-center items-center gap-2 text-sm">
+              <a href="/location" class="text-muted-foreground hover:text-foreground transition-colors">Directory</a>
+              <span class="text-muted-foreground">•</span>
+              <a href="/news" class="text-muted-foreground hover:text-foreground transition-colors">News</a>
+              <span class="text-muted-foreground">•</span>
+              <a href="#contact" class="text-muted-foreground hover:text-foreground transition-colors">Contact</a>
+              {% if is_admin %}
+              <span class="text-muted-foreground">•</span>
+              <a href="/admin/approvals" class="font-medium transition-colors" style="color: #D82C74;" onmouseover="this.style.color='#a52158';" onmouseout="this.style.color='#D82C74';">Admin</a>
+              {% endif %}
+            </nav>
+          </div>
+          <div class="flex justify-center gap-3">
+            <a href="https://www.instagram.com/cablackwomenscollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="Instagram">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/company/cablackwomenscollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="LinkedIn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin w-4 h-4" aria-hidden="true">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect width="4" height="12" x="2" y="9"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/CABlackWomensCollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="Facebook">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+              </svg>
+            </a>
+            <a href="https://x.com/CABWCollective/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors" aria-label="X (Twitter)">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+          </div>
+          <div class="text-center">
+            <p class="text-sm text-muted-foreground">Have updates or events to share? Email us at <a href="mailto:admin@cablackwomenscollective.org" class="transition-colors" style="color: #9333ea;" onmouseover="this.style.color='#7e22ce'" onmouseout="this.style.color='#9333ea'">admin@cablackwomenscollective.org</a></p>
+          </div>
+          <div class="pt-4 border-t border-border">
+            <p class="text-center text-sm text-muted-foreground">A nonpartisan resource powered by California Black Women's Collective Empowerment Institute</p>
+          </div>
+          <div class="pt-4 border-t border-border">
+            <p class="text-center text-xs text-muted-foreground">
+              © 2025 <a href="#" class="hover:text-foreground transition-colors">Terms of Use</a> | <a href="#" class="hover:text-foreground transition-colors">Privacy Policy</a>
+            </p>
+            <p class="text-center text-xs text-muted-foreground mt-2">
+              CA Black Women's Collective Empowerment Institute is a 501(c)(3) organization (EIN 88-2046704).
+            </p>
+            <p class="text-center text-xs text-muted-foreground">
+              Contributions to the California Black Women's Collective Empowerment Institute are tax-deductible to the fullest extent of the law.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

@@ -1,9 +1,19 @@
 import firebase_admin
 from firebase_admin import firestore, auth
 from firebase_admin import credentials
+import os
 
-cred = credentials.Certificate("firebase_service_account_key.json")
-firebase_admin.initialize_app(cred)
+# Initialize Firebase Admin SDK
+# In Cloud Run, use Application Default Credentials
+# In local development, use service account key file
+if os.getenv('K_SERVICE'):
+    # Running in Cloud Run - use Application Default Credentials
+    firebase_admin.initialize_app()
+else:
+    # Running locally - use service account key file
+    cred = credentials.Certificate("firebase_service_account_key.json")
+    firebase_admin.initialize_app(cred)
+
 db = firestore.client()
 
 # Generic collection functions with parameterized collection name
@@ -96,7 +106,7 @@ def is_admin(email):
     return admin is not None
 
 # Articles collection functions
-def add_article(title, link, published, source, approved=False):
+def add_article(title, link, published, source, approved=False, image_url=None):
     """Add a news article to the articles collection"""
     article_data = {
         "title": title,
@@ -106,6 +116,8 @@ def add_article(title, link, published, source, approved=False):
         "approved": approved,
         "created_at": firestore.SERVER_TIMESTAMP
     }
+    if image_url:
+        article_data["image_url"] = image_url
     return add_data(article_data, collection="articles")
 
 def get_all_articles():
@@ -143,6 +155,88 @@ def approve_article(article_id):
 def disapprove_article(article_id):
     """Disapprove an article"""
     return update_document_by_id("articles", article_id, {"approved": False})
+
+# Pending updates collection functions
+def add_pending_update(official_id, official_name, update_data, submitted_by, submitted_by_email):
+    """Add a pending update for an elected official"""
+    pending_update = {
+        "official_id": official_id,
+        "official_name": official_name,
+        "update_data": update_data,
+        "submitted_by": submitted_by,
+        "submitted_by_email": submitted_by_email,
+        "approved": False,
+        "created_at": firestore.SERVER_TIMESTAMP
+    }
+    return add_data(pending_update, collection="pending_updates")
+
+def get_all_pending_updates():
+    """Get all pending updates regardless of approval status"""
+    try:
+        docs = db.collection("pending_updates").order_by("created_at", direction=firestore.Query.DESCENDING).get()
+        updates = []
+        for doc in docs:
+            update = doc.to_dict()
+            update['id'] = doc.id
+            updates.append(update)
+        return updates
+    except Exception as e:
+        print(f"Error getting pending updates: {e}")
+        return []
+
+def get_unapproved_pending_updates():
+    """Get only unapproved pending updates"""
+    try:
+        docs = db.collection("pending_updates").where("approved", "==", False).order_by("created_at", direction=firestore.Query.DESCENDING).get()
+        updates = []
+        for doc in docs:
+            update = doc.to_dict()
+            update['id'] = doc.id
+            updates.append(update)
+        return updates
+    except Exception as e:
+        print(f"Error getting unapproved pending updates: {e}")
+        return []
+
+def approve_pending_update(update_id):
+    """Approve a pending update and apply it to the elected official"""
+    try:
+        # Get the pending update
+        doc = db.collection("pending_updates").document(update_id).get()
+        if not doc.exists:
+            print(f"Pending update {update_id} not found")
+            return False
+
+        update = doc.to_dict()
+        official_id = update.get("official_id")
+        update_data = update.get("update_data")
+
+        if not official_id or not update_data:
+            print(f"Invalid pending update data")
+            return False
+
+        # Apply the update to the elected official
+        db.collection("electeds-db").document(official_id).update(update_data)
+
+        # Mark the pending update as approved
+        db.collection("pending_updates").document(update_id).update({"approved": True})
+
+        print(f"Pending update {update_id} approved and applied to official {official_id}")
+        return True
+    except Exception as e:
+        print(f"Error approving pending update: {e}")
+        return False
+
+def disapprove_pending_update(update_id):
+    """Disapprove a pending update (just marks as approved=False, doesn't apply changes)"""
+    try:
+        # Delete the pending update instead of just marking as disapproved
+        db.collection("pending_updates").document(update_id).delete()
+        print(f"Pending update {update_id} disapproved and deleted")
+        return True
+    except Exception as e:
+        print(f"Error disapproving pending update: {e}")
+        return False
 
 def create_user(email, password, display_name=None, send_verification=True):
     """

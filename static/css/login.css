@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: #ffffff;
   height: 100vh;
   overflow: hidden;
@@ -16,14 +16,14 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #4A90E2 0%, #7B68EE 100%);
-  border: 4px solid #4A90E2;
+  background: linear-gradient(135deg, #D82C74 0%, #9333EA 100%);
+  border: 4px solid #D82C74;
   border-radius: 20px;
   overflow: hidden;
 }
 
 .header-section {
-  background: linear-gradient(135deg, #8E44AD 0%, #9B59B6 100%);
+  background: linear-gradient(135deg, #D82C74 0%, #9333EA 100%);
   height: 45%;
   display: flex;
   align-items: center;
@@ -63,7 +63,7 @@ body {
 }
 
 .login-title {
-  color: #8E44AD;
+  color: #D82C74;
   font-size: 48px;
   font-weight: 700;
   text-align: center;
@@ -86,7 +86,7 @@ body {
 .input-group input {
   width: 100%;
   height: 50px;
-  background-color: #8E44AD;
+  background-color: #D82C74;
   border: none;
   border-radius: 25px;
   padding: 0 20px;
@@ -103,7 +103,7 @@ body {
 
 .input-group input:focus {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(142, 68, 173, 0.3);
+  box-shadow: 0 8px 25px rgba(216, 44, 116, 0.3);
 }
 
 .forgot-password {
@@ -112,7 +112,7 @@ body {
 }
 
 .forgot-link {
-  color: #8E44AD;
+  color: #D82C74;
   font-size: 14px;
   text-decoration: none;
   font-weight: 500;
@@ -120,14 +120,14 @@ body {
 }
 
 .forgot-link:hover {
-  color: #7B68EE;
+  color: #9333EA;
   text-decoration: underline;
 }
 
 .login-button {
   width: 100%;
   height: 50px;
-  background: linear-gradient(135deg, #8E44AD 0%, #9B59B6 100%);
+  background: linear-gradient(135deg, #D82C74 0%, #9333EA 100%);
   border: none;
   border-radius: 25px;
   color: white;
@@ -136,12 +136,12 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 20px;
-  box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+  box-shadow: 0 4px 15px rgba(216, 44, 116, 0.3);
 }
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(142, 68, 173, 0.4);
+  box-shadow: 0 8px 25px rgba(216, 44, 116, 0.4);
 }
 
 .login-button:active {

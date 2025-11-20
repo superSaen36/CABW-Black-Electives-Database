@@ -2,14 +2,20 @@ import firebase_admin
 from firebase_admin import firestore, auth
 from firebase_admin import credentials
 from email_client import send_email
+import os
 
 # Check if Firebase is already initialized, if not initialize it
 try:
     firebase_admin.get_app()
 except ValueError:
     # App doesn't exist, initialize it
-    cred = credentials.Certificate("firebase_service_account_key.json")
-    firebase_admin.initialize_app(cred)
+    if os.getenv('K_SERVICE'):
+        # Running in Cloud Run - use Application Default Credentials
+        firebase_admin.initialize_app()
+    else:
+        # Running locally - use service account key file
+        cred = credentials.Certificate("firebase_service_account_key.json")
+        firebase_admin.initialize_app(cred)
 
 action_code_settings = auth.ActionCodeSettings(
     url='https://cabw-black-electives-app.web.app/login',

@@ -516,7 +516,7 @@ legend {
 }
 
 .choices[data-type*="select-one"] .choices__button:focus {
-  box-shadow: 0px 0px 0px 2px #00BCD4;
+  box-shadow: 0px 0px 0px 2px #D82C74;
 }
 
 .choices[data-type*="select-one"]:after {
@@ -562,7 +562,7 @@ legend {
   margin-bottom: 0;
   margin-left: 8px;
   padding-left: 16px;
-  border-left: 1px solid #008fa1;
+  border-left: 1px solid #a52158;
   background-image: url("../../icons/cross.svg");
   background-size: 8px;
   width: 8px;
@@ -633,8 +633,8 @@ legend {
   font-weight: 500;
   margin-right: 3.75px;
   margin-bottom: 3.75px;
-  background-color: #00BCD4;
-  border: 1px solid #00a5bb;
+  background-color: #D82C74;
+  border: 1px solid #a52158;
   color: #FFFFFF;
   word-break: break-all;
 }
@@ -649,8 +649,8 @@ legend {
 }
 
 .choices__list--multiple .choices__item.is-highlighted {
-  background-color: #00a5bb;
-  border: 1px solid #008fa1;
+  background-color: #a52158;
+  border: 1px solid #8a1d4a;
 }
 
 .is-disabled .choices__list--multiple .choices__item {
@@ -761,7 +761,7 @@ legend {
   font-size: 12px;
   padding: 10px;
   border-bottom: 1px solid #f7f7f7;
-  color: gray;
+  color: #6D0F69;
 }
 
 .choices__button {
@@ -820,7 +820,7 @@ legend {
       align-items: center;
   background: #d9eff5;
   padding: 15px;
-  font-family: 'Lato', sans-serif;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .s010 form {
@@ -846,8 +846,8 @@ legend {
   font-size: 18px;
   height: 70px;
   color: #fff;
-  background: linear-gradient(to right, #2c6dd5 0%, #2c6dd5 28%, #ff4b5a 91%, #ff4b5a 100%);
-  font-family: 'Lato', sans-serif;
+  background: linear-gradient(to right, #D82C74 0%, #D82C74 28%, #9333EA 91%, #9333EA 100%);
+  font-family: 'DM Sans', sans-serif;
 }
 
 .s010 form .inner-form .input-field input.placeholder {
@@ -877,7 +877,7 @@ legend {
   min-width: 100px;
   height: 40px;
   padding: 0 15px;
-  background: linear-gradient(to right, #2c6dd5 0%, #2c6dd5 28%, #ff4b5a 91%, #ff4b5a 100%);
+  background: linear-gradient(to right, #D82C74 0%, #D82C74 28%, #9333EA 91%, #9333EA 100%);
   white-space: nowrap;
   border-radius: 20px;
   font-size: 14px;
@@ -893,7 +893,7 @@ legend {
 
 .s010 form .inner-form .input-field .btn-search:before {
   border-radius: inherit;
-  background: linear-gradient(45deg, #ff4b5a 0%, #ff4b5a 28%, #2c6dd5 91%, #2c6dd5 100%);
+  background: linear-gradient(45deg, #9333EA 0%, #9333EA 28%, #D82C74 91%, #D82C74 100%);
   content: '';
   display: block;
   height: 100%;
@@ -923,7 +923,7 @@ legend {
   white-space: nowrap;
   border-radius: 0;
   font-size: 14px;
-  color: #666;
+  color: #6D0F69;
   transition: all .2s ease-out, color .2s ease-out;
   border: 0;
   cursor: pointer;
@@ -931,7 +931,7 @@ legend {
 }
 
 .s010 form .inner-form .input-field .btn-delete:hover, .s010 form .inner-form .input-field .btn-delete:focus {
-  color: #000;
+  color: #000000;
   outline: 0;
   box-shadow: none;
 }
@@ -978,7 +978,7 @@ legend {
 
 .s010 form .inner-form .advance-search .desc {
   font-size: 14px;
-  color: #555;
+  color: #6D0F69;
   display: block;
   margin-bottom: 26px;
 }
@@ -1019,12 +1019,12 @@ legend {
   -ms-flex-align: center;
       align-items: center;
   width: 110px;
-  color: #999;
+  color: #6D0F69;
   font-size: 14px;
 }
 
 .s010 form .inner-form .advance-search .row.third .input-field .result-count span {
-  color: #333;
+  color: #000000;
   padding-right: 5px;
 }
 
@@ -1069,7 +1069,7 @@ legend {
       align-items: center;
   height: 100%;
   opacity: 1;
-  color: #333;
+  color: #000000;
 }
 
 .s010 form .inner-form .advance-search .choices__inner .choices__list--single .choices__item {
@@ -1133,7 +1133,7 @@ legend {
 }
 
 .s010 form .inner-form .advance-search .choices.valid .choices__inner {
-  background: linear-gradient(to right, #2c6dd5 0%, #2c6dd5 28%, #ff4b5a 91%, #ff4b5a 100%);
+  background: linear-gradient(to right, #D82C74 0%, #D82C74 28%, #9333EA 91%, #9333EA 100%);
 }
 
 .s010 form .inner-form .advance-search .choices.valid:after {
@@ -1206,10 +1206,10 @@ legend {
   position: absolute;
   left: 76px;
   top: 29px;
-  color: #9c288c;
+  color: #D82C74;
   font-size: 40px;
-  font-family: 'Arial Black', Arial, sans-serif;
-  font-weight: bold;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
   letter-spacing: 1px;
   z-index: 3;
 }
@@ -1242,9 +1242,9 @@ legend {
   position: absolute;
   left: 70px;
   top: 115px;
-  color: #000;
+  color: #000000;
   font-size: 14px;
-  font-family: Arial, sans-serif;
+  font-family: 'DM Sans', sans-serif;
   z-index: 6;
 }
 .location02-card {
@@ -1272,18 +1272,18 @@ legend {
 }
 .location02-card-content {
   text-align: center;
-  color: #2d2d2d;
-  font-family: Arial, sans-serif;
+  color: #000000;
+  font-family: 'DM Sans', sans-serif;
 }
 .location02-card-content .name {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 2px;
-  color: #9c288c;
+  color: #D82C74;
 }
 .location02-card-content .desc {
   font-size: 12px;
-  color: #555;
+  color: #6D0F69;
   font-weight: normal;
 }
 /* Positioning for each card */

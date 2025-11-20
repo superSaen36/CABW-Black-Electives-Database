@@ -5,7 +5,9 @@ from functools import wraps
 from fire_store_client import (
     db, get_electeds_data, verify_id_token, is_admin,
     get_all_articles, get_approved_articles, add_article,
-    approve_article, disapprove_article
+    approve_article, disapprove_article,
+    add_pending_update, get_all_pending_updates, get_unapproved_pending_updates,
+    approve_pending_update, disapprove_pending_update
 )
 from rss_feed_reader import get_feed_data
 from firebase_auth_client import send_password_reset_email, send_email_login
@@ -213,7 +215,12 @@ def search_all_officials(search_query):
 @app.route("/")
 def home():
     """Home page with navigation cards"""
-    return render_template("home.html")
+    # Check if user is admin
+    user_is_admin = False
+    if 'user' in session:
+        user_is_admin = session['user'].get('is_admin', False)
+
+    return render_template("home.html", is_admin=user_is_admin)
 
 @app.route("/location", methods=["POST","GET"])
 def search():
@@ -327,7 +334,7 @@ def update_official(id):
         elif request.method == "POST":
             # Get form data
             form_data = request.form.to_dict()
-            
+
             # Map form fields to Firestore fields
             field_mapping = {
                 'name': 'Name',
@@ -347,18 +354,34 @@ def update_official(id):
                 'contact': 'Contact',
                 'notes': 'Notes'
             }
-            
+
             # Prepare update data
             update_data = {}
             for form_field, firestore_field in field_mapping.items():
                 if form_field in form_data and form_data[form_field]:
                     update_data[firestore_field] = form_data[form_field]
-            
+
             if update_data:
-                # Update the document in Firestore
-                db.collection("electeds-db").document(id).update(update_data)
-                logger.info(f"Successfully updated elected official with ID {id}")
-                
+                # Get current official data for the name
+                doc = db.collection("electeds-db").document(id).get()
+                official_name = doc.to_dict().get('Name', 'Unknown') if doc.exists else 'Unknown'
+
+                # Get user info from session
+                user_name = session['user'].get('name', 'Unknown User')
+                user_email = session['user'].get('email', 'unknown@example.com')
+
+                # Create a pending update instead of directly updating
+                add_pending_update(
+                    official_id=id,
+                    official_name=official_name,
+                    update_data=update_data,
+                    submitted_by=user_name,
+                    submitted_by_email=user_email
+                )
+
+                logger.info(f"Created pending update for elected official with ID {id}")
+                flash("Your update has been submitted for admin approval.", "success")
+
                 # Redirect to the profile page
                 return redirect(f"/profile/{id}")
             else:
@@ -456,6 +479,67 @@ def request_login_link():
         logger.error(f"Request login link error: {e}")
         return jsonify({"error": "Failed to process request"}), 500
 
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    """Handle user signup - display form and process registration"""
+    if request.method == "GET":
+        return render_template("signup.html")
+
+    if request.method == "POST":
+        try:
+            data = request.get_json()
+            email = data.get('email')
+            first_name = data.get('firstName')
+            last_name = data.get('lastName')
+            city = data.get('city')
+            county = data.get('county')
+            zip_code = data.get('zipCode')
+
+            if not email:
+                return jsonify({"error": "Email is required"}), 400
+
+            # Create Firebase user account
+            try:
+                user = auth.create_user(
+                    email=email,
+                    email_verified=False
+                )
+
+                # Store user data in Firestore
+                user_data = {
+                    'email': email,
+                    'firstName': first_name or '',
+                    'lastName': last_name or '',
+                    'city': city or '',
+                    'county': county or '',
+                    'zipCode': zip_code or '',
+                    'created_at': firestore.SERVER_TIMESTAMP,
+                    'is_admin': False,
+                    'is_elected': False
+                }
+
+                # Add user to users collection
+                db.collection('users').document(user.uid).set(user_data)
+
+                # Send verification email
+                link = send_password_reset_email(email)
+
+                logger.info(f"New user signed up: {email}")
+                return jsonify({
+                    "success": True,
+                    "message": "Account created successfully. Please check your email to set your password."
+                }), 200
+
+            except auth.EmailAlreadyExistsError:
+                return jsonify({"error": "An account with this email already exists"}), 400
+            except Exception as e:
+                logger.error(f"Firebase user creation error: {e}")
+                return jsonify({"error": "Failed to create account"}), 500
+
+        except Exception as e:
+            logger.error(f"Signup error: {e}")
+            return jsonify({"error": "Failed to process signup"}), 500
+
 def sync_rss_to_articles():
     """Sync RSS feed data to articles collection"""
     try:
@@ -475,7 +559,8 @@ def sync_rss_to_articles():
                     link=entry['link'],
                     published=entry['published'],
                     source=entry.get('source', 'RSS Feed'),
-                    approved=False  # New articles need admin approval
+                    approved=False,  # New articles need admin approval
+                    image_url=entry.get('image_url')
                 )
                 new_count += 1
 
@@ -489,8 +574,8 @@ def sync_rss_to_articles():
 def news():
     """News page displaying articles - admins see all, users see approved only"""
     try:
-        # Sync RSS feeds to articles collection
-        sync_rss_to_articles()
+        # Sync RSS feeds to articles collection (commented out for faster loading)
+        # sync_rss_to_articles()
 
         # Check if user is admin
         user_is_admin = False
@@ -499,16 +584,31 @@ def news():
 
         # Get articles based on admin status
         if user_is_admin:
-            news_entries = get_all_articles()
-            logger.info(f"Admin view: Retrieved {len(news_entries)} total articles")
+            all_articles = get_all_articles()
+            logger.info(f"Admin view: Retrieved {len(all_articles)} total articles")
         else:
-            news_entries = get_approved_articles()
-            logger.info(f"Public view: Retrieved {len(news_entries)} approved articles")
+            all_articles = get_approved_articles()
+            logger.info(f"Public view: Retrieved {len(all_articles)} approved articles")
 
-        return render_template("news.html", news_entries=news_entries, is_admin=user_is_admin)
+        # Separate featured article (first one) from recent articles (next two)
+        featured_article = all_articles[0] if all_articles else None
+        news_entries = all_articles[1:3] if len(all_articles) > 1 else []  # Get next 2 articles only
+
+        # Debug logging
+        logger.info(f"Featured article: {featured_article.get('title') if featured_article else 'None'}")
+        logger.info(f"Recent articles count: {len(news_entries)}")
+
+        # Get all politician names for filtering
+        all_officials_docs = get_electeds_data()
+        all_officials = [doc.to_dict() for doc in all_officials_docs]
+        politician_names = sorted(set(official.get('Name', '') for official in all_officials if official.get('Name')))
+
+        return render_template("news.html", news_entries=news_entries, featured_article=featured_article, is_admin=user_is_admin, politician_names=politician_names)
     except Exception as e:
         logger.error(f"Error fetching news: {e}")
-        return render_template("news.html", news_entries=[], is_admin=False)
+        import traceback
+        traceback.print_exc()
+        return render_template("news.html", news_entries=[], featured_article=None, is_admin=False, politician_names=[])
 
 @app.route("/article/approve/<article_id>", methods=["POST"])
 @admin_required
@@ -540,5 +640,58 @@ def disapprove_article_route(article_id):
         logger.error(f"Error disapproving article: {e}")
         return jsonify({"success": False, "message": str(e)}), 500
 
+@app.route("/admin/approvals")
+@admin_required
+def admin_approvals():
+    """Admin page to review both pending politician updates and news articles"""
+    try:
+        # Get all pending updates (including both approved and unapproved for history)
+        pending_updates = get_all_pending_updates()
+        logger.info(f"Admin view: Retrieved {len(pending_updates)} pending politician updates")
+
+        # Get all articles (both approved and unapproved for review)
+        articles = get_all_articles()
+        logger.info(f"Admin view: Retrieved {len(articles)} total articles")
+
+        return render_template("admin-approvals.html",
+                             pending_updates=pending_updates,
+                             articles=articles)
+    except Exception as e:
+        logger.error(f"Error fetching approvals data: {e}")
+        return render_template("admin-approvals.html", pending_updates=[], articles=[])
+
+@app.route("/pending_update/approve/<update_id>", methods=["POST"])
+@admin_required
+def approve_update_route(update_id):
+    """Approve a pending update and apply it to the elected official (admin only)"""
+    try:
+        success = approve_pending_update(update_id)
+        if success:
+            logger.info(f"Pending update {update_id} approved by {session['user']['email']}")
+            return jsonify({"success": True, "message": "Update approved and applied"}), 200
+        else:
+            return jsonify({"success": False, "message": "Failed to approve update"}), 500
+    except Exception as e:
+        logger.error(f"Error approving pending update: {e}")
+        return jsonify({"success": False, "message": str(e)}), 500
+
+@app.route("/pending_update/disapprove/<update_id>", methods=["POST"])
+@admin_required
+def disapprove_update_route(update_id):
+    """Disapprove a pending update (admin only)"""
+    try:
+        success = disapprove_pending_update(update_id)
+        if success:
+            logger.info(f"Pending update {update_id} disapproved by {session['user']['email']}")
+            return jsonify({"success": True, "message": "Update disapproved"}), 200
+        else:
+            return jsonify({"success": False, "message": "Failed to disapprove update"}), 500
+    except Exception as e:
+        logger.error(f"Error disapproving pending update: {e}")
+        return jsonify({"success": False, "message": str(e)}), 500
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Get port from environment variable (for local development and Cloud Run)
+    port = int(os.environ.get('PORT', 8080))
+    # Bind to 0.0.0.0 to accept external traffic (required for Cloud Run)
+    app.run(host='0.0.0.0', port=port, debug=True)
