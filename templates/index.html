@@ -193,8 +193,85 @@
     <section class="pt-32 pb-8 px-4" style="background: linear-gradient(to right, #f3e8ff, #fce7f3);">
       <div class="container mx-auto">
         <div class="max-w-3xl mb-6">
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Elected Officials Database</h1>
-          <p class="text-gray-600 text-lg mb-8">Search and explore California's Black elected officials by location, office, district, and more.</p>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">California Black Power Book</h1>
+          <p class="text-gray-700 text-lg mb-4">Use the California Black Power Book to find Black elected officials in your community. Search by city, ZIP code, or office to see who represents you and how to connect.</p>
+          <p class="text-gray-600 text-base mb-8"><strong>{{ officials|length }} Black elected officials</strong> currently in our database.</p>
+        </div>
+
+        <!-- Simple Search Flow -->
+        <div class="max-w-4xl mb-8">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-900">Find Black elected officials by...</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <button id="searchByLocation" class="search-option-btn bg-white border-2 border-gray-300 rounded-xl p-6 text-left hover:border-purple-600 hover:bg-purple-50 transition-all">
+              <div class="flex items-center gap-3 mb-2">
+                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="font-semibold text-lg text-gray-900">My Location</span>
+              </div>
+              <p class="text-sm text-gray-600">Use your current location</p>
+            </button>
+            <button id="searchByCityZip" class="search-option-btn bg-white border-2 border-gray-300 rounded-xl p-6 text-left hover:border-purple-600 hover:bg-purple-50 transition-all">
+              <div class="flex items-center gap-3 mb-2">
+                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                </svg>
+                <span class="font-semibold text-lg text-gray-900">City / ZIP</span>
+              </div>
+              <p class="text-sm text-gray-600">Search by city or ZIP code</p>
+            </button>
+            <button id="searchByOffice" class="search-option-btn bg-white border-2 border-gray-300 rounded-xl p-6 text-left hover:border-purple-600 hover:bg-purple-50 transition-all">
+              <div class="flex items-center gap-3 mb-2">
+                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span class="font-semibold text-lg text-gray-900">Office / Title</span>
+              </div>
+              <p class="text-sm text-gray-600">Search by office or position</p>
+            </button>
+          </div>
+
+          <!-- Dynamic Search Inputs (Hidden by default) -->
+          <div id="locationSearchInput" class="hidden bg-white rounded-xl shadow-lg p-4 mb-4">
+            <button id="useLocationBtn" class="w-full text-white px-6 py-3 rounded-lg font-semibold transition-all"
+                    style="background-color: #9333ea;"
+                    onmouseover="this.style.backgroundColor='#7e22ce';"
+                    onmouseout="this.style.backgroundColor='#9333ea';">
+              Use My Location
+            </button>
+            <p class="text-sm text-gray-600 text-center mt-2">Allow location access to find officials near you</p>
+          </div>
+
+          <div id="cityZipSearchInput" class="hidden bg-white rounded-xl shadow-lg p-4 mb-4">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-gray-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              <input type="text" id="cityZipInput" placeholder="Enter city or ZIP code" class="flex-1 border-none bg-transparent px-2 py-3 text-sm outline-none">
+              <button id="cityZipSearchBtn" class="text-white px-6 py-3 rounded-lg font-medium text-sm transition-all"
+                      style="background-color: #9333ea;"
+                      onmouseover="this.style.backgroundColor='#7e22ce';"
+                      onmouseout="this.style.backgroundColor='#9333ea';">
+                Search
+              </button>
+            </div>
+          </div>
+
+          <div id="officeSearchInput" class="hidden bg-white rounded-xl shadow-lg p-4 mb-4">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-gray-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              <input type="text" id="officeInput" placeholder="Type an office (Mayor, School Board, Assembly, etc.)" class="flex-1 border-none bg-transparent px-2 py-3 text-sm outline-none">
+              <button id="officeSearchBtn" class="text-white px-6 py-3 rounded-lg font-medium text-sm transition-all"
+                      style="background-color: #9333ea;"
+                      onmouseover="this.style.backgroundColor='#7e22ce';"
+                      onmouseout="this.style.backgroundColor='#9333ea';">
+                Search
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Search Bar -->
@@ -218,114 +295,144 @@
                   <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
                 </svg>
               </button>
-              <div id="filterDropdown" class="filter-dropdown" style="display: none; min-width: 300px; max-height: 600px; overflow-y: auto;">
-                <div style="padding: 12px; border-bottom: 1px solid #eee;">
-                  <h4 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #333;">Filter Options</h4>
+              <div id="filterDropdown" class="filter-dropdown" style="display: none; min-width: 320px; max-height: 600px; overflow-y: auto;">
+                <div style="padding: 16px; border-bottom: 1px solid #eee;">
+                  <h4 style="margin: 0 0 4px 0; font-size: 16px; font-weight: 600; color: #333;">Filters</h4>
+                  <p style="margin: 0; font-size: 12px; color: #666;">Refine your search</p>
                 </div>
-                
-                <!-- Name Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Name</label>
-                  <select id="nameFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Names</option>
-                  </select>
-                </div>
-                
-                <!-- County Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">County</label>
-                  <select id="countyFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Counties</option>
-                  </select>
-                </div>
-                
-                <!-- City Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">City</label>
-                  <select id="cityFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Cities</option>
-                  </select>
-                </div>
-                
-                <!-- Office Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Office</label>
-                  <select id="officeFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Offices</option>
-                  </select>
-                </div>
-                
-                <!-- District Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">District</label>
-                  <select id="districtFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Districts</option>
-                  </select>
-                </div>
-                
-                <!-- Zip Codes Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Zip Codes</label>
-                  <select id="zipCodesFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Zip Codes</option>
-                  </select>
-                </div>
-                
-                <!-- Term Length Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Term Length</label>
-                  <select id="termLengthFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Term Lengths</option>
-                  </select>
-                </div>
-                
-                <!-- Term Expires Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Term Expires</label>
-                  <select id="termExpiresFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Term Expirations</option>
-                  </select>
-                </div>
-                
-                <!-- Term Limits Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Term Limits</label>
-                  <select id="termLimitsFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Term Limits</option>
-                  </select>
-                </div>
-                
-                <!-- Previous Elected Office Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Previous Elected Office</label>
-                  <select id="previousOfficeFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Previous Offices</option>
-                  </select>
-                </div>
-                
-                <!-- CABWC PAC Endorsed Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">CABWC PAC Endorsed</label>
-                  <select id="endorsedFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </select>
-                </div>
-                
-                <!-- Political Party Filter -->
-                <div class="filter-section" style="padding: 8px 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 4px;">Political Party</label>
-                  <select id="partyFilter" class="filter-select" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
-                    <option value="">All Parties</option>
-                  </select>
-                </div>
-                
 
-                
-                <div style="padding: 12px; border-top: 1px solid #eee; text-align: right;">
-                  <button type="button" id="clearFilters" style="background: none; border: 1px solid #ddd; color: #666; padding: 6px 12px; border-radius: 4px; font-size: 12px; margin-right: 8px; cursor: pointer;">Clear All</button>
-                  <button type="button" id="applyFilters" style="background: #9333ea; border: none; color: white; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;" onmouseover="this.style.background='#7e22ce'" onmouseout="this.style.background='#9333ea'">Apply</button>
+                <!-- BASIC FILTERS -->
+                <div style="padding: 16px; border-bottom: 1px solid #eee;">
+                  <h5 style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">Basic Filters</h5>
+
+                  <!-- City / ZIP -->
+                  <div class="filter-section" style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px;">City</label>
+                    <select id="cityFilter" class="filter-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+                      <option value="">All Cities</option>
+                    </select>
+                  </div>
+
+                  <div class="filter-section" style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px;">ZIP Code</label>
+                    <select id="zipCodesFilter" class="filter-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+                      <option value="">All ZIP Codes</option>
+                    </select>
+                  </div>
+
+                  <!-- Office Level Chips -->
+                  <div class="filter-section" style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 8px;">Office Level</label>
+                    <div style="display: flex; flex-wrap: gap; gap: 8px;">
+                      <button type="button" class="filter-chip" data-filter="office-level" data-value="all" style="padding: 6px 14px; border: 2px solid #9333ea; background: #9333ea; color: white; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s;">All Levels</button>
+                      <button type="button" class="filter-chip" data-filter="office-level" data-value="statewide" style="padding: 6px 14px; border: 2px solid #ddd; background: white; color: #666; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s;">Statewide</button>
+                      <button type="button" class="filter-chip" data-filter="office-level" data-value="county" style="padding: 6px 14px; border: 2px solid #ddd; background: white; color: #666; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s;">County</button>
+                      <button type="button" class="filter-chip" data-filter="office-level" data-value="city" style="padding: 6px 14px; border: 2px solid #ddd; background: white; color: #666; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s;">City</button>
+                      <button type="button" class="filter-chip" data-filter="office-level" data-value="school" style="padding: 6px 14px; border: 2px solid #ddd; background: white; color: #666; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s;">School Board</button>
+                    </div>
+                  </div>
+
+                  <!-- Political Party Chips -->
+                  <div class="filter-section">
+                    <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 8px;">Political Party</label>
+                    <div style="display: flex; flex-wrap: gap; gap: 8px;">
+                      <button type="button" class="filter-chip" data-filter="party" data-value="all" style="padding: 6px 14px; border: 2px solid #9333ea; background: #9333ea; color: white; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s;">All Parties</button>
+                      <button type="button" class="filter-chip" data-filter="party" data-value="democrat" style="padding: 6px 14px; border: 2px solid #ddd; background: white; color: #666; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s;">Democrat</button>
+                      <button type="button" class="filter-chip" data-filter="party" data-value="republican" style="padding: 6px 14px; border: 2px solid #ddd; background: white; color: #666; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s;">Republican</button>
+                      <button type="button" class="filter-chip" data-filter="party" data-value="nonpartisan" style="padding: 6px 14px; border: 2px solid #ddd; background: white; color: #666; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 500; transition: all 0.2s;">Nonpartisan</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ADVANCED FILTERS (Collapsible) -->
+                <div style="border-bottom: 1px solid #eee;">
+                  <button type="button" id="toggleAdvancedFilters" style="width: 100%; padding: 16px; background: white; border: none; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                    <h5 style="margin: 0; font-size: 13px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">Advanced Filters</h5>
+                    <svg id="advancedFiltersIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2">
+                      <path d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </button>
+                  <div id="advancedFiltersContent" style="display: none; padding: 0 16px 16px;">
+                    <!-- Name Filter -->
+                    <div class="filter-section" style="margin-bottom: 12px;">
+                      <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px;">Name</label>
+                      <select id="nameFilter" class="filter-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+                        <option value="">All Names</option>
+                      </select>
+                    </div>
+
+                    <!-- County Filter -->
+                    <div class="filter-section" style="margin-bottom: 12px;">
+                      <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px;">County</label>
+                      <select id="countyFilter" class="filter-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+                        <option value="">All Counties</option>
+                      </select>
+                    </div>
+
+                    <!-- Office Filter -->
+                    <div class="filter-section" style="margin-bottom: 12px;">
+                      <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px;">Specific Office</label>
+                      <select id="officeFilter" class="filter-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+                        <option value="">All Offices</option>
+                      </select>
+                    </div>
+
+                    <!-- District Filter -->
+                    <div class="filter-section" style="margin-bottom: 12px;">
+                      <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px;">District</label>
+                      <select id="districtFilter" class="filter-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+                        <option value="">All Districts</option>
+                      </select>
+                    </div>
+
+                    <!-- Term Length Filter -->
+                    <div class="filter-section" style="margin-bottom: 12px;">
+                      <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px;">Term Length</label>
+                      <select id="termLengthFilter" class="filter-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+                        <option value="">All Term Lengths</option>
+                      </select>
+                    </div>
+
+                    <!-- Term Expires Filter -->
+                    <div class="filter-section" style="margin-bottom: 12px;">
+                      <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px;">Term Expires</label>
+                      <select id="termExpiresFilter" class="filter-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+                        <option value="">All Term Expirations</option>
+                      </select>
+                    </div>
+
+                    <!-- Term Limits Filter -->
+                    <div class="filter-section" style="margin-bottom: 12px;">
+                      <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px;">Term Limits</label>
+                      <select id="termLimitsFilter" class="filter-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+                        <option value="">All Term Limits</option>
+                      </select>
+                    </div>
+
+                    <!-- Previous Elected Office Filter -->
+                    <div class="filter-section" style="margin-bottom: 12px;">
+                      <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px;">Previous Elected Office</label>
+                      <select id="previousOfficeFilter" class="filter-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+                        <option value="">All Previous Offices</option>
+                      </select>
+                    </div>
+
+                    <!-- CABWC PAC Endorsed Filter -->
+                    <div class="filter-section">
+                      <label style="display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px;">CABWC PAC Endorsed</label>
+                      <select id="endorsedFilter" class="filter-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;">
+                        <option value="">All</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Filter Actions (Sticky on mobile) -->
+                <div class="filter-actions" style="padding: 16px; background: white; display: flex; gap: 8px; border-top: 1px solid #eee;">
+                  <button type="button" id="clearFilters" style="flex: 1; background: white; border: 2px solid #ddd; color: #666; padding: 10px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#9333ea'; this.style.color='#9333ea'" onmouseout="this.style.borderColor='#ddd'; this.style.color='#666'">Clear All</button>
+                  <button type="button" id="applyFilters" style="flex: 2; background: #9333ea; border: none; color: white; padding: 10px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#7e22ce'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#9333ea'; this.style.transform='translateY(0)'">Apply Filters</button>
                 </div>
               </div>
             </div>
@@ -339,24 +446,56 @@
       <div class="flex h-[calc(100vh-320px)]">
         <!-- Officials Sidebar -->
         <div class="w-full md:w-96 lg:w-1/3 max-w-md overflow-y-auto p-4 border-r border-gray-200 bg-gray-50">
-          <div class="mb-4">
-            <h2 class="text-xl font-bold text-gray-900">Officials</h2>
-            <p class="text-sm text-gray-600">{{ officials|length }} results</p>
+          <div class="mb-4 pb-4 border-b border-gray-300">
+            <h2 class="text-xl font-bold text-gray-900 mb-1">Officials</h2>
+            <p class="text-sm text-gray-600"><span id="resultsCount">{{ officials|length }}</span> officials found</p>
           </div>
-          <div class="space-y-3">
+          <div class="space-y-4" id="officialsListContainer">
             {% for official in officials %}
-            <div class="official-card location02-card" onclick="window.location.href='/profile/{{ official.id }}'">
-              {% if official.image and official.image|length > 0 %}
-                <img class="official-card-img" src="{{ official.image[0] }}" alt="Profile" />
-              {% else %}
-                <img class="official-card-img" src="static/images/headshots/Aisha_knowles.png" alt="Default Profile" />
-              {% endif %}
-              <div class="official-card-content">
-                <div class="official-name name">{{ official.Name }}</div>
-                <div class="official-desc desc">{{ official.Office }} — {{ official.City }}, {{ official.County }}</div>
+            <div class="official-card-new bg-white rounded-xl shadow-sm border border-gray-200 p-4 transition-all hover:shadow-md hover:border-purple-300" data-official-id="{{ official.id }}">
+              <div class="flex gap-3 mb-3">
+                {% if official.image and official.image|length > 0 %}
+                  <img class="w-16 h-16 rounded-full object-cover border-2 border-gray-200" src="{{ official.image[0] }}" alt="{{ official.Name }}" />
+                {% else %}
+                  <img class="w-16 h-16 rounded-full object-cover border-2 border-gray-200" src="static/images/headshots/Aisha_knowles.png" alt="{{ official.Name }}" />
+                {% endif %}
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-bold text-base text-gray-900 mb-1 truncate">{{ official.Name }}</h3>
+                  <p class="text-sm text-gray-600 mb-2">{{ official.Office }}</p>
+                  <p class="text-xs text-gray-500">{{ official.City }}, {{ official.County }} County</p>
+                </div>
               </div>
+
+              <!-- Tags/Badges -->
+              <div class="flex flex-wrap gap-1.5 mb-3">
+                {% if official.Office %}
+                <span class="inline-block px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">{{ official.Office.split()[0] }}</span>
+                {% endif %}
+                {% if official.County %}
+                <span class="inline-block px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">{{ official.County }}</span>
+                {% endif %}
+                {% if official.CABWC_PAC_Endorsed == 'Yes' %}
+                <span class="inline-block px-2 py-1 bg-pink-100 text-pink-700 rounded-full text-xs font-medium">⭐ CABWC Endorsed</span>
+                {% endif %}
+              </div>
+
+              <!-- View Profile Button -->
+              <button onclick="window.location.href='/profile/{{ official.id }}'" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                View Profile
+              </button>
             </div>
             {% endfor %}
+          </div>
+
+          <!-- Pagination Controls -->
+          <div id="paginationControls" class="mt-6 pb-4 flex items-center justify-between border-t border-gray-300 pt-4">
+            <button id="prevPage" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              Previous
+            </button>
+            <span id="pageInfo" class="text-sm text-gray-600">Page 1</span>
+            <button id="nextPage" class="px-4 py-2 bg-purple-600 border border-purple-600 rounded-lg text-sm font-medium text-white hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed">
+              Next
+            </button>
           </div>
         </div>
 
@@ -834,6 +973,230 @@
         
         // Initialize filter dropdowns
         populateFilterDropdowns();
+
+        // ======================
+        // NEW UI ENHANCEMENTS
+        // ======================
+
+        // 1. Simple Search Flow Toggle
+        const searchByLocation = document.getElementById('searchByLocation');
+        const searchByCityZip = document.getElementById('searchByCityZip');
+        const searchByOffice = document.getElementById('searchByOffice');
+        const locationSearchInput = document.getElementById('locationSearchInput');
+        const cityZipSearchInput = document.getElementById('cityZipSearchInput');
+        const officeSearchInput = document.getElementById('officeSearchInput');
+
+        function hideAllSearchInputs() {
+          locationSearchInput.classList.add('hidden');
+          cityZipSearchInput.classList.add('hidden');
+          officeSearchInput.classList.add('hidden');
+        }
+
+        searchByLocation.addEventListener('click', function() {
+          hideAllSearchInputs();
+          locationSearchInput.classList.remove('hidden');
+        });
+
+        searchByCityZip.addEventListener('click', function() {
+          hideAllSearchInputs();
+          cityZipSearchInput.classList.remove('hidden');
+        });
+
+        searchByOffice.addEventListener('click', function() {
+          hideAllSearchInputs();
+          officeSearchInput.classList.remove('hidden');
+        });
+
+        // Use My Location functionality
+        document.getElementById('useLocationBtn').addEventListener('click', function() {
+          if (navigator.geolocation) {
+            this.textContent = 'Getting location...';
+            this.disabled = true;
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                // Center map on user location
+                if (globalMap) {
+                  globalMap.setCenter({ lat, lng });
+                  globalMap.setZoom(12);
+                }
+                this.textContent = 'Location Found!';
+                setTimeout(() => {
+                  this.textContent = 'Use My Location';
+                  this.disabled = false;
+                }, 2000);
+              },
+              (error) => {
+                alert('Unable to get your location. Please enable location services.');
+                this.textContent = 'Use My Location';
+                this.disabled = false;
+              }
+            );
+          } else {
+            alert('Geolocation is not supported by your browser.');
+          }
+        });
+
+        // City/ZIP search functionality
+        document.getElementById('cityZipSearchBtn').addEventListener('click', function() {
+          const query = document.getElementById('cityZipInput').value;
+          document.getElementById('cityFilter').value = query;
+          document.getElementById('zipCodesFilter').value = query;
+          applyFilters();
+        });
+
+        // Office search functionality
+        document.getElementById('officeSearchBtn').addEventListener('click', function() {
+          const query = document.getElementById('officeInput').value;
+          document.getElementById('officeFilter').value = query;
+          applyFilters();
+        });
+
+        // 2. Advanced Filters Toggle
+        const toggleAdvancedFilters = document.getElementById('toggleAdvancedFilters');
+        const advancedFiltersContent = document.getElementById('advancedFiltersContent');
+        const advancedFiltersIcon = document.getElementById('advancedFiltersIcon');
+
+        toggleAdvancedFilters.addEventListener('click', function() {
+          if (advancedFiltersContent.style.display === 'none' || advancedFiltersContent.style.display === '') {
+            advancedFiltersContent.style.display = 'block';
+            advancedFiltersIcon.style.transform = 'rotate(180deg)';
+          } else {
+            advancedFiltersContent.style.display = 'none';
+            advancedFiltersIcon.style.transform = 'rotate(0deg)';
+          }
+        });
+
+        // 3. Filter Chips Interaction
+        const filterChips = document.querySelectorAll('.filter-chip');
+        let selectedOfficeLevel = 'all';
+        let selectedParty = 'all';
+
+        filterChips.forEach(chip => {
+          chip.addEventListener('click', function() {
+            const filterType = this.dataset.filter;
+            const value = this.dataset.value;
+
+            // Reset styles for chips of the same type
+            const sameTypeChips = document.querySelectorAll(`[data-filter="${filterType}"]`);
+            sameTypeChips.forEach(c => {
+              c.style.borderColor = '#ddd';
+              c.style.background = 'white';
+              c.style.color = '#666';
+            });
+
+            // Apply active style to clicked chip
+            this.style.borderColor = '#9333ea';
+            this.style.background = '#9333ea';
+            this.style.color = 'white';
+
+            // Store selection
+            if (filterType === 'office-level') {
+              selectedOfficeLevel = value;
+            } else if (filterType === 'party') {
+              selectedParty = value;
+            }
+
+            // Auto-apply filters
+            applyChipFilters();
+          });
+        });
+
+        function applyChipFilters() {
+          // Filter officials based on chip selections
+          const officialCards = document.querySelectorAll('.official-card-new');
+
+          officialCards.forEach(card => {
+            let shouldShow = true;
+            const officialData = filterOfficialsData.find(o => o.id === card.dataset.officialId);
+
+            if (!officialData) return;
+
+            // Office level filtering
+            if (selectedOfficeLevel !== 'all') {
+              const office = (officialData.Office || '').toLowerCase();
+              if (selectedOfficeLevel === 'statewide' && !office.includes('state') && !office.includes('assembly') && !office.includes('senate')) {
+                shouldShow = false;
+              } else if (selectedOfficeLevel === 'county' && !office.includes('county') && !office.includes('supervisor')) {
+                shouldShow = false;
+              } else if (selectedOfficeLevel === 'city' && !office.includes('city') && !office.includes('mayor') && !office.includes('council')) {
+                shouldShow = false;
+              } else if (selectedOfficeLevel === 'school' && !office.includes('school') && !office.includes('education') && !office.includes('board')) {
+                shouldShow = false;
+              }
+            }
+
+            // Party filtering
+            if (selectedParty !== 'all') {
+              const party = (officialData.Political_Party || '').toLowerCase();
+              if (selectedParty === 'democrat' && !party.includes('democrat')) {
+                shouldShow = false;
+              } else if (selectedParty === 'republican' && !party.includes('republican')) {
+                shouldShow = false;
+              } else if (selectedParty === 'nonpartisan' && !party.includes('nonpartisan') && !party.includes('non-partisan')) {
+                shouldShow = false;
+              }
+            }
+
+            card.style.display = shouldShow ? 'block' : 'none';
+          });
+
+          updateResultsCount();
+        }
+
+        function updateResultsCount() {
+          const visibleCards = document.querySelectorAll('.official-card-new[style="display: block;"], .official-card-new:not([style*="display: none"])');
+          document.getElementById('resultsCount').textContent = visibleCards.length;
+        }
+
+        // 4. Pagination
+        const itemsPerPage = 25;
+        let currentPage = 1;
+        let allOfficialCards = [];
+
+        function initPagination() {
+          allOfficialCards = Array.from(document.querySelectorAll('.official-card-new'));
+          showPage(1);
+        }
+
+        function showPage(page) {
+          currentPage = page;
+          const startIndex = (page - 1) * itemsPerPage;
+          const endIndex = startIndex + itemsPerPage;
+
+          allOfficialCards.forEach((card, index) => {
+            if (index >= startIndex && index < endIndex) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          // Update pagination controls
+          document.getElementById('pageInfo').textContent = `Page ${page} of ${Math.ceil(allOfficialCards.length / itemsPerPage)}`;
+          document.getElementById('prevPage').disabled = page === 1;
+          document.getElementById('nextPage').disabled = page >= Math.ceil(allOfficialCards.length / itemsPerPage);
+        }
+
+        document.getElementById('prevPage').addEventListener('click', function() {
+          if (currentPage > 1) {
+            showPage(currentPage - 1);
+            document.querySelector('.officials-sidebar').scrollTop = 0;
+          }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', function() {
+          const totalPages = Math.ceil(allOfficialCards.length / itemsPerPage);
+          if (currentPage < totalPages) {
+            showPage(currentPage + 1);
+            document.querySelector('.officials-sidebar').scrollTop = 0;
+          }
+        });
+
+        // Initialize pagination
+        initPagination();
+
       });
     </script>
 
